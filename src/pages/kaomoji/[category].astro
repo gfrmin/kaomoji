@@ -3,6 +3,7 @@ import Layout from "../../layouts/Layout.astro";
 import Picker from "../../components/Picker.jsx";
 import { SITE } from "../../consts.js";
 import { categories, getItemsByCategory, categoryTags } from "../../data/index.js";
+import { otherGroupedCategories, categoryColor } from "../../data/categoryGroups.js";
 import { getCategoryContent } from "../../data/categoryContent.js";
 
 export function getStaticPaths() {
@@ -12,7 +13,7 @@ export function getStaticPaths() {
 const { category } = Astro.props;
 const catItems = getItemsByCategory(category.id);
 const initial = { kind: "category", id: category.id, label: category.name };
-const related = categories.filter((c) => c.id !== category.id);
+const otherGroups = otherGroupedCategories(categories, category.id);
 const catTags = categoryTags(category.id, 12);
 
 const content = getCategoryContent(category.id);
@@ -124,10 +125,17 @@ const jsonld = {
     </section>
   )}
 
-  <h2 class="section-title">Other categories</h2>
-  <nav class="chips" aria-label="Other categories">
-    {related.map((c) => (
-      <a href={`/kaomoji/${c.id}/`}>{c.icon} {c.name}</a>
-    ))}
-  </nav>
+  <p class="browse-intro">Browse more categories:</p>
+  {otherGroups.map((g) => (
+    <>
+      <h2 class="section-title">More {g.label.toLowerCase()}</h2>
+      <nav class="chips" aria-label={g.label}>
+        {g.categories.map((c) => (
+          <a href={`/kaomoji/${c.id}/`} style={`border-color:${categoryColor(categories, c.id)}`}>
+            <span class="ic">{c.icon}</span>{c.name} <span class="count">{getItemsByCategory(c.id).length}</span>
+          </a>
+        ))}
+      </nav>
+    </>
+  ))}
 </Layout>

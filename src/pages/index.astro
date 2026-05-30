@@ -3,7 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import Picker from "../components/Picker.jsx";
 import { SITE } from "../consts.js";
 import { categories, items, pageTags, getItemsByCategory } from "../data/index.js";
-import { groupedCategories } from "../data/categoryGroups.js";
+import { groupedCategories, categoryColor } from "../data/categoryGroups.js";
 
 // Popular tags with a DISTINCT example glyph each — pick the first item whose glyph
 // no earlier chip already used, so the cloud doesn't repeat the same kaomoji.
@@ -17,10 +17,7 @@ const initial = { kind: "category", id: categories[0].id, label: categories[0].n
 
 // Categories = the browse spine, grouped by kind (Moods / Things & actions / Symbols).
 const groups = groupedCategories(categories);
-
-// Category sticker colors — by canonical index so each category keeps a stable hue.
-const CAT_COLORS = ["#ff9a8b", "#ffcf6b", "#97d8b0", "#9cc4f0", "#c4a9e8", "#ffb3c8", "#f0b98a"];
-const colorOf = (id) => CAT_COLORS[categories.findIndex((c) => c.id === id) % CAT_COLORS.length];
+const colorOf = (id) => categoryColor(categories, id);
 
 const title = "Kaomoji ( ͡° ͜ʖ ͡°) — Copy & Paste Japanese Emoticons, Text Faces & Emoji";
 const description = `The fast, installable kaomoji picker. Search and copy ${items.length}+ Japanese emoticons, cute text faces, emoji and symbols — one tap to copy, works offline.`;

@@ -10,6 +10,22 @@ export const CATEGORY_GROUPS = [
   { id: "symbols", label: "Symbols & emoji", ids: ["decorated", "dividers", "emoji", "symbols"] },
 ];
 
+// Per-category chip hue, by canonical index so each category keeps a stable colour
+// everywhere it's shown (home groups, category-page "more" groups).
+export const CATEGORY_COLORS = ["#ff9a8b", "#ffcf6b", "#97d8b0", "#9cc4f0", "#c4a9e8", "#ffb3c8", "#f0b98a"];
+export const categoryColor = (categories, id) =>
+  CATEGORY_COLORS[categories.findIndex((c) => c.id === id) % CATEGORY_COLORS.length];
+
+/**
+ * groupedCategories with the given category id removed and empty groups dropped —
+ * for the "browse more" sections on a category page.
+ */
+export function otherGroupedCategories(categories, excludeId) {
+  return groupedCategories(categories)
+    .map((g) => ({ ...g, categories: g.categories.filter((c) => c.id !== excludeId) }))
+    .filter((g) => g.categories.length > 0);
+}
+
 /**
  * Resolve the groups to actual category objects (in group order), appending any
  * categories that aren't assigned to a group under a final "More" group.
