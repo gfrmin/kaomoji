@@ -1,18 +1,22 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Kaomoji">
   <defs>
     <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#1a1040"/>
-      <stop offset="1" stop-color="#0d0b1a"/>
+      <stop offset="0" stop-color="#ffe7b8"/>
+      <stop offset="1" stop-color="#fdf2e0"/>
     </linearGradient>
   </defs>
   <rect width="512" height="512" rx="112" fill="url(#g)"/>
-  <g stroke="#c4b5fd" stroke-width="22" stroke-linecap="round" fill="none">
-    <path d="M150 180 Q120 256 150 332"/>
-    <path d="M362 180 Q392 256 362 332"/>
-    <path d="M212 300 Q256 342 300 300"/>
+  <g fill="#ffb3c8" opacity="0.7">
+    <circle cx="184" cy="286" r="30"/>
+    <circle cx="328" cy="286" r="30"/>
   </g>
-  <g fill="#c4b5fd">
-    <circle cx="212" cy="236" r="18"/>
-    <circle cx="300" cy="236" r="18"/>
+  <g stroke="#4a4036" stroke-width="24" stroke-linecap="round" fill="none">
+    <path d="M150 176 Q116 256 150 336"/>
+    <path d="M362 176 Q396 256 362 336"/>
+    <path d="M212 300 Q256 344 300 300"/>
+  </g>
+  <g fill="#4a4036">
+    <circle cx="212" cy="232" r="20"/>
+    <circle cx="300" cy="232" r="20"/>
   </g>
 </svg>

@@ -14,6 +14,10 @@ const popularTags = pageTags.slice(0, 40).map((t) => {
 });
 const initial = { kind: "category", id: categories[0].id, label: categories[0].name };
 
+// "Pick a mood" = a small, curated set of emotional categories (the quick in-page
+// filter), kept deliberately distinct from the full "Browse all categories" directory.
+const MOOD_IDS = ["happy", "sad", "angry", "love", "surprised", "scared", "tired", "cool"];
+
 // Category sticker colors — rotate by index for chip borders (matches --c0..--c6).
 const CAT_COLORS = ["#ff9a8b", "#ffcf6b", "#97d8b0", "#9cc4f0", "#c4a9e8", "#ffb3c8", "#f0b98a"];
 
@@ -55,7 +59,7 @@ const jsonld = {
     </p>
   </section>
 
-  <Picker client:load initial={initial} showBook />
+  <Picker client:load initial={initial} showBook moodIds={MOOD_IDS} />
 
   <h2 class="section-title">Browse all categories</h2>
   <nav class="chips" aria-label="Categories">
