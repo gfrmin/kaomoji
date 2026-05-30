@@ -330,6 +330,11 @@ main { padding: 8px 0 36px; }
 /* ---- Phones: tighter insets + smaller hero so nothing overflows ------------ */
 @media (max-width: 560px) {
   .wrap { padding: 0 12px; }
+  /* Header: drop the category quick-links (they're in the page body) so the brand
+     + Install button always fit without overflowing. */
+  .site-header { padding: 14px 12px 6px; }
+  .site-header nav { display: none; }
+  .site-header .chrome { margin-left: auto; }
   .a-hero { padding: 16px 16px 18px; margin: 8px 0 8px; }
   .a-tape { left: 28px; }
   .a-book-title { font-size: 22px; }

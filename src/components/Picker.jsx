@@ -242,6 +242,10 @@ export default function Picker(props) {
     setRecent((r) => { const next = r.filter((x) => x !== value); writeLS(STORAGE_RECENT, next); return next; });
   };
 
+  // Pills: a curated mood subset when moodIds is given (home), else all categories.
+  const pillCats = () =>
+    props.moodIds ? props.moodIds.map((id) => categories.find((c) => c.id === id)).filter(Boolean) : categories;
+
   return (
     <div class="picker">
       <div class="visually-hidden" role="status" aria-live="polite">{announce()}</div>
@@ -394,7 +398,7 @@ export default function Picker(props) {
               🕐 Recent <span class="n">{recent().length}</span>
             </button>
           </Show>
-          <For each={categories}>
+          <For each={pillCats()}>
             {(c, i) => {
               const active = () => activeKey() === `category:${c.id}`;
               return (
@@ -406,7 +410,7 @@ export default function Picker(props) {
                   aria-selected={active()}
                   onClick={() => pick("category", c.id, c.name)}
                 >
-                  {c.icon} {c.name}<span class="n">{getItemsByCategory(c.id).length}</span>
+                  {c.icon} {c.name}
                 </button>
               );
             }}
