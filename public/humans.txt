@@ -1,0 +1,10 @@
+/* TEAM */
+  Author: Guy Freeman
+  Site: https://gfrm.in
+  Source: https://github.com/gfrmin/kaomoji
+
+/* SITE */
+  Live: https://kaomoji.fyi
+  License: code AGPL-3.0 · fonts (Noto) OFL-1.1
+  Stack: Astro, SolidJS, Fuse.js, vite-pwa/Workbox, Cloudflare Pages
+  Standards: HTML5, PWA, JSON-LD, View Transitions

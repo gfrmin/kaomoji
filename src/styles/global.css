@@ -133,6 +133,8 @@ main { padding: 24px 0 64px; }
   font-size: 13px; color: var(--text-dim);
 }
 .site-footer a { color: var(--text-dim); }
+.site-credit { margin-top: 10px; font-size: 11px; opacity: .55; }
+.site-credit a { text-decoration: underline; }
 
 /* Screen-reader-only (visually hidden but announced) — for the copy live region. */
 .visually-hidden {
