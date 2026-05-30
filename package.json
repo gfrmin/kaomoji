@@ -3,6 +3,11 @@
   "type": "module",
   "version": "0.1.0",
   "private": true,
+  "description": "A fast, installable PWA kaomoji picker — copy & paste Japanese emoticons, text faces, emoji and symbols.",
+  "homepage": "https://kaomoji.fyi",
+  "repository": { "type": "git", "url": "https://github.com/gfrmin/kaomoji" },
+  "author": "Guy Freeman (https://gfrm.in)",
+  "license": "AGPL-3.0-only",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",

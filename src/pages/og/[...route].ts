@@ -4,10 +4,11 @@ import { getCategoryContent } from "../../data/categoryContent.js";
 import { coveredCodepoints } from "../../data/ogGlyphCoverage.js";
 
 // Kaomoji draw on ~40 Unicode scripts; the build-only card fonts (Noto Sans +
-// JP + Symbols 2) cover the common ones but not every exotic glyph (Kannada ಠ,
-// Canadian syllabics ᕦ, …). To avoid tofu on the cards we pick a render-SAFE
-// glyph per page: prefer the page's representative glyph, else the first item
-// whose every codepoint is covered, else a universal fallback. (See fonts/README.)
+// JP + Symbols 2 + Kannada + Arabic + Math) cover every glyph the dataset's
+// representative faces use, but not every exotic codepoint (Canadian syllabics
+// ᕦ, Thai ๑, …). To avoid tofu on the cards we pick a render-SAFE glyph per
+// page: prefer the page's representative glyph, else the first item whose every
+// codepoint is covered, else a universal fallback. (See fonts/README.)
 const COVERED = new Set(coveredCodepoints);
 const FALLBACK_GLYPH = "(・ω・)";
 const safe = (g: string | undefined) =>
@@ -56,13 +57,13 @@ export const { getStaticPaths, GET } = await OGImageRoute({
         size: 80,
         lineHeight: 1.35,
         weight: "normal",
-        families: ["Noto Sans", "Noto Sans JP", "Noto Sans Symbols 2"],
+        families: ["Noto Sans", "Noto Sans JP", "Noto Sans Symbols 2", "Noto Sans Kannada", "Noto Sans Arabic", "Noto Sans Math"],
       },
       description: {
         color: [196, 181, 253],
         size: 38,
         weight: "normal",
-        families: ["Noto Sans", "Noto Sans JP", "Noto Sans Symbols 2"],
+        families: ["Noto Sans", "Noto Sans JP", "Noto Sans Symbols 2", "Noto Sans Kannada", "Noto Sans Arabic", "Noto Sans Math"],
       },
     },
     // Build-only fonts (not shipped to the browser). See fonts/README.md.
@@ -73,6 +74,9 @@ export const { getStaticPaths, GET } = await OGImageRoute({
       "./fonts/NotoSans-subset.ttf",
       "./fonts/NotoSansJP-Regular.ttf",
       "./fonts/NotoSansSymbols2-subset.ttf",
+      "./fonts/NotoSansKannada-Regular.ttf",
+      "./fonts/NotoSansArabic-Regular.ttf",
+      "./fonts/NotoSansMath-Regular.ttf",
     ],
   }),
 });
