@@ -1,0 +1,12 @@
+#!/bin/sh
+# Keep the generated kaomoji dataset in sync with its single source of truth
+# (kaomoji-app.jsx) and deduped on every commit. migrate.mjs regenerates
+# src/data/{categories,raw}.js and drops in-category duplicate glyphs.
+node scripts/migrate.mjs || {
+  echo "pre-commit: scripts/migrate.mjs failed — dataset not regenerated." >&2
+  exit 1
+}
+
+# Re-stage the generated data so the commit always matches the source. A no-op
+# when nothing changed; corrects the commit when source/dedup changed it.
+git add src/data/categories.js src/data/raw.js
