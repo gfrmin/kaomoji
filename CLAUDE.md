@@ -21,7 +21,7 @@ rank. Hence Astro (zero-JS content pages) with the picker as a small hydrated is
 npm run dev        # local dev server (http://localhost:4321)
 npm run build      # static build -> dist/  (also emits sitemap + service worker)
 npm run preview    # serve the production build locally
-node scripts/migrate.mjs   # regenerate src/data/{categories,raw}.js from the legacy source
+node scripts/migrate.mjs   # regenerate src/data/{categories,raw}.js from the legacy source (also dedupes)
 npx wrangler pages deploy  # deploy dist/ to Cloudflare Pages (see wrangler.toml)
 ```
 
@@ -35,7 +35,12 @@ system Chromium (`/usr/bin/chromium`) works against a running `npm run preview`.
 - `categories.js`, `raw.js` — **AUTO-GENERATED** by `scripts/migrate.mjs`, which extracts the
   `CATEGORIES` object from the legacy `kaomoji-app.jsx` (the original single-file app, kept only
   as the migration source). Edit the `META` map in `migrate.mjs` (category ids/keywords/type),
-  not the generated files.
+  not the generated files. `migrate.mjs` also **dedupes glyphs within each category** (an exact
+  repeat in one category is always a bug); the same glyph appearing in *different* categories is
+  intentional (discoverable from each category page). A committed **`.githooks/pre-commit`** hook
+  re-runs migrate and re-stages the generated files on every commit, so the dataset can never
+  drift from its source. `npm install` auto-points `core.hooksPath` at `.githooks` (via the
+  `prepare` script); on a fresh clone run `npm install` once to activate it.
 - `overrides.js` — hand-curated per-glyph keyword tags for famous items (shrug, lenny,
   table-flip, bear, cat…). This is where high-value search terms are added.
 - `index.js` — assembles everything: flat `items` (each gets `tags` = category keywords +

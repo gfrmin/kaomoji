@@ -29,4 +29,14 @@ export const tagOverrides = {
   "(¬_¬)": ["side eye", "annoyed", "suspicious", "unamused"],
   "(@_@)": ["dizzy", "confused", "stunned"],
   "(づ￣ ³￣)づ ": ["hug", "kiss"],
+  // Decorated / big ornate kaomoji + new bears (image-sourced marquee glyphs).
+  "♪―――O (≧∇≦) O―――♪": ["singing", "music", "excited", "dancing", "happy", "decorated"],
+  "＼＼٩( 'ω' )و／／": ["excited", "cheer", "yay", "celebrate", "hooray", "decorated"],
+  "・:*+.\\(( °ω° ))/.:+": ["sparkle", "excited", "surprised", "decorated"],
+  "°✧₊* (๑•ᴗ•๑) *₊✧°": ["sparkle", "cute", "excited", "kawaii", "decorated"],
+  "ʕっ•ᴥ•ʔっ": ["bear", "teddy", "cute", "animal", "hug"],
+  "ʕ◞ᴥ◟ʔ": ["bear", "sleepy", "cute", "animal"],
+  "ʕ•ᴥ•ʔﾉ": ["bear", "wave", "cute", "animal"],
+  "ʕノ•ᴥ•ʔノ ︵ ┻━┻": ["bear", "table flip", "flip", "rage", "animal"],
+  "ʕっ•ᴥ•ʔっ ʕっ•ᴥ•ʔっ ʕっ•ᴥ•ʔっ": ["bear", "bears", "parade", "cute", "animal", "row"],
 };

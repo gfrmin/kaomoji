@@ -159,6 +159,21 @@ export const categories = [
     ]
   },
   {
+    "id": "decorated",
+    "name": "Decorated",
+    "icon": "💫",
+    "type": "kaomoji",
+    "keywords": [
+      "decorated",
+      "fancy",
+      "ornate",
+      "sparkly",
+      "aesthetic",
+      "excited",
+      "decoration"
+    ]
+  },
+  {
     "id": "cool",
     "name": "Cool",
     "icon": "😎",
