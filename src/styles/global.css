@@ -289,18 +289,8 @@ main { padding: 8px 0 36px; }
 }
 @media (pointer: coarse) { .picker-hint { display: none; } }
 
-/* ---- Category pills (active = category color fill) ------------------------- */
-.a-pills { display: flex; flex-wrap: wrap; gap: 9px; margin: 0 0 4px; }
-.a-pill {
-  font-family: inherit; font-size: 13.5px; font-weight: 800; padding: 8px 15px; border-radius: 22px; cursor: pointer;
-  background: var(--paper-2); color: var(--ink); border: 1.5px solid var(--line);
-  box-shadow: 0 2px 0 var(--sh-10);
-  transition: transform .12s ease, box-shadow .12s ease;
-}
-.a-pill:hover { transform: translateY(-2px); }
-.a-pill .n { opacity: 0.5; font-weight: 700; margin-left: 4px; }
-.a-pill.is-active { color: #5a3f25; box-shadow: 0 3px 0 var(--sh-16); transform: translateY(-1px); }
-.a-pill:focus-visible { outline: 2px solid var(--accent-deep); outline-offset: 2px; }
+/* Muted intro line that frames the category browse sections under the picker. */
+.browse-intro { margin: 22px 0 0; font-size: 13.5px; font-weight: 700; color: var(--ink-dim); }
 
 .picker-status { padding: 6px 2px; font-size: 12px; font-weight: 700; color: var(--ink-dim); opacity: 0.7; }
 
@@ -325,7 +315,6 @@ main { padding: 8px 0 36px; }
   width: 100%; text-align: center; padding: 40px 20px;
   color: var(--ink-dim); font-weight: 700; font-size: 14px; line-height: 1.6;
 }
-.picker-subhint { margin: 8px 0 0; font-size: 12.5px; font-weight: 700; color: var(--ink-dim); }
 
 /* ---- Phones: tighter insets + smaller hero so nothing overflows ------------ */
 @media (max-width: 560px) {
@@ -347,7 +336,7 @@ main { padding: 8px 0 36px; }
 /* ---- Reduced motion: kill the animated lifts (keep static tilts/layout) ---- */
 @media (prefers-reduced-motion: reduce) {
   * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
-  .a-cell, .a-tray-chip, .a-pill, .a-chip, .a-tab, .chips a, .chrome-btn { transform: none !important; }
+  .a-cell, .a-tray-chip, .a-chip, .a-tab, .chips a, .chrome-btn { transform: none !important; }
   .a-hero { transform: none; }
-  .a-cell:hover, .a-tray-chip:hover, .a-pill:hover, .a-chip:hover, .a-tab:hover, .chips a:hover, .chrome-btn:hover { transform: none !important; }
+  .a-cell:hover, .a-tray-chip:hover, .a-chip:hover, .a-tab:hover, .chips a:hover, .chrome-btn:hover { transform: none !important; }
 }
