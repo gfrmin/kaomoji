@@ -1,0 +1,32 @@
+---
+import { SITE } from "../consts.js";
+
+const {
+  title,
+  description,
+  image = "/icons/icon-512.png",
+  type = "website",
+  jsonld,
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, SITE).href;
+const imageUrl = new URL(image, SITE).href;
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+
+<meta property="og:type" content={type} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={imageUrl} />
+<meta property="og:site_name" content="Kaomoji" />
+
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageUrl} />
+
+{jsonld && <script type="application/ld+json" set:html={JSON.stringify(jsonld)} />}

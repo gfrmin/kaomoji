@@ -1,0 +1,6 @@
+# Cloudflare Pages config. Deploy with:  npx wrangler pages deploy
+# (or connect the git repo in the Cloudflare dashboard with build command
+#  `npm run build` and output directory `dist`).
+name = "kaomoji"
+compatibility_date = "2026-05-29"
+pages_build_output_dir = "dist"

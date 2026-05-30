@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Kaomoji">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1a1040"/>
+      <stop offset="1" stop-color="#0d0b1a"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#g)"/>
+  <g stroke="#c4b5fd" stroke-width="22" stroke-linecap="round" fill="none">
+    <path d="M150 180 Q120 256 150 332"/>
+    <path d="M362 180 Q392 256 362 332"/>
+    <path d="M212 300 Q256 342 300 300"/>
+  </g>
+  <g fill="#c4b5fd">
+    <circle cx="212" cy="236" r="18"/>
+    <circle cx="300" cy="236" r="18"/>
+  </g>
+</svg>

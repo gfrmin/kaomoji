@@ -1,0 +1,44 @@
+---
+import { ClientRouter } from "astro:transitions";
+import SEO from "../components/SEO.astro";
+import "../styles/global.css";
+
+const { title, description, image, type, jsonld } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#1a1040" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <SEO title={title} description={description} image={image} type={type} jsonld={jsonld} />
+    <ClientRouter />
+  </head>
+  <body>
+    <header class="site-header">
+      <a href="/" class="brand" aria-label="Kaomoji home">
+        <span>Kaomoji</span><span class="jp">顔文字</span>
+      </a>
+      <nav>
+        <a href="/kaomoji/happy">Happy</a>
+        <a href="/kaomoji/kawaii">Kawaii</a>
+        <a href="/kaomoji/emoji">Emoji</a>
+      </nav>
+    </header>
+
+    <main class="wrap">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <p>
+        Tap to copy · right-click / long-press to ⭐ favourite ·
+        <a href="/">browse all categories</a>
+      </p>
+      <p style="opacity:.6">Kaomoji 顔文字 — copy &amp; paste Japanese emoticons, text faces, emoji and symbols.</p>
+    </footer>
+  </body>
+</html>

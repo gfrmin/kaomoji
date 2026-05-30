@@ -1,0 +1,133 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Picker from "../../components/Picker.jsx";
+import { SITE } from "../../consts.js";
+import { categories, getItemsByCategory, categoryTags } from "../../data/index.js";
+import { getCategoryContent } from "../../data/categoryContent.js";
+
+export function getStaticPaths() {
+  return categories.map((c) => ({ params: { category: c.id }, props: { category: c } }));
+}
+
+const { category } = Astro.props;
+const catItems = getItemsByCategory(category.id);
+const initial = { kind: "category", id: category.id, label: category.name };
+const related = categories.filter((c) => c.id !== category.id);
+const catTags = categoryTags(category.id, 12);
+
+const content = getCategoryContent(category.id);
+const sample = content?.sample ?? category.icon;
+const lead =
+  content?.lead ??
+  `${catItems.length} ${category.name.toLowerCase()} kaomoji to copy & paste — one tap to copy.`;
+const body = content?.body ?? [];
+const faqs = content?.faqs ?? [];
+
+// Per-type headline + title that never duplicates the category name
+// (the old template produced "Emoji Emoji", "Symbols Symbols", "Dividers Kaomoji").
+const headline =
+  category.type === "emoji" || category.type === "symbol"
+    ? category.name
+    : category.type === "decoration"
+      ? "Text Dividers"
+      : `${category.name} Kaomoji`;
+
+const title =
+  category.type === "emoji"
+    ? `${category.name} — Copy & Paste Emoji, Smileys & Faces ${sample}`
+    : category.type === "symbol"
+      ? `${category.name} — Copy & Paste Text Symbols & Special Characters ${sample}`
+      : category.type === "decoration"
+        ? `Text Dividers ${sample} — Copy & Paste Aesthetic Dividers & Borders`
+        : `${category.name} Kaomoji ${sample} — Copy & Paste Japanese Text Faces`;
+
+const description = lead;
+const canonical = new URL(`/kaomoji/${category.id}`, SITE).href;
+
+const collectionPage = {
+  "@type": "CollectionPage",
+  name: title,
+  url: canonical,
+  mainEntity: {
+    "@type": "ItemList",
+    numberOfItems: catItems.length,
+    itemListElement: catItems.slice(0, 50).map((i, n) => ({
+      "@type": "ListItem",
+      position: n + 1,
+      name: i.value,
+    })),
+  },
+};
+
+const breadcrumb = {
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Kaomoji", item: new URL("/", SITE).href },
+    { "@type": "ListItem", position: 2, name: headline, item: canonical },
+  ],
+};
+
+const faqPage =
+  faqs.length > 0
+    ? {
+        "@type": "FAQPage",
+        mainEntity: faqs.map((f) => ({
+          "@type": "Question",
+          name: f.q,
+          acceptedAnswer: { "@type": "Answer", text: f.a },
+        })),
+      }
+    : null;
+
+const jsonld = {
+  "@context": "https://schema.org",
+  "@graph": [collectionPage, breadcrumb, ...(faqPage ? [faqPage] : [])],
+};
+---
+
+<Layout title={title} description={description} jsonld={jsonld}>
+  <p class="crumbs"><a href="/">Kaomoji</a> › {headline}</p>
+  <section class="page-head">
+    <h1>{sample} {headline}</h1>
+    <p class="lede">{lead}</p>
+  </section>
+
+  <Picker client:load initial={initial} />
+
+  {catTags.length > 0 && (
+    <>
+      <h2 class="section-title">Popular {category.name.toLowerCase()} searches</h2>
+      <nav class="chips" aria-label={`Popular ${category.name} searches`}>
+        {catTags.map((t) => (
+          <a href={`/t/${t.slug}`}>{t.tag} <span class="count">{t.items.length}</span></a>
+        ))}
+      </nav>
+    </>
+  )}
+
+  {body.length > 0 && (
+    <section class="prose">
+      <h2 class="section-title">About {headline}</h2>
+      {body.map((p) => <p>{p}</p>)}
+    </section>
+  )}
+
+  {faqs.length > 0 && (
+    <section class="faq">
+      <h2 class="section-title">Frequently asked</h2>
+      {faqs.map((f) => (
+        <details>
+          <summary>{f.q}</summary>
+          <p>{f.a}</p>
+        </details>
+      ))}
+    </section>
+  )}
+
+  <h2 class="section-title">Other categories</h2>
+  <nav class="chips" aria-label="Other categories">
+    {related.map((c) => (
+      <a href={`/kaomoji/${c.id}`}>{c.icon} {c.name}</a>
+    ))}
+  </nav>
+</Layout>
