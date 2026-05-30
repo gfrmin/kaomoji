@@ -1,6 +1,7 @@
 ---
 import { ClientRouter } from "astro:transitions";
 import SEO from "../components/SEO.astro";
+import Chrome from "../components/Chrome.jsx";
 import "../styles/global.css";
 
 const { title, description, image, type, jsonld } = Astro.props;
@@ -14,6 +15,34 @@ const { title, description, image, type, jsonld } = Astro.props;
     <meta name="theme-color" content="#1a1040" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <script is:inline>
+      // Runs before paint: set the saved/preferred theme (no flash of wrong theme)
+      // and capture the install prompt as early as possible. Guarded so the window
+      // listeners aren't stacked when View Transitions re-run head scripts.
+      (function () {
+        try {
+          var saved = localStorage.getItem("kaomoji-theme");
+          var t = saved || (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+          document.documentElement.dataset.theme = t;
+          if (t === "light") {
+            var meta = document.querySelector('meta[name="theme-color"]');
+            if (meta) meta.setAttribute("content", "#f1ecff");
+          }
+        } catch (e) {}
+        if (window.__kaomojiInstallInit) return;
+        window.__kaomojiInstallInit = true;
+        window.__installPrompt = null;
+        window.addEventListener("beforeinstallprompt", function (e) {
+          e.preventDefault();
+          window.__installPrompt = e;
+          window.dispatchEvent(new Event("installpromptready"));
+        });
+        window.addEventListener("appinstalled", function () {
+          window.__installPrompt = null;
+          window.dispatchEvent(new Event("installpromptready"));
+        });
+      })();
+    </script>
     <SEO title={title} description={description} image={image} type={type} jsonld={jsonld} />
     <ClientRouter />
   </head>
@@ -27,6 +56,7 @@ const { title, description, image, type, jsonld } = Astro.props;
         <a href="/kaomoji/kawaii">Kawaii</a>
         <a href="/kaomoji/emoji">Emoji</a>
       </nav>
+      <Chrome client:load />
     </header>
 
     <main class="wrap">
