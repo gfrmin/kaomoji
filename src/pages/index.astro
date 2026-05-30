@@ -2,7 +2,8 @@
 import Layout from "../layouts/Layout.astro";
 import Picker from "../components/Picker.jsx";
 import { SITE } from "../consts.js";
-import { categories, items, pageTags } from "../data/index.js";
+import { categories, items, pageTags, getItemsByCategory } from "../data/index.js";
+import { groupedCategories } from "../data/categoryGroups.js";
 
 // Popular tags with a DISTINCT example glyph each — pick the first item whose glyph
 // no earlier chip already used, so the cloud doesn't repeat the same kaomoji.
@@ -14,12 +15,12 @@ const popularTags = pageTags.slice(0, 40).map((t) => {
 });
 const initial = { kind: "category", id: categories[0].id, label: categories[0].name };
 
-// "Pick a mood" = a small, curated set of emotional categories (the quick in-page
-// filter), kept deliberately distinct from the full "Browse all categories" directory.
-const MOOD_IDS = ["happy", "sad", "angry", "love", "surprised", "scared", "tired", "cool"];
+// Categories = the browse spine, grouped by kind (Moods / Things & actions / Symbols).
+const groups = groupedCategories(categories);
 
-// Category sticker colors — rotate by index for chip borders (matches --c0..--c6).
+// Category sticker colors — by canonical index so each category keeps a stable hue.
 const CAT_COLORS = ["#ff9a8b", "#ffcf6b", "#97d8b0", "#9cc4f0", "#c4a9e8", "#ffb3c8", "#f0b98a"];
+const colorOf = (id) => CAT_COLORS[categories.findIndex((c) => c.id === id) % CAT_COLORS.length];
 
 const title = "Kaomoji ( ͡° ͜ʖ ͡°) — Copy & Paste Japanese Emoticons, Text Faces & Emoji";
 const description = `The fast, installable kaomoji picker. Search and copy ${items.length}+ Japanese emoticons, cute text faces, emoji and symbols — one tap to copy, works offline.`;
@@ -59,16 +60,21 @@ const jsonld = {
     </p>
   </section>
 
-  <Picker client:load initial={initial} showBook moodIds={MOOD_IDS} />
+  <Picker client:load initial={initial} showBook />
 
-  <h2 class="section-title">Browse all categories</h2>
-  <nav class="chips" aria-label="Categories">
-    {categories.map((c, i) => (
-      <a href={`/kaomoji/${c.id}/`} style={`border-color:${CAT_COLORS[i % CAT_COLORS.length]}`}>
-        <span class="ic">{c.icon}</span>{c.name} <span class="count">{(items.filter((i) => i.category === c.id)).length}</span>
-      </a>
-    ))}
-  </nav>
+  <p class="browse-intro">Browse by category — or search above for anything specific.</p>
+  {groups.map((g) => (
+    <>
+      <h2 class="section-title">{g.label}</h2>
+      <nav class="chips" aria-label={g.label}>
+        {g.categories.map((c) => (
+          <a href={`/kaomoji/${c.id}/`} style={`border-color:${colorOf(c.id)}`}>
+            <span class="ic">{c.icon}</span>{c.name} <span class="count">{getItemsByCategory(c.id).length}</span>
+          </a>
+        ))}
+      </nav>
+    </>
+  ))}
 
   <h2 class="section-title">Popular searches</h2>
   <nav class="chips" aria-label="Popular tags">

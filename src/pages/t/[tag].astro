@@ -2,7 +2,7 @@
 import Layout from "../../layouts/Layout.astro";
 import Picker from "../../components/Picker.jsx";
 import { SITE } from "../../consts.js";
-import { pageTags, relatedTags } from "../../data/index.js";
+import { pageTags, relatedTags, getCategory } from "../../data/index.js";
 
 export function getStaticPaths() {
   // One page per DISTINCT tag (curated, or cross-category — see data/index.js).
@@ -13,6 +13,8 @@ const { tag } = Astro.props;
 const tagItems = tag.items;
 const initial = { kind: "tag", id: tag.slug, label: tag.tag };
 const related = relatedTags(tag.slug, 16);
+// Which categories these tagged faces live in — the tag→browse cross-link.
+const inCategories = [...tag.categories].map((id) => getCategory(id)).filter(Boolean);
 
 const label = tag.tag.charAt(0).toUpperCase() + tag.tag.slice(1);
 const title = `${label} Kaomoji & Emoji ${tagItems[0]?.value ?? ""} — Copy & Paste (${tagItems.length})`;
@@ -63,10 +65,21 @@ const jsonld = {
 
   {related.length > 0 && (
     <>
-      <h2 class="section-title">Related</h2>
+      <h2 class="section-title">Related tags</h2>
       <nav class="chips" aria-label="Related tags">
         {related.map((t) => (
           <a href={`/t/${t.slug}/`}>{t.tag} <span class="count">{t.items.length}</span></a>
+        ))}
+      </nav>
+    </>
+  )}
+
+  {inCategories.length > 0 && (
+    <>
+      <h2 class="section-title">Found in categories</h2>
+      <nav class="chips" aria-label="Categories containing these kaomoji">
+        {inCategories.map((c) => (
+          <a href={`/kaomoji/${c.id}/`}><span class="ic">{c.icon}</span>{c.name}</a>
         ))}
       </nav>
     </>

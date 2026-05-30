@@ -6,9 +6,6 @@ const STORAGE_FAVS = "kaomoji-favourites-v2";
 const STORAGE_RECENT = "kaomoji-recent-v2";
 const RECENT_CAP = 30;
 
-// Category sticker colors — rotate by index for active pill fills (matches --c0..--c6).
-const A_COLORS = ["#ff9a8b", "#ffcf6b", "#97d8b0", "#9cc4f0", "#c4a9e8", "#ffb3c8", "#f0b98a"];
-const colorFor = (i) => A_COLORS[i % A_COLORS.length];
 // Deterministic per-cell tilt in [-2°, +2°] — makes the grid feel hand-placed.
 const tilt = (i) => ((i * 53) % 5) - 2;
 
@@ -188,34 +185,20 @@ export default function Picker(props) {
     return getFuse().search(q).slice(0, 120).map((r) => valueToItem.get(r.item.v)).filter(Boolean);
   });
 
-  // Display list: always an array of item-like objects with a `value`.
+  // Display list: search results, else this page's category/tag faces. (The picker no
+  // longer switches categories itself — that's done via real links/pages now.)
   const display = createMemo(() => {
     const sr = searchResults();
     if (sr) return sr;
     const v = view();
-    if (v.kind === "favourites") return favourites().map((value) => valueToItem.get(value) || { value });
-    if (v.kind === "recent") return recent().map((value) => valueToItem.get(value) || { value });
     if (v.kind === "tag") return getTag(v.id)?.items || [];
     return getItemsByCategory(v.id);
   });
 
-  const pick = (kind, id, label) => {
-    setSearch("");
-    setView({ kind, id, label });
-  };
-
   const statusText = createMemo(() => {
     const sr = searchResults();
     if (sr) return `${sr.length} result${sr.length === 1 ? "" : "s"} for “${search().trim()}”`;
-    const v = view();
-    if (v.kind === "favourites") return `${favourites().length} saved`;
-    if (v.kind === "recent") return `${recent().length} recent`;
-    return `${display().length} ${v.label}`;
-  });
-
-  const activeKey = createMemo(() => {
-    const v = view();
-    return `${v.kind}:${v.id}`;
+    return `${display().length} ${view().label}`;
   });
 
   // The hero "book" tray contents follow the hero tab (independent of the grid view).
@@ -241,10 +224,6 @@ export default function Picker(props) {
   const removeRecent = (value) => {
     setRecent((r) => { const next = r.filter((x) => x !== value); writeLS(STORAGE_RECENT, next); return next; });
   };
-
-  // Pills: a curated mood subset when moodIds is given (home), else all categories.
-  const pillCats = () =>
-    props.moodIds ? props.moodIds.map((id) => categories.find((c) => c.id === id)).filter(Boolean) : categories;
 
   return (
     <div class="picker">
@@ -370,55 +349,14 @@ export default function Picker(props) {
       </div>
       <p class="picker-hint">Tip: press <kbd>/</kbd> to search · <kbd>↑↓←→</kbd> to move · <kbd>Enter</kbd> to copy</p>
 
-      <Show when={!search()}>
-        <Show when={props.showBook}>
-          <div class="a-seclabel"><span class="star">✿</span> Pick a mood</div>
-          <p class="picker-subhint">Tap to filter the faces below.</p>
-        </Show>
-        <div class="a-pills" role="tablist" aria-label="Kaomoji categories">
-          <Show when={!props.showBook}>
-            <button
-              class="a-pill"
-              role="tab"
-              classList={{ "is-active": activeKey() === "favourites:favourites" }}
-              style={activeKey() === "favourites:favourites" ? { background: "#fff4d6", "border-color": "var(--gold-line)" } : undefined}
-              aria-selected={activeKey() === "favourites:favourites"}
-              onClick={() => pick("favourites", "favourites", "Favourites")}
-            >
-              ⭐ Favourites <span class="n">{favourites().length}</span>
-            </button>
-            <button
-              class="a-pill"
-              role="tab"
-              classList={{ "is-active": activeKey() === "recent:recent" }}
-              style={activeKey() === "recent:recent" ? { background: "#fff4d6", "border-color": "var(--gold-line)" } : undefined}
-              aria-selected={activeKey() === "recent:recent"}
-              onClick={() => pick("recent", "recent", "Recent")}
-            >
-              🕐 Recent <span class="n">{recent().length}</span>
-            </button>
-          </Show>
-          <For each={pillCats()}>
-            {(c, i) => {
-              const active = () => activeKey() === `category:${c.id}`;
-              return (
-                <button
-                  class="a-pill"
-                  role="tab"
-                  classList={{ "is-active": active() }}
-                  style={active() ? { background: colorFor(i()), "border-color": colorFor(i()) } : undefined}
-                  aria-selected={active()}
-                  onClick={() => pick("category", c.id, c.name)}
-                >
-                  {c.icon} {c.name}
-                </button>
-              );
-            }}
-          </For>
-        </div>
+      {/* On the home page (no specific category/tag), label the default grid; on
+          category/tag pages and during search, show the result count instead. */}
+      <Show
+        when={props.showBook && !search()}
+        fallback={<div class="picker-status">{statusText()}</div>}
+      >
+        <div class="a-seclabel"><span class="star">✿</span> Tap a face to copy</div>
       </Show>
-
-      <div class="picker-status">{statusText()}</div>
 
       <div class="a-grid" ref={gridRef} onKeyDown={onGridKeydown}>
         <Show
