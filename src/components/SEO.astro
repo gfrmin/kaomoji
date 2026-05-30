@@ -1,16 +1,14 @@
 ---
 import { SITE } from "../consts.js";
 
-const {
-  title,
-  description,
-  image = "/icons/icon-512.png",
-  type = "website",
-  jsonld,
-} = Astro.props;
+const { title, description, image, type = "website", jsonld } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, SITE).href;
-const imageUrl = new URL(image, SITE).href;
+
+// Per-page generated social card (/og/<page-path>.png). Pages can override with
+// an explicit `image` prop; otherwise derive the card key from the pathname.
+const ogKey = Astro.url.pathname.replace(/^\/+|\/+$/g, "") || "home";
+const imageUrl = new URL(image ?? `/og/${ogKey}.png`, SITE).href;
 ---
 
 <title>{title}</title>
@@ -22,9 +20,12 @@ const imageUrl = new URL(image, SITE).href;
 <meta property="og:description" content={description} />
 <meta property="og:url" content={canonical} />
 <meta property="og:image" content={imageUrl} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:type" content="image/png" />
 <meta property="og:site_name" content="Kaomoji" />
 
-<meta name="twitter:card" content="summary" />
+<meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={imageUrl} />

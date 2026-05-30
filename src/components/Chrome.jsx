@@ -53,6 +53,7 @@ export default function Chrome() {
         class="chrome-btn"
         onClick={toggleTheme}
         aria-label={`Switch to ${theme() === "light" ? "dark" : "light"} theme`}
+        aria-pressed={theme() === "dark"}
         title="Toggle theme"
       >
         {theme() === "light" ? "🌙" : "☀️"}

@@ -13,8 +13,10 @@ const { title, description, image, type, jsonld } = Astro.props;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#1a1040" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
     <script is:inline>
       // Runs before paint: set the saved/preferred theme (no flash of wrong theme)
       // and capture the install prompt as early as possible. Guarded so the window
@@ -66,7 +68,7 @@ const { title, description, image, type, jsonld } = Astro.props;
     <footer class="site-footer">
       <p>
         Tap to copy · right-click / long-press to ⭐ favourite ·
-        <a href="/">browse all categories</a>
+        <a href="/">all categories</a> · <a href="/tags/">all tags</a> · <a href="/about/">about</a>
       </p>
       <p style="opacity:.6">Kaomoji 顔文字 — copy &amp; paste Japanese emoticons, text faces, emoji and symbols.</p>
     </footer>
