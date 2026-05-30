@@ -4,7 +4,14 @@ import Picker from "../components/Picker.jsx";
 import { SITE } from "../consts.js";
 import { categories, items, pageTags } from "../data/index.js";
 
-const popularTags = pageTags.slice(0, 40);
+// Popular tags with a DISTINCT example glyph each — pick the first item whose glyph
+// no earlier chip already used, so the cloud doesn't repeat the same kaomoji.
+const usedGlyphs = new Set();
+const popularTags = pageTags.slice(0, 40).map((t) => {
+  const rep = t.items.find((i) => !usedGlyphs.has(i.value)) || t.items[0];
+  if (rep) usedGlyphs.add(rep.value);
+  return { tag: t.tag, slug: t.slug, count: t.items.length, glyph: rep?.value };
+});
 const initial = { kind: "category", id: categories[0].id, label: categories[0].name };
 
 // Category sticker colors — rotate by index for chip borders (matches --c0..--c6).
@@ -43,14 +50,14 @@ const jsonld = {
     <h1>Kaomoji — Japanese Emoticons & Text Faces ＼(＾▽＾)／</h1>
     <p class="lede">
       Search, tap, paste. {items.length}+ kaomoji, cute text faces, emoji and symbols —
-      copied to your clipboard with a single tap. Right-click to ⭐ favourite. Install it
-      and it works offline.
+      copied to your clipboard with a single tap. Right-click or long-press to ⭐ favourite —
+      or tap the ☆ on any sticker in your book. Install it and it works offline.
     </p>
   </section>
 
   <Picker client:load initial={initial} showBook />
 
-  <h2 class="section-title">Browse the whole book</h2>
+  <h2 class="section-title">Browse all categories</h2>
   <nav class="chips" aria-label="Categories">
     {categories.map((c, i) => (
       <a href={`/kaomoji/${c.id}/`} style={`border-color:${CAT_COLORS[i % CAT_COLORS.length]}`}>
@@ -59,10 +66,10 @@ const jsonld = {
     ))}
   </nav>
 
-  <h2 class="section-title">Crowd favourites</h2>
+  <h2 class="section-title">Popular searches</h2>
   <nav class="chips" aria-label="Popular tags">
     {popularTags.map((t) => (
-      <a href={`/t/${t.slug}/`}><span class="g">{t.items[0]?.value}</span>{t.tag} <span class="count">{t.items.length}</span></a>
+      <a href={`/t/${t.slug}/`}><span class="g">{t.glyph}</span>{t.tag} <span class="count">{t.count}</span></a>
     ))}
     <a href="/tags/">all {pageTags.length} tags →</a>
   </nav>

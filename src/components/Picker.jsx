@@ -222,6 +222,26 @@ export default function Picker(props) {
   const trayList = createMemo(() => (bookTab() === "recent" ? recent() : favourites()));
   const isFav = (value) => favourites().includes(value);
 
+  // Clearing the active book tab — 2-step so a favourites wipe isn't accidental:
+  // first click arms (label asks to confirm), second click within 3s clears.
+  const [clearArmed, setClearArmed] = createSignal(false);
+  let clearTimer;
+  const armOrClear = () => {
+    if (clearArmed()) {
+      clearTimeout(clearTimer);
+      setClearArmed(false);
+      if (bookTab() === "recent") { setRecent([]); writeLS(STORAGE_RECENT, []); }
+      else { setFavourites([]); writeLS(STORAGE_FAVS, []); }
+    } else {
+      setClearArmed(true);
+      clearTimer = setTimeout(() => setClearArmed(false), 3000);
+    }
+  };
+  const switchTab = (t) => { setClearArmed(false); setBookTab(t); };
+  const removeRecent = (value) => {
+    setRecent((r) => { const next = r.filter((x) => x !== value); writeLS(STORAGE_RECENT, next); return next; });
+  };
+
   return (
     <div class="picker">
       <div class="visually-hidden" role="status" aria-live="polite">{announce()}</div>
@@ -234,25 +254,32 @@ export default function Picker(props) {
               <div class="a-kicker">★ your little book</div>
               <p class="a-book-title">{bookTab() === "recent" ? "Recently copied" : "Favourites"}</p>
             </div>
-            <div class="a-tabs" role="tablist" aria-label="Book view">
-              <button
-                class="a-tab"
-                role="tab"
-                classList={{ "is-on": bookTab() === "recent" }}
-                aria-selected={bookTab() === "recent"}
-                onClick={() => setBookTab("recent")}
-              >
-                🕐 Recent <span class="n">{recent().length}</span>
-              </button>
-              <button
-                class="a-tab"
-                role="tab"
-                classList={{ "is-on": bookTab() === "favourites" }}
-                aria-selected={bookTab() === "favourites"}
-                onClick={() => setBookTab("favourites")}
-              >
-                ⭐ Favourites <span class="n">{favourites().length}</span>
-              </button>
+            <div class="a-book-actions">
+              <div class="a-tabs" role="tablist" aria-label="Book view">
+                <button
+                  class="a-tab"
+                  role="tab"
+                  classList={{ "is-on": bookTab() === "recent" }}
+                  aria-selected={bookTab() === "recent"}
+                  onClick={() => switchTab("recent")}
+                >
+                  🕐 Recent <span class="n">{recent().length}</span>
+                </button>
+                <button
+                  class="a-tab"
+                  role="tab"
+                  classList={{ "is-on": bookTab() === "favourites" }}
+                  aria-selected={bookTab() === "favourites"}
+                  onClick={() => switchTab("favourites")}
+                >
+                  ⭐ Favourites <span class="n">{favourites().length}</span>
+                </button>
+              </div>
+              <Show when={trayList().length > 0}>
+                <button class="a-clear" classList={{ "is-armed": clearArmed() }} onClick={armOrClear}>
+                  {clearArmed() ? `Clear ${bookTab() === "recent" ? "recent" : "favourites"}? ✓` : "Clear"}
+                </button>
+              </Show>
             </div>
           </div>
 
@@ -275,16 +302,30 @@ export default function Picker(props) {
                   const emoji = isEmoji(value);
                   const isCopied = () => copied() === value;
                   const activate = () => copy(value);
+                  // Remove this sticker: from recents on the Recent tab, else unfavourite.
+                  const removeOne = () => (bookTab() === "recent" ? removeRecent(value) : toggleFav(value));
+                  let pressTimer;
+                  let suppressClick = false;
+                  const startPress = () => {
+                    suppressClick = false;
+                    pressTimer = setTimeout(() => { suppressClick = true; removeOne(); navigator.vibrate?.(15); }, 450);
+                  };
+                  const endPress = () => clearTimeout(pressTimer);
                   return (
                     <div
                       class="a-tray-chip"
                       classList={{ "is-emoji": emoji, "is-copied": isCopied() }}
                       role="button"
                       tabindex="0"
-                      title="Click to copy again"
+                      title={bookTab() === "recent" ? "Click to copy · right-click or long-press to remove" : "Click to copy · ☆ to unpin"}
                       aria-label={`Copy ${value}${isFav(value) ? ", favourited" : ""}`}
-                      onClick={activate}
+                      onClick={() => { if (suppressClick) { suppressClick = false; return; } activate(); }}
                       onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); activate(); } }}
+                      onContextMenu={(e) => { e.preventDefault(); removeOne(); }}
+                      onTouchStart={startPress}
+                      onTouchEnd={endPress}
+                      onTouchMove={endPress}
+                      onTouchCancel={endPress}
                     >
                       {isCopied() ? "copied! ✓" : value}
                       <button
@@ -328,6 +369,7 @@ export default function Picker(props) {
       <Show when={!search()}>
         <Show when={props.showBook}>
           <div class="a-seclabel"><span class="star">✿</span> Pick a mood</div>
+          <p class="picker-subhint">Tap to filter the faces below.</p>
         </Show>
         <div class="a-pills" role="tablist" aria-label="Kaomoji categories">
           <Show when={!props.showBook}>

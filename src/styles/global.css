@@ -68,6 +68,10 @@
 * { box-sizing: border-box; }
 html { color-scheme: light; }
 
+/* Clip the few px the decorative rotations (hero −0.5°, sticker tilts, washi
+   tape −4°) bleed past the viewport, so phones don't scroll sideways. */
+html, body { max-width: 100%; overflow-x: hidden; }
+
 body {
   margin: 0;
   min-height: 100vh;
@@ -219,6 +223,7 @@ main { padding: 8px 0 36px; }
   font-family: var(--display); font-weight: 600; white-space: nowrap;
   font-size: 29px; line-height: 1; letter-spacing: -0.6px; margin: 0; color: var(--ink);
 }
+.a-book-actions { display: flex; flex-direction: column; align-items: flex-end; gap: 7px; }
 .a-tabs { display: flex; gap: 8px; }
 .a-tab {
   font-family: inherit; font-size: 13px; font-weight: 800; cursor: pointer;
@@ -230,6 +235,14 @@ main { padding: 8px 0 36px; }
 .a-tab .n { opacity: 0.55; font-weight: 700; }
 .a-tab:hover { color: var(--ink); }
 .a-tab.is-on { color: #5a3f25; border-color: var(--gold-line); background: #fff4d6; box-shadow: 0 2px 0 var(--sh-10); }
+/* Ghost "clear" for the active book tab (2-step confirm via .is-armed). */
+.a-clear {
+  font-family: inherit; font-size: 11px; font-weight: 700; color: var(--ink-dim);
+  background: none; border: none; padding: 2px 4px; cursor: pointer;
+  text-decoration: underline; text-underline-offset: 2px;
+}
+.a-clear:hover { color: var(--ink); }
+.a-clear.is-armed { color: #c0392b; text-decoration: none; }
 
 .a-tray { display: flex; flex-wrap: wrap; gap: 11px; align-content: flex-start; min-height: 92px; }
 .a-tray-chip {
@@ -311,6 +324,19 @@ main { padding: 8px 0 36px; }
 .picker-empty {
   width: 100%; text-align: center; padding: 40px 20px;
   color: var(--ink-dim); font-weight: 700; font-size: 14px; line-height: 1.6;
+}
+.picker-subhint { margin: 8px 0 0; font-size: 12.5px; font-weight: 700; color: var(--ink-dim); }
+
+/* ---- Phones: tighter insets + smaller hero so nothing overflows ------------ */
+@media (max-width: 560px) {
+  .wrap { padding: 0 12px; }
+  .a-hero { padding: 16px 16px 18px; margin: 8px 0 8px; }
+  .a-tape { left: 28px; }
+  .a-book-title { font-size: 22px; }
+  .a-book-head { margin-bottom: 12px; gap: 10px; }
+  .a-kicker { letter-spacing: 1.5px; }
+  .section-title, .a-seclabel { margin: 22px 0 10px; font-size: 16px; }
+  .site-footer { padding: 16px 12px 24px; }
 }
 
 /* ---- Reduced motion: kill the animated lifts (keep static tilts/layout) ---- */
