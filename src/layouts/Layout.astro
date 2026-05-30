@@ -12,25 +12,20 @@ const { title, description, image, type, jsonld } = Astro.props;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#1a1040" />
+    <meta name="theme-color" content="#fdf6ea" />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.webmanifest" />
+    <!-- Self-hosted woff2 subsets (Latin UI fonts, used above the fold). The JP
+         glyph subset is not preloaded — local() satisfies it on JP-equipped
+         devices, and font-display:swap renders glyphs via system fonts meanwhile. -->
+    <link rel="preload" href="/fonts/Nunito-var.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/Fredoka-600.woff2" as="font" type="font/woff2" crossorigin />
     <script is:inline>
-      // Runs before paint: set the saved/preferred theme (no flash of wrong theme)
-      // and capture the install prompt as early as possible. Guarded so the window
+      // Capture the install prompt as early as possible. Guarded so the window
       // listeners aren't stacked when View Transitions re-run head scripts.
       (function () {
-        try {
-          var saved = localStorage.getItem("kaomoji-theme");
-          var t = saved || (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
-          document.documentElement.dataset.theme = t;
-          if (t === "light") {
-            var meta = document.querySelector('meta[name="theme-color"]');
-            if (meta) meta.setAttribute("content", "#f1ecff");
-          }
-        } catch (e) {}
         if (window.__kaomojiInstallInit) return;
         window.__kaomojiInstallInit = true;
         window.__installPrompt = null;

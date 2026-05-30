@@ -13,7 +13,8 @@ Core Web Vitals and a real offline retention moat.
 [Astro](https://astro.build) (zero-JS content pages) + a [SolidJS](https://solidjs.com) picker
 island, [Fuse.js](https://fusejs.io) fuzzy search, `@vite-pwa/astro` (Workbox) for the installable
 offline service worker, and build-time per-page Open Graph cards via `astro-og-canvas`. Deployed
-to Cloudflare Pages. No CSS framework — global CSS with custom properties.
+to Cloudflare Pages. No CSS framework — global CSS with custom properties (a warm
+"paper sticker book" theme set in Fredoka + Nunito, with kaomoji glyphs in Noto Sans JP).
 
 ## Commands
 
@@ -33,17 +34,23 @@ node scripts/migrate.mjs   # regenerate src/data/{categories,raw}.js from the le
   picker import.
 - `src/pages/` — the SEO surface: `kaomoji/[category].astro` and `t/[tag].astro` prerender one
   page each over the dataset.
-- `src/components/Picker.jsx` — the SolidJS picker island.
-- `fonts/` — build-only fonts for the OG cards (not shipped to visitors).
+- `src/components/Picker.jsx` — the SolidJS picker island (search, the sticker grid, and the
+  "your little book" recents/favourites hero on the home page).
+- `public/fonts/` — self-hosted **woff2 subsets** shipped to the browser (Fredoka, Nunito, and a
+  Noto Sans JP glyph subset).
+- `fonts/` — separate **build-only** fonts for the OG cards (not shipped to visitors).
 
 See [`CLAUDE.md`](./CLAUDE.md) for the full architecture and the reasoning behind it.
 
 ## Licensing
 
 - **Code & content curation:** [GNU AGPL-3.0](./LICENSE).
-- **Fonts under `fonts/`:** the Noto family, © The Noto Project Authors, under the
-  [SIL Open Font License 1.1](./fonts/OFL.txt). These are **build-only** (used to render the
-  social-share images) and are never shipped to the browser.
+- **Shipped web fonts under `public/fonts/`:** Fredoka, Nunito and Noto Sans JP subsets, ©
+  their respective authors, under the [SIL Open Font License 1.1](https://openfontlicense.org)
+  (see [`public/fonts/NOTICE.txt`](./public/fonts/NOTICE.txt)).
+- **Build-only fonts under `fonts/`:** the Noto family, © The Noto Project Authors, under the
+  [SIL Open Font License 1.1](./fonts/OFL.txt) — used to render the social-share images, never
+  shipped to the browser.
 
 ---
 

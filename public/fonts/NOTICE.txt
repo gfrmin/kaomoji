@@ -1,0 +1,24 @@
+Web fonts shipped with kaomoji.fyi
+==================================
+
+These woff2 files are SUBSETS / instances of open-source fonts, served to the
+browser for the site UI and kaomoji glyphs. All are licensed under the
+SIL Open Font License, Version 1.1 — https://openfontlicense.org
+
+  Fredoka-600.woff2      — Fredoka, © The Fredoka Project Authors
+                           (https://github.com/hanken-design/Fredoka)
+                           Instanced to wght=600, wdth=100, then Latin-subset.
+
+  Nunito-var.woff2       — Nunito, © The Nunito Project Authors
+                           (https://github.com/googlefonts/nunito)
+                           Variable wght axis kept, Latin-subset.
+
+  NotoSansJP-glyphs.woff2 — Noto Sans JP, © The Noto Project Authors
+                           (https://github.com/notofonts/noto-cjk)
+                           Subset to the codepoints used by the kaomoji dataset.
+
+The OFL permits bundling, subsetting and instancing; none of these families
+declares a Reserved Font Name, so the derived subsets keep their original names.
+The OFL governs only these font binaries and is independent of the project's
+own AGPL-3.0 license (see the repository LICENSE), which covers the site's code
+and curation. Full OFL text: ../../fonts/OFL.txt or https://openfontlicense.org
