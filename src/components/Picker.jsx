@@ -1,4 +1,4 @@
-import { createSignal, createMemo, onMount, For, Show } from "solid-js";
+import { createSignal, createMemo, onMount, onCleanup, For, Show } from "solid-js";
 import Fuse from "fuse.js";
 import { categories, items, getItemsByCategory, getTag, searchDataset } from "../data/index.js";
 
@@ -48,10 +48,71 @@ export default function Picker(props) {
   const [recent, setRecent] = createSignal([]);
   const [copied, setCopied] = createSignal(null);
 
+  let searchRef;
+  let gridRef;
+
   onMount(() => {
     setFavourites(readLS(STORAGE_FAVS));
     setRecent(readLS(STORAGE_RECENT));
+
+    // Global "/" focuses search (unless already typing), so the whole picker is
+    // reachable from the keyboard without a mouse.
+    const onKey = (e) => {
+      if (e.key !== "/" || e.metaKey || e.ctrlKey || e.altKey) return;
+      const t = e.target;
+      const typing = t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA" || t.isContentEditable);
+      if (typing) return;
+      e.preventDefault();
+      searchRef?.focus();
+      searchRef?.select();
+    };
+    document.addEventListener("keydown", onKey);
+    onCleanup(() => document.removeEventListener("keydown", onKey));
   });
+
+  // Geometry-aware vertical move across a flex-wrap grid of variable-width cells:
+  // jump to the cell in the adjacent row whose horizontal centre is closest.
+  const geomMove = (cells, i, dir) => {
+    const cur = cells[i].getBoundingClientRect();
+    const curMid = cur.left + cur.width / 2;
+    const candidates = cells
+      .map((el) => ({ el, r: el.getBoundingClientRect() }))
+      .filter(({ r }) => (dir > 0 ? r.top > cur.top + 1 : r.top < cur.top - 1));
+    if (!candidates.length) return null;
+    const rowTop = dir > 0
+      ? Math.min(...candidates.map((x) => x.r.top))
+      : Math.max(...candidates.map((x) => x.r.top));
+    const inRow = candidates.filter((x) => Math.abs(x.r.top - rowTop) < 2);
+    let best = inRow[0];
+    let bestDx = Infinity;
+    for (const x of inRow) {
+      const dx = Math.abs(x.r.left + x.r.width / 2 - curMid);
+      if (dx < bestDx) { bestDx = dx; best = x; }
+    }
+    return best.el;
+  };
+
+  const onGridKeydown = (e) => {
+    if (!gridRef) return;
+    const cells = [...gridRef.querySelectorAll(".picker-cell")];
+    if (!cells.length) return;
+    let i = cells.indexOf(document.activeElement);
+    if (i === -1) i = 0;
+    const focus = (el) => el && el.focus();
+    switch (e.key) {
+      case "ArrowRight": e.preventDefault(); focus(cells[Math.min(i + 1, cells.length - 1)]); break;
+      case "ArrowLeft": e.preventDefault(); focus(cells[Math.max(i - 1, 0)]); break;
+      case "ArrowDown": e.preventDefault(); focus(geomMove(cells, i, 1)); break;
+      case "ArrowUp": {
+        e.preventDefault();
+        const up = geomMove(cells, i, -1);
+        if (up) focus(up); else searchRef?.focus();
+        break;
+      }
+      case "Home": e.preventDefault(); focus(cells[0]); break;
+      case "End": e.preventDefault(); focus(cells[cells.length - 1]); break;
+    }
+  };
 
   const copy = (value) => {
     const done = () => {
@@ -132,13 +193,24 @@ export default function Picker(props) {
     <div class="picker">
       <div class="picker-bar">
         <input
+          ref={searchRef}
           type="search"
           class="picker-search"
           placeholder="Search… happy, shrug, cat, table flip, ✨"
           value={search()}
           onInput={(e) => setSearch(e.currentTarget.value)}
+          onKeyDown={(e) => {
+            if (e.key === "ArrowDown") {
+              e.preventDefault();
+              gridRef?.querySelector(".picker-cell")?.focus();
+            } else if (e.key === "Escape" && search()) {
+              e.preventDefault();
+              setSearch("");
+            }
+          }}
           aria-label="Search kaomoji and emoji"
         />
+        <p class="picker-hint">Tip: press <kbd>/</kbd> to search · <kbd>↑↓←→</kbd> to move · <kbd>Enter</kbd> to copy</p>
       </div>
 
       <Show when={!search()}>
@@ -170,7 +242,7 @@ export default function Picker(props) {
 
       <div class="picker-status">{statusText()}</div>
 
-      <div class="picker-grid">
+      <div class="picker-grid" ref={gridRef} onKeyDown={onGridKeydown}>
         <Show
           when={display().length > 0}
           fallback={
@@ -184,7 +256,7 @@ export default function Picker(props) {
           }
         >
           <For each={display()}>
-            {(item) => {
+            {(item, i) => {
               const value = item.value;
               const emoji = isEmoji(value);
               const fav = () => favourites().includes(value);
@@ -208,6 +280,7 @@ export default function Picker(props) {
                 <button
                   class="picker-cell"
                   classList={{ "is-emoji": emoji, "is-fav": fav(), "is-copied": isCopied() }}
+                  tabindex={i() === 0 ? 0 : -1}
                   title={value}
                   onClick={() => {
                     if (suppressClick) { suppressClick = false; return; }
