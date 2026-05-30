@@ -144,6 +144,19 @@ export const categoryContent = {
       { q: "What are these sparkle symbols called?", a: "They're sparkle and star characters (✧ ✦ ☆ ★) often used in kaomoji and aesthetic text. Tap to copy individual sparkles or full magic faces." },
     ],
   },
+  decorated: {
+    sample: "°˖✧ (≧◡≦) ✧˖°",
+    lead: "Cute faces wrapped in starry borders, sparkle trails and aesthetic flourishes — copy and paste decorated kaomoji to make any bio or message shine.",
+    body: [
+      "Decorated kaomoji frame a simple face in ornamental flair — sparkle borders ✧･ﾟ, flying stars ★彡, swirls ⋆｡°, twinkles ₊˚ and dotted edges ꒷꒦. The face stays gentle while the decoration does the talking, turning a plain (≧◡≦) into °˖✧ (≧◡≦) ✧˖°.",
+      "They're the go-to for aesthetic usernames, Instagram and TikTok bios, Discord status lines and soft kawaii posts where a bare emoticon would look unfinished. Copy one whole — borders and all — and paste it straight into your profile or caption.",
+    ],
+    faqs: [
+      { q: "What are decorated kaomoji?", a: "Decorated kaomoji are Japanese emoticons dressed up with ornamental symbols — sparkles, stars, swirls and dotted borders — like ✧･ﾟ: *(˶ˆ꒳ˆ˶)* :･ﾟ✧. The framing makes a normal face look fancy and aesthetic." },
+      { q: "Where do people use decorated kaomoji?", a: "They're popular in social-media bios, aesthetic usernames, Discord status and cute captions — anywhere you want text to look pretty. Tap any above to copy the whole decorated face, borders included." },
+      { q: "How do I make my own decorated kaomoji?", a: "Start with a simple face like (≧◡≦), then wrap it in symbols — sparkles ✧, stars ☆彡, dots ｡°, or a ⋆｡°✩ border. Or copy a ready-made one above and tweak the decoration to taste." },
+    ],
+  },
   cool: {
     sample: "( ͡° ͜ʖ ͡°)",
     lead: "Smug smirks, side-eyes and the famous Lenny face — copy and paste cool kaomoji with attitude.",

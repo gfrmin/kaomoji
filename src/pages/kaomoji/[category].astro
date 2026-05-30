@@ -42,7 +42,7 @@ const title =
         : `${category.name} Kaomoji ${sample} — Copy & Paste Japanese Text Faces`;
 
 const description = lead;
-const canonical = new URL(`/kaomoji/${category.id}`, SITE).href;
+const canonical = new URL(`/kaomoji/${category.id}/`, SITE).href;
 
 const collectionPage = {
   "@type": "CollectionPage",
@@ -99,7 +99,7 @@ const jsonld = {
       <h2 class="section-title">Popular {category.name.toLowerCase()} searches</h2>
       <nav class="chips" aria-label={`Popular ${category.name} searches`}>
         {catTags.map((t) => (
-          <a href={`/t/${t.slug}`}>{t.tag} <span class="count">{t.items.length}</span></a>
+          <a href={`/t/${t.slug}/`}>{t.tag} <span class="count">{t.items.length}</span></a>
         ))}
       </nav>
     </>
@@ -127,7 +127,7 @@ const jsonld = {
   <h2 class="section-title">Other categories</h2>
   <nav class="chips" aria-label="Other categories">
     {related.map((c) => (
-      <a href={`/kaomoji/${c.id}`}>{c.icon} {c.name}</a>
+      <a href={`/kaomoji/${c.id}/`}>{c.icon} {c.name}</a>
     ))}
   </nav>
 </Layout>

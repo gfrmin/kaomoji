@@ -1,0 +1,60 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { SITE } from "../consts.js";
+import { items, categories, pageTags } from "../data/index.js";
+
+const title = "About Kaomoji — The Fast, Offline Kaomoji Picker";
+const description = "What kaomoji.fyi is, how it works, and our privacy approach — a fast, installable, cookieless kaomoji & emoji picker. Free and open source.";
+const canonical = new URL("/about/", SITE).href;
+
+const jsonld = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  name: title,
+  url: canonical,
+  isPartOf: { "@type": "WebSite", name: "Kaomoji", url: SITE },
+};
+---
+
+<Layout title={title} description={description} jsonld={jsonld}>
+  <p class="crumbs"><a href="/">Kaomoji</a> › About</p>
+  <section class="page-head">
+    <h1>About Kaomoji</h1>
+    <p class="lede">
+      A fast, installable picker for Japanese emoticons — copy &amp; paste {items.length}+
+      kaomoji, text faces, emoji and symbols across {categories.length} categories
+      and {pageTags.length} tags.
+    </p>
+  </section>
+
+  <div class="prose">
+    <h2 class="section-title">What it is</h2>
+    <p>
+      Kaomoji (顔文字, “face characters”) are Japanese emoticons read upright — no need to
+      tilt your head like <code>:)</code>. They range from a simple shrug ¯\_(ツ)_/¯ to
+      expressive faces like ( ͡° ͜ʖ ͡°), ʕ•ᴥ•ʔ and (╯°□°)╯︵ ┻━┻. This site lets you search them
+      by feeling (“happy”, “table flip”, “bear”), tap to copy, and paste anywhere.
+    </p>
+    <h2 class="section-title">Fast &amp; offline</h2>
+    <p>
+      Every page is static HTML for instant loads, and the whole picker installs as a
+      Progressive Web App — add it to your home screen or desktop and it works fully
+      offline. Your favourites and recents are saved locally in your browser, so they
+      stay private to your device.
+    </p>
+    <h2 class="section-title">Privacy</h2>
+    <p>
+      No accounts, no sign-ups, no tracking cookies. We use Cloudflare Web Analytics, which
+      is privacy-first and cookieless — it counts aggregate page views without fingerprinting
+      you or storing personal data. We never see what you copy, and your favourites and
+      recents never leave your browser.
+    </p>
+    <h2 class="section-title">Open source</h2>
+    <p>
+      Kaomoji is free and open source. Browse the code, file an issue, or contribute on
+      <a href="https://github.com/gfrmin/kaomoji" rel="noopener">GitHub</a>.
+    </p>
+  </div>
+
+  <p style="margin-top:18px"><a href="/">← Back to the picker</a></p>
+</Layout>

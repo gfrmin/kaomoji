@@ -1,0 +1,31 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { categories } from "../data/index.js";
+
+const title = "Page not found (·_·) — Kaomoji";
+const description = "That page wandered off. Browse kaomoji categories or head back to the picker to copy & paste Japanese emoticons.";
+
+const featuredIds = ["happy", "kawaii", "love", "animals", "cool", "sad"];
+const featured = featuredIds
+  .map((id) => categories.find((c) => c.id === id))
+  .filter(Boolean);
+---
+
+<Layout title={title} description={description}>
+  <section class="page-head" style="text-align:center">
+    <h1>404 &nbsp;(·_·)&nbsp; Page not found</h1>
+    <p class="lede" style="margin-inline:auto">
+      This page slipped away. Try one of these instead — or head back to the picker.
+    </p>
+  </section>
+
+  <nav class="chips" aria-label="Popular categories" style="justify-content:center">
+    {featured.map((c) => (
+      <a href={`/kaomoji/${c.id}/`}>{c.icon} {c.name}</a>
+    ))}
+  </nav>
+
+  <p style="text-align:center; margin-top:18px">
+    <a href="/">← Back to the kaomoji picker</a>
+  </p>
+</Layout>

@@ -9,18 +9,27 @@ const RECENT_CAP = 30;
 const isEmoji = (s) =>
   /^\p{Emoji}(️)?(‍\p{Emoji}(️)?)*$/u.test(s) && [...s].length <= 3;
 
-// Static module-level search index (data is build-time constant).
 const valueToItem = new Map(items.map((i) => [i.value, i]));
-const fuse = new Fuse(searchDataset, {
-  keys: [
-    { name: "t", weight: 0.7 },
-    { name: "c", weight: 0.25 },
-    { name: "v", weight: 0.05 },
-  ],
-  threshold: 0.4,
-  ignoreLocation: true,
-  minMatchCharLength: 2,
-});
+
+// Build the Fuse index lazily on first search rather than at module load, so
+// hydrating the picker (every page) doesn't pay the index-construction cost
+// up front — only users who actually search do, on their first keystroke.
+let _fuse = null;
+const getFuse = () => {
+  if (!_fuse) {
+    _fuse = new Fuse(searchDataset, {
+      keys: [
+        { name: "t", weight: 0.7 },
+        { name: "c", weight: 0.25 },
+        { name: "v", weight: 0.05 },
+      ],
+      threshold: 0.4,
+      ignoreLocation: true,
+      minMatchCharLength: 2,
+    });
+  }
+  return _fuse;
+};
 
 const readLS = (key) => {
   try {
@@ -47,9 +56,18 @@ export default function Picker(props) {
   const [favourites, setFavourites] = createSignal([]);
   const [recent, setRecent] = createSignal([]);
   const [copied, setCopied] = createSignal(null);
+  const [announce, setAnnounce] = createSignal("");
 
   let searchRef;
   let gridRef;
+
+  // Screen-reader feedback to mirror the visual "Copied! ✓". Clear-then-set on a
+  // microtask so the polite live region re-announces even when the same item is
+  // copied twice in a row (identical text wouldn't otherwise re-fire).
+  const announceCopied = () => {
+    setAnnounce("");
+    queueMicrotask(() => setAnnounce("Copied to clipboard"));
+  };
 
   onMount(() => {
     setFavourites(readLS(STORAGE_FAVS));
@@ -117,6 +135,7 @@ export default function Picker(props) {
   const copy = (value) => {
     const done = () => {
       setCopied(value);
+      announceCopied();
       setTimeout(() => setCopied((c) => (c === value ? null : c)), 1400);
       setRecent((r) => {
         const next = [value, ...r.filter((x) => x !== value)].slice(0, RECENT_CAP);
@@ -156,7 +175,7 @@ export default function Picker(props) {
   const searchResults = createMemo(() => {
     const q = search().trim();
     if (!q) return null;
-    return fuse.search(q).slice(0, 120).map((r) => valueToItem.get(r.item.v)).filter(Boolean);
+    return getFuse().search(q).slice(0, 120).map((r) => valueToItem.get(r.item.v)).filter(Boolean);
   });
 
   // Display list: always an array of item-like objects with a `value`.
@@ -191,6 +210,7 @@ export default function Picker(props) {
 
   return (
     <div class="picker">
+      <div class="visually-hidden" role="status" aria-live="polite">{announce()}</div>
       <div class="picker-bar">
         <input
           ref={searchRef}
@@ -214,14 +234,18 @@ export default function Picker(props) {
       </div>
 
       <Show when={!search()}>
-        <div class="picker-pills" role="tablist">
+        <div class="picker-pills" role="tablist" aria-label="Kaomoji categories">
           <button
+            role="tab"
+            aria-selected={activeKey() === "favourites:favourites"}
             classList={{ active: activeKey() === "favourites:favourites" }}
             onClick={() => pick("favourites", "favourites", "Favourites")}
           >
             ⭐ Favourites <span class="n">{favourites().length}</span>
           </button>
           <button
+            role="tab"
+            aria-selected={activeKey() === "recent:recent"}
             classList={{ active: activeKey() === "recent:recent" }}
             onClick={() => pick("recent", "recent", "Recent")}
           >
@@ -230,6 +254,8 @@ export default function Picker(props) {
           <For each={categories}>
             {(c) => (
               <button
+                role="tab"
+                aria-selected={activeKey() === `category:${c.id}`}
                 classList={{ active: activeKey() === `category:${c.id}` }}
                 onClick={() => pick("category", c.id, c.name)}
               >
@@ -282,6 +308,7 @@ export default function Picker(props) {
                   classList={{ "is-emoji": emoji, "is-fav": fav(), "is-copied": isCopied() }}
                   tabindex={i() === 0 ? 0 : -1}
                   title={value}
+                  aria-label={`Copy ${value}${fav() ? ", favourited" : ""}`}
                   onClick={() => {
                     if (suppressClick) { suppressClick = false; return; }
                     copy(value);
@@ -298,7 +325,7 @@ export default function Picker(props) {
                 >
                   {isCopied() ? "Copied! ✓" : value}
                   <Show when={fav() && !isCopied()}>
-                    <span class="star">⭐</span>
+                    <span class="star" aria-hidden="true">⭐</span>
                   </Show>
                 </button>
               );

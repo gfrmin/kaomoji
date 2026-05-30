@@ -50,14 +50,15 @@ const jsonld = {
   <h2 class="section-title">Browse categories</h2>
   <nav class="chips" aria-label="Categories">
     {categories.map((c) => (
-      <a href={`/kaomoji/${c.id}`}>{c.icon} {c.name} <span class="count">{(items.filter((i) => i.category === c.id)).length}</span></a>
+      <a href={`/kaomoji/${c.id}/`}>{c.icon} {c.name} <span class="count">{(items.filter((i) => i.category === c.id)).length}</span></a>
     ))}
   </nav>
 
   <h2 class="section-title">Popular searches</h2>
   <nav class="chips" aria-label="Popular tags">
     {popularTags.map((t) => (
-      <a href={`/t/${t.slug}`}>{t.tag} <span class="count">{t.items.length}</span></a>
+      <a href={`/t/${t.slug}/`}>{t.tag} <span class="count">{t.items.length}</span></a>
     ))}
+    <a href="/tags/">all {pageTags.length} tags →</a>
   </nav>
 </Layout>

@@ -1,0 +1,65 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { SITE } from "../consts.js";
+import { categories, pageTags } from "../data/index.js";
+
+// Real "all tags" hub — a crawlable directory of every tag page, and the proper
+// breadcrumb target for /t/* pages (which previously pointed "Tags" at /).
+const tags = [...pageTags].sort((a, b) => b.items.length - a.items.length);
+
+const title = `All Kaomoji Tags — Browse ${tags.length} Tag Pages`;
+const description = `Browse every kaomoji & emoji tag — ${tags.length} curated pages of Japanese text faces, from shrug and lenny to bear, cat, sparkles and table flip. One tap to copy.`;
+const canonical = new URL("/tags/", SITE).href;
+
+const jsonld = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      name: title,
+      url: canonical,
+      mainEntity: {
+        "@type": "ItemList",
+        numberOfItems: tags.length,
+        itemListElement: tags.slice(0, 100).map((t, n) => ({
+          "@type": "ListItem",
+          position: n + 1,
+          name: t.tag,
+          url: new URL(`/t/${t.slug}/`, SITE).href,
+        })),
+      },
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Kaomoji", item: new URL("/", SITE).href },
+        { "@type": "ListItem", position: 2, name: "Tags", item: canonical },
+      ],
+    },
+  ],
+};
+---
+
+<Layout title={title} description={description} jsonld={jsonld}>
+  <p class="crumbs"><a href="/">Kaomoji</a> › Tags</p>
+  <section class="page-head">
+    <h1>All Kaomoji Tags</h1>
+    <p class="lede">
+      Every curated and cross-category tag — {tags.length} pages of kaomoji, text faces
+      and emoji. Tap a tag to browse and copy.
+    </p>
+  </section>
+
+  <nav class="chips" aria-label="All tags">
+    {tags.map((t) => (
+      <a href={`/t/${t.slug}/`}>{t.tag} <span class="count">{t.items.length}</span></a>
+    ))}
+  </nav>
+
+  <h2 class="section-title">Browse by category</h2>
+  <nav class="chips" aria-label="Categories">
+    {categories.map((c) => (
+      <a href={`/kaomoji/${c.id}/`}>{c.icon} {c.name}</a>
+    ))}
+  </nav>
+</Layout>
