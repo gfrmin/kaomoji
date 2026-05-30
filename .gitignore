@@ -6,3 +6,11 @@ dist/
 .env
 .env.production
 .wrangler/
+
+# Stray media dropped at repo root — never commit personal images.
+# (Real site assets live in public/, which is not ignored.)
+/*.jpg
+/*.jpeg
+/*.png
+/*.webp
+/*.gif

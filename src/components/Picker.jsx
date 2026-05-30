@@ -1,4 +1,4 @@
-import { createSignal, createMemo, onMount, onCleanup, For, Show } from "solid-js";
+import { createSignal, createMemo, onMount, For, Show } from "solid-js";
 import Fuse from "fuse.js";
 import { categories, items, getItemsByCategory, getTag, searchDataset } from "../data/index.js";
 
@@ -47,25 +47,15 @@ export default function Picker(props) {
   const [favourites, setFavourites] = createSignal([]);
   const [recent, setRecent] = createSignal([]);
   const [copied, setCopied] = createSignal(null);
-  const [toast, setToast] = createSignal(null);
 
-  let toastTimer;
   onMount(() => {
     setFavourites(readLS(STORAGE_FAVS));
     setRecent(readLS(STORAGE_RECENT));
   });
-  onCleanup(() => clearTimeout(toastTimer));
-
-  const showToast = (text) => {
-    setToast(text);
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => setToast(null), 1600);
-  };
 
   const copy = (value) => {
     const done = () => {
       setCopied(value);
-      showToast(value);
       setTimeout(() => setCopied((c) => (c === value ? null : c)), 1400);
       setRecent((r) => {
         const next = [value, ...r.filter((x) => x !== value)].slice(0, RECENT_CAP);
@@ -94,9 +84,7 @@ export default function Picker(props) {
     done();
   };
 
-  const toggleFav = (value, e) => {
-    e.preventDefault();
-    e.stopPropagation();
+  const toggleFav = (value) => {
     setFavourites((f) => {
       const next = f.includes(value) ? f.filter((x) => x !== value) : [value, ...f];
       writeLS(STORAGE_FAVS, next);
@@ -201,15 +189,41 @@ export default function Picker(props) {
               const emoji = isEmoji(value);
               const fav = () => favourites().includes(value);
               const isCopied = () => copied() === value;
+              // Real long-press for touch, so the "long-press to ⭐" instruction holds.
+              let pressTimer;
+              let suppressClick = false;
+              let suppressContext = false;
+              const startPress = () => {
+                suppressClick = false;
+                suppressContext = false;
+                pressTimer = setTimeout(() => {
+                  suppressClick = true; // the tap that follows shouldn't also copy
+                  suppressContext = true; // a synthetic contextmenu may follow; don't double-toggle
+                  toggleFav(value);
+                  navigator.vibrate?.(15);
+                }, 450);
+              };
+              const endPress = () => clearTimeout(pressTimer);
               return (
                 <button
                   class="picker-cell"
                   classList={{ "is-emoji": emoji, "is-fav": fav(), "is-copied": isCopied() }}
                   title={value}
-                  onClick={() => copy(value)}
-                  onContextMenu={(e) => toggleFav(value, e)}
+                  onClick={() => {
+                    if (suppressClick) { suppressClick = false; return; }
+                    copy(value);
+                  }}
+                  onContextMenu={(e) => {
+                    e.preventDefault();
+                    if (suppressContext) { suppressContext = false; return; }
+                    toggleFav(value);
+                  }}
+                  onTouchStart={startPress}
+                  onTouchEnd={endPress}
+                  onTouchMove={endPress}
+                  onTouchCancel={endPress}
                 >
-                  {isCopied() ? "✓" : value}
+                  {isCopied() ? "Copied! ✓" : value}
                   <Show when={fav() && !isCopied()}>
                     <span class="star">⭐</span>
                   </Show>
@@ -219,10 +233,6 @@ export default function Picker(props) {
           </For>
         </Show>
       </div>
-
-      <Show when={toast()}>
-        <div class="picker-toast" role="status">✓ Copied!</div>
-      </Show>
     </div>
   );
 }
