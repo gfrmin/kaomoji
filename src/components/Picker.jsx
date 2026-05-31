@@ -1,6 +1,7 @@
 import { createSignal, createMemo, onMount, onCleanup, For, Show } from "solid-js";
 import Fuse from "fuse.js";
 import { categories, items, getItemsByCategory, getTag, searchDataset } from "../data/index.js";
+import { trackCopy, trackSearch } from "../lib/analytics.js";
 
 const STORAGE_FAVS = "kaomoji-favourites-v2";
 const STORAGE_RECENT = "kaomoji-recent-v2";
@@ -143,6 +144,7 @@ export default function Picker(props) {
     const done = () => {
       setCopied(value);
       announceCopied();
+      trackCopy(value);
       setTimeout(() => setCopied((c) => (c === value ? null : c)), 1200);
       setRecent((r) => {
         const next = [value, ...r.filter((x) => x !== value)].slice(0, RECENT_CAP);
@@ -339,7 +341,7 @@ export default function Picker(props) {
           enterkeyhint="search"
           placeholder="Search happy, shrug, cat, table flip…"
           value={search()}
-          onInput={(e) => setSearch(e.currentTarget.value)}
+          onInput={(e) => { setSearch(e.currentTarget.value); trackSearch(e.currentTarget.value); }}
           onKeyDown={(e) => {
             if (e.key === "ArrowDown") {
               e.preventDefault();
