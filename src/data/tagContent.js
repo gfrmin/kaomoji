@@ -176,6 +176,98 @@ export const tagContent = {
       { q: "What does 凸 mean in a kaomoji?", a: "The 凸 symbol represents a raised middle finger. In a kaomoji like 凸(｀△´＋) it’s used to flip someone off jokingly in text — rude, but in a playful, meme-y way." },
     ],
   },
+
+  // ── Batch 2: more cross-category high-intent tags ───────────────────────
+  uwu: {
+    lead: "(✿◠‿◠) — copy & paste uwu kaomoji for that soft, content, melt-into-a-puddle cuteness.",
+    body: [
+      "“uwu” is the face of pure soft contentment — happy little closed eyes and a small smile, the look of being adored or adoring something. It draws on the happy, love and kawaii categories at once, which is why it lives on its own page rather than inside any one of them.",
+      "Use it when something is too wholesome to handle, to be affectionately silly, or to soften a message into a hug. Its more wide-eyed sibling is owo.",
+    ],
+    faqs: [
+      { q: "What does uwu mean?", a: "uwu represents a soft, happy, affectionate face — closed smiling eyes (the u’s) and a little mouth (w). It signals adoration, cosiness or wholesome cuteness, like (✿◠‿◠)." },
+    ],
+  },
+  owo: {
+    lead: "(✿◠‿◠) — copy & paste owo kaomoji for that wide-eyed, curious, “what’s this?” cuteness.",
+    body: [
+      "Where uwu is sleepy-content, owo is alert and curious — round open eyes (the o’s) catching sight of something interesting. The faces here pull from happy, love and kawaii for that bright, surprised-but-delighted look.",
+      "Reach for it when you spot something exciting, react with playful intrigue, or want a cuter version of “oh?”.",
+    ],
+    faqs: [
+      { q: "What’s the difference between owo and uwu?", a: "Both are cute text faces. uwu has closed, content eyes (soft and happy); owo has wide open eyes (curious or surprised). owo is the “ooh, what’s this?” face; uwu is the cosy, adoring one." },
+    ],
+  },
+  mad: {
+    lead: "(╬ಠ益ಠ) — copy & paste mad kaomoji, from a grumpy huff to full incandescent rage.",
+    body: [
+      "Mad spans the angry and fighting categories — gritted (｀Д´) frustration, the throbbing-vein 益 of (╬ಠ益ಠ), and arms-up ヽ(`Д´)ﾉ fury. Unlike the cold, deadpan look of disapproval, these faces are hot, loud and animated.",
+      "Use them to vent, to be dramatically furious on purpose, or to react to something genuinely infuriating. When you tip fully over the edge, there’s always the table flip.",
+    ],
+    faqs: [
+      { q: "What is an angry kaomoji?", a: "An angry or mad kaomoji shows rage with tense eyes, a gritted mouth, or the 益 “bulging vein” symbol — for example (╬ಠ益ಠ) or ヽ(`Д´)ﾉ. Tap to copy one and register your displeasure." },
+    ],
+  },
+  strong: {
+    lead: "ᕙ(⇀‸↼‶)ᕗ — copy & paste strong, flexing, muscle kaomoji to show off some power.",
+    body: [
+      "The flex faces — ᕙ(⇀‸↼‶)ᕗ and ᕦ(ò_óˇ)ᕤ — bend their arms into bulging biceps. They cut across the actions and fighting categories (with a stubborn, never-give-up streak from tired), so they earn a page of their own.",
+      "Use them for gym energy, a “we’ve got this”, or to celebrate powering through something hard. For the fists-clenched, eyes-locked version, see determined.",
+    ],
+    faqs: [
+      { q: "What kaomoji means strong or flexing?", a: "Faces like ᕙ(⇀‸↼‶)ᕗ and ᕦ(ò_óˇ)ᕤ use bent ᕙ ᕗ arms to mime flexed muscles — the kaomoji for strength, working out, or “I’ve got this.” Tap to copy." },
+    ],
+  },
+  determined: {
+    lead: "(ง •̀_•́)ง — copy & paste determined kaomoji for game-face, fired-up, let’s-do-this energy.",
+    body: [
+      "Determined is the raised-fists ง…ง stance with locked, focused eyes — resolve rather than raw muscle. It bridges the actions and fighting categories: ready to start, refusing to quit.",
+      "Drop one before a challenge, to hype yourself or a friend up, or to say “I’m on it”. The pure-power cousin is strong.",
+    ],
+    faqs: [
+      { q: "What kaomoji shows determination?", a: "(ง •̀_•́)ง — raised fists and a focused stare — is the classic determined kaomoji. It reads as “let’s do this,” motivation or readiness for a challenge." },
+    ],
+  },
+  dance: {
+    lead: "ヽ(^o^)ノ — copy & paste dancing kaomoji that groove across chat with a ♪ in tow.",
+    body: [
+      "Dance faces are some of the liveliest on the site, pulling together the actions, music and celebrate categories — swaying arms, kicking ┌(┌^o^)┐ legs, and trailing ♪ notes.",
+      "Use them to celebrate, to set a party mood, or just to vibe when a good song comes on. They pair perfectly with the party and music faces.",
+    ],
+    faqs: [
+      { q: "What’s a good dancing kaomoji?", a: "Try ヽ(^o^)ノ or ♪┏(・o･)┛ — swinging arms plus a ♪ music note read as dancing. Tap to copy one and drop it into a celebration or a “this song slaps” message." },
+    ],
+  },
+  confused: {
+    lead: "(・・ ) ? — copy & paste confused kaomoji for every “huh?”, “wait, what?” and tilted-head moment.",
+    body: [
+      "Confused faces blend the surprised and thinking categories — wide (@_@) spirals, a tilted (・・ ) ? glance, and trailing question marks （？_？）. They capture the gap between “I don’t get it” and “let me work this out”.",
+      "Use one when something makes no sense, to ask “wait, what?”, or to react to a plot twist.",
+    ],
+    faqs: [
+      { q: "What kaomoji means confused?", a: "A confused kaomoji uses dizzy eyes or question marks to show puzzlement — like (・・ ) ? or （？_？）. It reads as “huh?” or “I don’t understand.” Tap to copy." },
+    ],
+  },
+  sleepy: {
+    lead: "(－_－) zzZ — copy & paste sleepy kaomoji for tired, drowsy, goodnight-time moods.",
+    body: [
+      "Sleepy faces droop their eyes shut and trail zzZ off to one side. They sit across the tired and animals categories — including a few dozing critters — for every shade of worn-out and ready-for-bed.",
+      "Send one to say goodnight, to admit you’re exhausted, or to react to something dull. For wired-awake energy instead, see the excited and party faces.",
+    ],
+    faqs: [
+      { q: "What kaomoji means sleepy or tired?", a: "A sleepy kaomoji has closed or half-closed eyes and often a zzZ trail — for example (－_－) zzZ. It signals tiredness, drowsiness or “goodnight.” Tap to copy." },
+    ],
+  },
+  excited: {
+    lead: "☆*:.｡.o(≧▽≦)o.｡.:*☆ — copy & paste excited kaomoji bursting with hyped, can’t-wait energy.",
+    body: [
+      "Excited faces crank everything up — squeezed-shut ≧▽≦ eyes, thrown-up arms and a shower of ✧ sparkles. They span the happy and decorated categories, which is what gives them that extra-glittery, over-the-top intensity.",
+      "Use them for big news, countdowns, fandom hype, or anything you genuinely can’t wait for. Dial it down with the plain happy faces or up with party.",
+    ],
+    faqs: [
+      { q: "What’s the most excited kaomoji?", a: "Faces like ☆*:.｡.o(≧▽≦)o.｡.:*☆ and (*≧ω≦) combine scrunched happy eyes with sparkles for maximum hype — the go-to for “I can’t wait!” Tap to copy one." },
+    ],
+  },
 };
 
 export const getTagContent = (slug) => tagContent[slug] || null;
