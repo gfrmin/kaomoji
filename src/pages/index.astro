@@ -22,6 +22,35 @@ const colorOf = (id) => categoryColor(categories, id);
 const title = "Kaomoji ( ͡° ͜ʖ ͡°) — Copy & Paste Japanese Emoticons, Text Faces & Emoji";
 const description = `The fast, installable kaomoji picker. Search and copy ${items.length}+ Japanese emoticons, cute text faces, emoji and symbols — one tap to copy, works offline.`;
 
+// Head-term "People Also Ask" coverage — general kaomoji questions, distinct
+// from the per-category FAQs. Rendered visibly below + emitted as FAQPage.
+const homeFaqs = [
+  {
+    q: "What is a kaomoji?",
+    a: "A kaomoji (顔文字, “face characters”) is a Japanese emoticon built from text symbols — like (＾▽＾) or ¯\\_(ツ)_/¯ — read upright, without tilting your head the way you do for a Western :) smiley. They use characters from many scripts to draw expressive faces and poses.",
+  },
+  {
+    q: "How do I copy and paste a kaomoji?",
+    a: "Tap any kaomoji on this page and it's copied to your clipboard instantly — then paste it into Discord, Instagram, TikTok, texts or docs. Use the search box to find one fast, and right-click or long-press to save favourites to your book.",
+  },
+  {
+    q: "Do kaomoji work on iPhone, Android and everywhere else?",
+    a: "Yes. Kaomoji are plain Unicode text, not images, so they paste and display on iOS, Android, Windows, Mac and the web with no app or special keyboard. A few rare glyphs may fall back to a slightly different font on some devices, but the face still reads the same.",
+  },
+  {
+    q: "What's the difference between kaomoji, emoji and emoticons?",
+    a: "Emoticons are simple sideways faces like :-). Emoji are the coloured picture characters like 😊. Kaomoji are the Japanese style — horizontal text faces like (｡♥‿♥｡) that don't need rotating and can be far more expressive. This picker has all three.",
+  },
+];
+const faqPage = {
+  "@type": "FAQPage",
+  mainEntity: homeFaqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
+
 const jsonld = {
   "@context": "https://schema.org",
   "@graph": [
@@ -43,6 +72,7 @@ const jsonld = {
       operatingSystem: "Any",
       offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
     },
+    faqPage,
   ],
 };
 ---
@@ -80,4 +110,14 @@ const jsonld = {
     ))}
     <a href="/tags/">all {pageTags.length} tags →</a>
   </nav>
+
+  <section class="faq">
+    <h2 class="section-title">Frequently asked</h2>
+    {homeFaqs.map((f) => (
+      <details>
+        <summary>{f.q}</summary>
+        <p>{f.a}</p>
+      </details>
+    ))}
+  </section>
 </Layout>
