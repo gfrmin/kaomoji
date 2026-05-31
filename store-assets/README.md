@@ -17,11 +17,11 @@ Assets and a checklist for submitting the PWA to Google Play as a **Trusted Web 
 |-------|----------|--------|
 | App icon 512×512 | yes | ✅ `public/icons/icon-512.png` |
 | Feature graphic 1024×500 | yes | ✅ this folder |
-| Phone screenshots (2–8) | yes (≥2) | ⚠️ only `public/screenshots/mobile.png` exists — **need ≥1 more** (e.g. a category page + search-in-action). Generate the same way as the existing ones (Playwright/chromium at 390×844). |
+| Phone screenshots (2–8) | yes (≥2) | ✅ 3 in `store-assets/screenshots/` (`phone-1-moods`, `phone-2-animals`, `phone-3-famous` — live pages at 390×844 @2x) + the home/book `public/screenshots/mobile.png`. Regenerate: `chromium --headless=new --force-device-scale-factor=2 --window-size=390,844 --virtual-time-budget=5000 --screenshot=out.png https://kaomoji.fyi/kaomoji/happy/` |
 | 7"/10" tablet screenshots | optional | — |
 | Short description (≤80 chars) | yes | draft: *"Fast, offline kaomoji picker. Copy & paste 800+ Japanese emoticons — no tracking."* (78) |
 | Full description (≤4000) | yes | adapt the Product Hunt description from the plan file |
-| Privacy policy URL | yes | ✅ will be `https://kaomoji.fyi/privacy/` once PR #15 merges |
+| Privacy policy URL | yes | ✅ `https://kaomoji.fyi/privacy/` (live) |
 
 ## TWA build checklist (Bubblewrap)
 1. Install `@bubblewrap/cli` + JDK 17 + Android SDK (separate dir, e.g. `~/git/kaomoji-twa/`).
