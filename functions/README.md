@@ -11,26 +11,39 @@ no session/user id — the data can be tallied but never linked to a person. Thi
 matches the `/privacy` and `/about` copy.
 
 ### Activation (one-time, owner)
-The function **no-ops (returns 204) until an Analytics Engine binding named
-`EVENTS` is attached to the Pages project**, so it's safe to deploy now and turn
-on later. To enable collection:
+The function **no-ops (returns 204) until the `EVENTS` Analytics Engine binding
+is wired**, so it's safe to deploy as-is. Two facts learned the hard way (both
+verified):
 
-1. **Add the binding.** Cloudflare dashboard → Workers & Pages → **kaomoji** →
-   Settings → **Functions** → *Analytics Engine bindings* → add
-   **Variable name `EVENTS`**, **Dataset `kaomoji_events`** (Production).
-   *(The dataset is created automatically on first write — no pre-provisioning.)*
-   This is intentionally **not** put in `wrangler.toml`, to keep the
-   `wrangler pages deploy` step in CI from depending on/breaking over it.
-2. Redeploy (any push to `master`) so the function picks up the binding.
-3. Verify: `curl -i https://kaomoji.fyi/e` → `204`; copy a kaomoji on the live
-   site, then query the dataset:
+- **A dashboard-set binding does NOT reach the deployed Function.** CI deploys
+  via `wrangler pages deploy`, which takes bindings from `wrangler.toml`, not the
+  Pages project settings. So the binding must live in `wrangler.toml`.
+- **Analytics Engine must be enabled on the account first**, or `wrangler pages
+  deploy` *fails* (`"You need to enable Analytics Engine"`) — which would break
+  the production deploy. So enable AE before adding the binding.
+
+### Activation
+1. **Enable Analytics Engine** (one-time, dashboard — no public API to do this):
+   Cloudflare dashboard → Workers & Pages → **Analytics Engine** → enable. Direct
+   link: `https://dash.cloudflare.com/<account-id>/workers/analytics-engine`.
+2. **Add the binding to `wrangler.toml`** (not the dashboard):
+   ```toml
+   [[analytics_engine_datasets]]
+   binding = "EVENTS"
+   dataset = "kaomoji_events"
+   ```
+   (The dataset is created automatically on first write — no pre-provisioning.)
+3. Push to `master` → deploy.
+4. **Verify wiring:** `curl https://kaomoji.fyi/e?health=1` → `{"events":true}`.
+   Then copy a kaomoji on the live site and query the dataset (a few-minute
+   ingestion delay), e.g. in the dashboard SQL console:
    ```sql
    SELECT blob1 AS type, blob2 AS value, count() AS n
    FROM kaomoji_events
    WHERE timestamp > now() - INTERVAL '1' DAY
    GROUP BY type, value ORDER BY n DESC
    ```
-   (Cloudflare dashboard → Analytics Engine → SQL API, or the GraphQL API.)
 
+`/e?health=1` reports only whether the binding is wired (a boolean — no data).
 To **disable** the client beacon entirely, set `ANALYTICS_EVENTS = false` in
 `src/consts.js`.
