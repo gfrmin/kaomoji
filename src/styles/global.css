@@ -37,12 +37,12 @@
   --paper:   #fdf6ea;  /* page background (warm cream) */
   --paper-2: #fffdf8;  /* card / surface (paper white) */
   --ink:     #4a4036;  /* primary text (warm near-black) */
-  --ink-dim: #9a8d7c;  /* secondary text */
+  --ink-dim: #736655;  /* secondary text (WCAG AA: 5.2:1 on paper) */
   --line:    #e7dcc8;  /* ALL borders */
 
   --tape:        rgba(255, 207, 107, 0.55);
-  --accent:      #d98e5e;  /* kickers / eyebrow labels */
-  --accent-deep: #e08a4f;
+  --accent:      #a85d1c;  /* kickers / eyebrow labels (AA: 4.6:1 on paper) */
+  --accent-deep: #a85f1a;  /* links + focus ring (AA: 4.5:1 on paper) */
   --gold:        #f0b13e;  /* stars / favourite */
   --gold-line:   #e9b53e;  /* "copied" + active borders */
   --gold-bg:     #ffd56b;  /* "copied" sticker fill */
@@ -79,6 +79,7 @@ body {
   font-family: var(--font);
   font-weight: 600;
   -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(168, 93, 28, 0.14);
   background-color: var(--paper);
   background-image: radial-gradient(rgba(120, 100, 70, 0.10) 1.3px, transparent 1.3px);
   background-size: 22px 22px;
@@ -100,7 +101,7 @@ a:hover { text-decoration: underline; }
   letter-spacing: -0.5px; color: var(--ink);
   display: flex; align-items: baseline; gap: 9px;
 }
-.site-header .brand .jp { font-size: 14px; color: #c98b5a; font-weight: 500; letter-spacing: 1px; }
+.site-header .brand .jp { font-size: 14px; color: var(--accent); font-weight: 600; letter-spacing: 1px; }
 .site-header nav { margin-left: auto; display: flex; gap: 10px; align-items: center; }
 .site-header nav a {
   font-size: 13px; font-weight: 700; color: var(--ink-dim);
@@ -157,7 +158,7 @@ main { padding: 8px 0 36px; }
   transition: transform .12s ease, border-color .12s ease;
 }
 .chips a:hover, .a-chip:hover { transform: translateY(-2px); border-color: var(--accent); text-decoration: none; }
-.chips a .count, .a-chip .n { color: var(--ink-dim); font-weight: 700; opacity: 0.6; }
+.chips a .count, .a-chip .n { color: var(--ink-dim); font-weight: 700; }
 .chips a .g, .a-chip .g { font-family: var(--glyph); color: var(--ink-dim); font-size: 13px; }
 .chips a .ic, .a-chip .ic { font-size: 15px; }
 
@@ -181,13 +182,31 @@ main { padding: 8px 0 36px; }
 }
 .site-footer a { color: var(--ink-dim); text-decoration: underline; }
 .site-footer a:hover { color: var(--ink); }
-.site-credit { margin-top: 10px; font-size: 11px; opacity: .7; }
+.site-credit { margin-top: 10px; font-size: 11px; }
 
 /* Screen-reader-only (copy live region). */
 .visually-hidden {
   position: absolute; width: 1px; height: 1px;
   padding: 0; margin: -1px; overflow: hidden;
   clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+
+/* Skip link — first tab stop, slides into view only when focused. */
+.skip-link {
+  position: absolute; left: 8px; top: -56px; z-index: 100;
+  background: var(--paper-2); color: var(--ink);
+  border: 1.5px solid var(--gold-line); border-radius: 12px;
+  padding: 10px 16px; font-weight: 800; font-size: 14px;
+  box-shadow: 0 6px 16px var(--sh-16); transition: top .15s ease;
+}
+.skip-link:focus { top: 8px; text-decoration: none; }
+
+/* Consistent keyboard focus ring on interactive chrome (.a-cell handled below). */
+.chips a:focus-visible, .a-chip:focus-visible, .a-tab:focus-visible,
+.chrome-btn:focus-visible, .a-clear:focus-visible, .a-star:focus-visible,
+.site-header nav a:focus-visible, .site-footer a:focus-visible,
+.crumbs a:focus-visible, .skip-link:focus-visible {
+  outline: 2px solid var(--accent-deep); outline-offset: 2px; border-radius: 10px;
 }
 
 /* =============================================================================
@@ -232,7 +251,7 @@ main { padding: 8px 0 36px; }
   display: inline-flex; align-items: center; gap: 6px;
   transition: color .12s ease, background .12s ease, border-color .12s ease, box-shadow .12s ease;
 }
-.a-tab .n { opacity: 0.55; font-weight: 700; }
+.a-tab .n { font-weight: 700; }
 .a-tab:hover { color: var(--ink); }
 .a-tab.is-on { color: #5a3f25; border-color: var(--gold-line); background: #fff4d6; box-shadow: 0 2px 0 var(--sh-10); }
 /* Ghost "clear" for the active book tab (2-step confirm via .is-armed). */
@@ -277,7 +296,7 @@ main { padding: 8px 0 36px; }
   background: var(--paper-2); border: 2px dashed var(--dash); border-radius: 16px;
   padding: 15px 18px 15px 46px; outline: none;
 }
-.a-search::placeholder { color: #bcae99; }
+.a-search::placeholder { color: #7d7060; }
 .a-search:focus { border-color: #e0a45f; border-style: solid; }
 .a-search-ic { position: absolute; left: 17px; top: 50%; transform: translateY(-50%); font-size: 17px; opacity: 0.6; pointer-events: none; }
 
@@ -292,7 +311,7 @@ main { padding: 8px 0 36px; }
 /* Muted intro line that frames the category browse sections under the picker. */
 .browse-intro { margin: 22px 0 0; font-size: 13.5px; font-weight: 700; color: var(--ink-dim); }
 
-.picker-status { padding: 6px 2px; font-size: 12px; font-weight: 700; color: var(--ink-dim); opacity: 0.7; }
+.picker-status { padding: 6px 2px; font-size: 12px; font-weight: 700; color: var(--ink-dim); }
 
 /* ---- Grid: the picker (sticker cells, per-cell tilt set inline) ------------ */
 .a-grid { display: flex; flex-wrap: wrap; gap: 10px; margin: 12px 0 0; align-content: flex-start; min-height: 220px; }
@@ -339,4 +358,10 @@ main { padding: 8px 0 36px; }
   .a-cell, .a-tray-chip, .a-chip, .a-tab, .chips a, .chrome-btn { transform: none !important; }
   .a-hero { transform: none; }
   .a-cell:hover, .a-tray-chip:hover, .a-chip:hover, .a-tab:hover, .chips a:hover, .chrome-btn:hover { transform: none !important; }
+}
+
+/* ---- Touch devices: guarantee >=44px tap targets (Vercel UI guideline) ------
+   Placed last so it overrides the base sizing of every control above. */
+@media (pointer: coarse) {
+  .a-cell, .a-tray-chip, .a-tab, .chips a, .a-chip, .chrome-btn { min-height: 44px; }
 }
