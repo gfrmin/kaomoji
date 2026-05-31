@@ -332,6 +332,11 @@ export default function Picker(props) {
           ref={searchRef}
           type="search"
           class="a-search"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+          spellcheck={false}
+          enterkeyhint="search"
           placeholder="Search happy, shrug, cat, table flip…"
           value={search()}
           onInput={(e) => setSearch(e.currentTarget.value)}

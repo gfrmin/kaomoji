@@ -44,11 +44,12 @@ const { title, description, image, type, jsonld } = Astro.props;
     <ClientRouter />
   </head>
   <body>
+    <a href="#main-content" class="skip-link">Skip to content</a>
     <header class="site-header">
       <a href="/" class="brand" aria-label="Kaomoji home">
         <span>Kaomoji</span><span class="jp">顔文字</span>
       </a>
-      <nav>
+      <nav aria-label="Primary">
         <a href="/kaomoji/happy">Happy</a>
         <a href="/kaomoji/kawaii">Kawaii</a>
         <a href="/kaomoji/emoji">Emoji</a>
@@ -56,7 +57,7 @@ const { title, description, image, type, jsonld } = Astro.props;
       <Chrome client:load />
     </header>
 
-    <main class="wrap">
+    <main id="main-content" class="wrap">
       <slot />
     </main>
 
@@ -65,7 +66,7 @@ const { title, description, image, type, jsonld } = Astro.props;
         Tap to copy · right-click / long-press to ⭐ favourite ·
         <a href="/">all categories</a> · <a href="/tags/">all tags</a> · <a href="/about/">about</a>
       </p>
-      <p style="opacity:.6">Kaomoji 顔文字 — copy &amp; paste Japanese emoticons, text faces, emoji and symbols.</p>
+      <p>Kaomoji 顔文字 — copy &amp; paste Japanese emoticons, text faces, emoji and symbols.</p>
       <p class="site-credit">just another project by <a href="https://gfrm.in" rel="noopener">Guy Freeman</a> © 2026</p>
     </footer>
   </body>
