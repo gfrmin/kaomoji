@@ -23,6 +23,8 @@ const pages: Record<string, Card> = {
   home: { glyph: "＼(＾▽＾)／  (=^･ω･^=)  ʕ•ᴥ•ʔ", name: "Copy & paste Japanese emoticons" },
   tags: { glyph: "✧･ﾟ #tags ･ﾟ✧", name: "All kaomoji tags" },
   about: { glyph: "¯\\_(ツ)_/¯", name: "About Kaomoji" },
+  guide: { glyph: "( ͡° ͜ʖ ͡°)", name: "What is a kaomoji? The complete guide" },
+  privacy: { glyph: "(¬‿¬)", name: "Privacy Policy" },
   "404": { glyph: "(·_·)", name: "Page not found" },
 };
 

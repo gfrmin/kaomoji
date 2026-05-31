@@ -1,0 +1,183 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { SITE } from "../consts.js";
+import { items, categories, pageTags } from "../data/index.js";
+
+const title = "What Is a Kaomoji? The Complete Guide to Japanese Text Faces";
+const description =
+  "Kaomoji explained: what they are, kaomoji vs emoji vs emoticons, how to type and copy them on any device, how they're built, and where they came from.";
+const canonical = new URL("/guide/", SITE).href;
+
+// A few well-known faces to link out to (head-term tag pages), and the full
+// category list for the browse section — real internal-link depth.
+const famous = ["shrug", "lenny-face", "table-flip", "look-of-disapproval", "deal-with-it", "dogeza"]
+  .map((slug) => pageTags.find((t) => t.slug === slug))
+  .filter(Boolean);
+
+// New, page-specific FAQs (deliberately NOT the ones already on category/home
+// pages — this avoids duplicate FAQ content).
+const faqs = [
+  {
+    q: "How do you pronounce “kaomoji”?",
+    a: "Kah-oh-moh-jee. It’s a Japanese word, 顔文字, combining 顔 (kao, “face”) and 文字 (moji, “character”) — literally “face characters”.",
+  },
+  {
+    q: "What’s the difference between kaomoji and emoji?",
+    a: "Emoji are single pictographic characters (😀) defined by the Unicode standard and drawn by your device. Kaomoji are built from ordinary text characters arranged to look like a face — ( ͡° ͜ʖ ͡°) — and are read upright, without tilting your head.",
+  },
+  {
+    q: "Do kaomoji work everywhere?",
+    a: "Almost. Because they’re plain text, kaomoji paste into nearly any app — Discord, Instagram, texts, docs, usernames. A few use rare characters that some older fonts can’t draw and may show a box (□); the common faces work everywhere.",
+  },
+  {
+    q: "Are kaomoji and emoticons the same thing?",
+    a: "They’re cousins. Western emoticons like :) or :-D are read sideways. Kaomoji are the Japanese style, read upright and far more expressive — (＾▽＾), (╯°□°)╯︵ ┻━┻ — without rotating your head.",
+  },
+];
+
+const breadcrumb = {
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Kaomoji", item: new URL("/", SITE).href },
+    { "@type": "ListItem", position: 2, name: "Guide", item: canonical },
+  ],
+};
+
+const article = {
+  "@type": "Article",
+  headline: title,
+  description,
+  url: canonical,
+  about: "Kaomoji (Japanese text emoticons)",
+  isPartOf: { "@type": "WebSite", name: "Kaomoji", url: SITE },
+};
+
+const faqPage = {
+  "@type": "FAQPage",
+  mainEntity: faqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
+
+const jsonld = {
+  "@context": "https://schema.org",
+  "@graph": [article, breadcrumb, faqPage],
+};
+---
+
+<Layout title={title} description={description} jsonld={jsonld}>
+  <p class="crumbs"><a href="/">Kaomoji</a> › Guide</p>
+  <section class="page-head">
+    <h1>What is a kaomoji? ( ͡° ͜ʖ ͡°)</h1>
+    <p class="lede">
+      The complete guide to Japanese text faces — what kaomoji are, how they differ from
+      emoji, how to type and copy them on any device, and where they came from.
+    </p>
+  </section>
+
+  <div class="prose">
+    <h2 class="section-title">What is a kaomoji?</h2>
+    <p>
+      A <strong>kaomoji</strong> (顔文字, literally “face characters”) is a Japanese-style
+      emoticon built from ordinary text — letters, punctuation, brackets and Japanese
+      characters arranged to look like a face. The crucial difference from Western
+      emoticons is that you read them <em>upright</em>: there’s no need to tilt your head
+      like you do for <code>:)</code> or <code>:-D</code>. They run from a simple shrug
+      ¯\_(ツ)_/¯ to wildly expressive faces like ( ͡° ͜ʖ ͡°), ʕ•ᴥ•ʔ and (╯°□°)╯︵ ┻━┻.
+    </p>
+    <p>
+      Because a kaomoji is just text, you can paste it almost anywhere — chat apps, social
+      captions, usernames, bios, code comments — and it carries a tone and personality that
+      a single emoji often can’t.
+    </p>
+
+    <h2 class="section-title">Kaomoji vs emoji vs emoticons</h2>
+    <p>
+      The three are easy to mix up:
+    </p>
+    <ul>
+      <li>
+        <strong>Emoticons</strong> are the original Western text faces, read sideways:
+        <code>:)</code>, <code>;-)</code>, <code>:'(</code>.
+      </li>
+      <li>
+        <strong>Emoji</strong> are single pictographic characters defined by Unicode and
+        drawn by your device — 😀 🎉 🐱. They look different on every platform.
+      </li>
+      <li>
+        <strong>Kaomoji</strong> are the Japanese style: multi-character text faces read
+        upright, like (＾▽＾) or (ノ°益°)ノ. They look the same wherever the characters are
+        supported, because they <em>are</em> the characters.
+      </li>
+    </ul>
+
+    <h2 class="section-title">How to type and copy kaomoji</h2>
+    <p>
+      Building a kaomoji by hand is fiddly — many use combining marks and characters that
+      aren’t on your keyboard. The fast way is to copy a ready-made one: on this site, tap
+      any face and it’s on your clipboard instantly, then paste it wherever you like. If
+      you’d rather type your own:
+    </p>
+    <ul>
+      <li><strong>iPhone / iPad:</strong> add a Japanese (Kana) keyboard, type <code>kao</code> and the suggestion bar offers a long list of kaomoji.</li>
+      <li><strong>Android:</strong> Gboard → the emoji panel has a “ ( •_•) ” / kaomoji tab; or install a Japanese keyboard for the full set.</li>
+      <li><strong>Windows:</strong> press <kbd>Win</kbd> + <kbd>.</kbd> (period) to open the emoji panel, then the kaomoji tab (the “ (• ▽ •;) ” icon).</li>
+      <li><strong>Mac:</strong> <kbd>Ctrl</kbd> + <kbd>Cmd</kbd> + <kbd>Space</kbd> opens Character Viewer; or just copy from here — it’s quicker.</li>
+    </ul>
+    <p>
+      However you get them, your favourites and recents on this site stay saved in your own
+      browser, so the faces you use most are always one tap away.
+    </p>
+
+    <h2 class="section-title">How a kaomoji is built</h2>
+    <p>
+      Most kaomoji share a simple anatomy. The <strong>brackets</strong> ( ) 〔 〕 form the
+      face’s outline; the <strong>eyes</strong> carry most of the emotion — happy curves like
+      ＾ ◕ ≧, teary T_T ;_;, or the cold stare ಠ; the <strong>mouth</strong> sits between them
+      (ω, ▽, ³, 益); and optional <strong>arms or effects</strong> — raised ＼(…)／, reaching
+      out (づ…)づ, or trailing sparkles ✧ — add motion. Swap any one part and the feeling
+      changes.
+    </p>
+
+    <h2 class="section-title">Where kaomoji came from</h2>
+    <p>
+      Kaomoji grew out of Japanese text culture in the late 1980s and exploded on early
+      message boards like 2channel in the 2000s, where the upright, head-on style suited
+      the Japanese writing system better than sideways Western emoticons. From there the
+      most expressive faces — the shrug, the Lenny, the table flip — spread worldwide and
+      became internet staples.
+    </p>
+
+    <h2 class="section-title">Start browsing</h2>
+    <p>Pick a mood and start copying:</p>
+    <nav class="chips" aria-label="Browse categories">
+      {categories.map((c) => (
+        <a href={`/kaomoji/${c.id}/`}><span class="ic">{c.icon}</span>{c.name}</a>
+      ))}
+    </nav>
+    {famous.length > 0 && (
+      <>
+        <p style="margin-top:18px">Or jump to a famous face:</p>
+        <nav class="chips" aria-label="Famous kaomoji">
+          {famous.map((t) => (
+            <a href={`/t/${t.slug}/`}>{t.tag} {t.items[0]?.value}</a>
+          ))}
+        </nav>
+      </>
+    )}
+  </div>
+
+  <section class="faq">
+    <h2 class="section-title">Frequently asked</h2>
+    {faqs.map((f) => (
+      <details>
+        <summary>{f.q}</summary>
+        <p>{f.a}</p>
+      </details>
+    ))}
+  </section>
+
+  <p style="margin-top:18px"><a href="/">← Back to the picker</a> · {items.length}+ kaomoji across {categories.length} categories</p>
+</Layout>
