@@ -310,6 +310,8 @@ main { padding: 8px 0 36px; }
 
 /* Muted intro line that frames the category browse sections under the picker. */
 .browse-intro { margin: 22px 0 0; font-size: 13.5px; font-weight: 700; color: var(--ink-dim); }
+/* Breathing room when the footer "all categories" link jumps here (header isn't sticky). */
+#categories { scroll-margin-top: 16px; }
 
 .picker-status { padding: 6px 2px; font-size: 12px; font-weight: 700; color: var(--ink-dim); }
 
