@@ -31,9 +31,11 @@ node scripts/migrate.mjs   # regenerate src/data/{categories,raw}.js from the le
 - `src/data/` — the single source of truth. `categories.js`/`raw.js` are **auto-generated** by
   `scripts/migrate.mjs`; edit its `META` map (or `overrides.js` for per-glyph keywords), not the
   generated files. `index.js` assembles the flat items + tag index that both the pages and the
-  picker import.
+  picker import. `categoryContent.js`/`tagContent.js` hold the hand-authored per-page SEO copy
+  (unique lead + prose + FAQs) that keeps each page from being a thin clone.
 - `src/pages/` — the SEO surface: `kaomoji/[category].astro` and `t/[tag].astro` prerender one
-  page each over the dataset.
+  page each over the dataset, plus a `/guide` head-term hub, the `/tags` index, and `/about` +
+  `/privacy`.
 - `src/components/Picker.jsx` — the SolidJS picker island (search, the sticker grid, and the
   "your little book" recents/favourites hero on the home page).
 - `public/fonts/` — self-hosted **woff2 subsets** shipped to the browser (Fredoka, Nunito, and a

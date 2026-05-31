@@ -43,6 +43,12 @@ system Chromium (`/usr/bin/chromium`) works against a running `npm run preview`.
   `prepare` script); on a fresh clone run `npm install` once to activate it.
 - `overrides.js` — hand-curated per-glyph keyword tags for famous items (shrug, lenny,
   table-flip, bear, cat…). This is where high-value search terms are added.
+- `categoryContent.js`, `tagContent.js` — hand-authored SEO copy keyed by category id / tag
+  slug (`{ lead, body[], faqs[] }`, accessed via `getCategoryContent` / `getTagContent`). This
+  is the **anti-thin-content payload**: unique prose + FAQs rendered on each category/tag page
+  so it's genuinely distinct, not a templated clone. Not auto-generated — edit freely. Tags
+  without a `tagContent` entry fall back to a plain lede (fine for long tail); deliberately **no
+  generic templated fallback** (that would itself be thin content across pages).
 - `index.js` — assembles everything: flat `items` (each gets `tags` = category keywords +
   overrides), the `tagIndex` (tag → items), and helpers. **This is the module both the Astro
   pages and the Solid island import.**
@@ -52,8 +58,12 @@ system Chromium (`/usr/bin/chromium`) works against a running `npm run preview`.
 `pageTags` in `index.js` decides which tags get their own `/t/<slug>` page. A tag earns a page
 **only if it is curated OR its items span 2+ categories** (`isPageTag`). Single-category keyword
 tags are intentionally skipped because they would be **duplicate-content clones** of their
-category page (every item in a category inherits that category's keywords). Keep this rule when
-adding tags; `relatedTags()` also filters to eligible pages so internal links never 404.
+category page (every item in a category inherits that category's keywords). A `noPageTags` set
+in `index.js` additionally excludes thin near-duplicates — single-glyph tags that just mirror a
+kept head-term (e.g. the `shrug` synonyms `whatever`/`dunno`/`idk`… all render the same
+`¯\_(ツ)_/¯`); these stay searchable in the picker but don't get a thin standalone page. Keep
+both rules when adding tags; `relatedTags()` / `categoryTags()` filter to eligible pages so
+internal links never 404.
 
 ### Pages — the SEO surface (`src/pages/`)
 
@@ -63,6 +73,11 @@ adding tags; `relatedTags()` also filters to eligible pages so internal links ne
   `categories`).
 - `t/[tag].astro` — one prerendered page per eligible tag (`getStaticPaths` over `pageTags`).
   This is the long-tail SEO engine.
+- `tags.astro` — HTML hub listing every tag page. `guide.astro` — a `/guide` head-term hub
+  (what-is / kaomoji-vs-emoji / how-to-type, `Article` + `FAQPage`). `about.astro`, `privacy.astro`
+  — about + privacy policy (`/privacy` doubles as the Google-Play-required policy URL).
+- `og/[...route].ts` — build-time 1200×630 social card per page (`astro-og-canvas`), warm-theme
+  palette. New static pages need an entry in its `pages` map to get a card.
 
 Every page renders its items as **static crawlable HTML via the server-rendered island** (Astro
 SSRs Solid islands at build time, then hydrates), plus real `<a>` internal links to related
@@ -83,8 +98,10 @@ SEO; `SEO.astro` emits title/description/canonical/OG/Twitter + JSON-LD.
 
 ### Styling
 
-Global CSS only (`src/styles/global.css`) with CSS custom properties (dark-purple theme,
-`--accent: #a78bfa`). No CSS framework. The picker uses classes (`.picker-*`), not inline styles.
+Global CSS only (`src/styles/global.css`) with CSS custom properties — the warm **"Paper
+Sticker Book"** theme (cream paper `--bg: #fdf6ea`, warm `--accent: #a85d1c`, brown ink).
+Tokens are **WCAG-AA contrast-tuned — do not lighten them**. No CSS framework. The picker uses
+classes (`.picker-*`), not inline styles.
 
 ### PWA + config
 
@@ -98,6 +115,7 @@ Global CSS only (`src/styles/global.css`) with CSS custom properties (dark-purpl
 
 ## Deferred / roadmap (architected for, not yet built)
 
-Themes, keyboard-first navigation, emoji skin-tone variants + a kaomoji builder, and the big one:
+Emoji skin-tone variants + a kaomoji builder, dynamic (per-request) OG images, and the big one:
 **real per-item tags** to massively expand the `/t/` page surface (currently limited to curated
-+ cross-category tags to avoid thin/duplicate pages). Dynamic OG images.
++ cross-category tags to avoid thin/duplicate pages). *(Shipped already: the warm theme,
+keyboard nav, per-page static OG cards, hand-authored category + tag copy.)*
