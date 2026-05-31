@@ -35,4 +35,11 @@ export const onRequestPost = async ({ request, env }) => {
 };
 
 // Cheap health check; also avoids 405s from crawlers/preflights.
-export const onRequestGet = () => new Response(null, { status: 204 });
+// `/e?health=1` reports only whether the Analytics Engine binding is wired
+// (a boolean — no data), so collection can be verified without read access.
+export const onRequestGet = ({ request, env }) => {
+  if (new URL(request.url).searchParams.get("health") === "1") {
+    return Response.json({ events: !!(env && env.EVENTS) });
+  }
+  return new Response(null, { status: 204 });
+};
