@@ -52,12 +52,33 @@ export const tagIndex = _tagMap;
 
 export const tags = [..._tagMap.values()].sort((a, b) => b.items.length - a.items.length);
 
+// Slugs kept OUT of the page surface even though they'd otherwise qualify:
+// thin single-glyph tags that are near-duplicates of a kept head-term (e.g. the
+// shrug synonyms all render the same ¯\_(ツ)_/¯) or of their own category page.
+// They stay fully searchable in the picker — their keywords still tag the items
+// — we just don't ship a thin standalone page for them. Consolidating these
+// raises average page quality without losing search coverage. The famous, well-
+// mapped head-terms (shrug, dogeza, deal-with-it, look-of-disapproval, thank-you,
+// lenny-face, table-flip) are deliberately NOT here — they keep their page and
+// get hand-authored copy. Re-add a tag here as a real cross-category page only
+// once it spans 2+ categories (grow the dataset first).
+const noPageTags = new Set([
+  // shrug glyph — collapse the synonyms into /t/shrug
+  "whatever", "dunno", "i-dont-know", "meh", "indifferent", "idk",
+  // single-glyph, single-category thin tags (still searchable, just no page)
+  "take-my-love", "sob", "wailing", "side-eye", "suspicious", "dizzy", "stunned",
+  "happy-bear", "bears", "parade", "row", "cheer", "hooray",
+  "suggestive", "eyebrows", "wink", "disapproval", "stare", "disappointed",
+  "peace", "sunglasses",
+]);
+
 // A tag earns its own page only when it's DISTINCT from a category page:
 // either a curated/famous tag, or one whose items span 2+ categories
 // (genuinely cross-cutting). Single-category keyword tags are skipped to avoid
-// duplicate-content clones of their category page.
+// duplicate-content clones of their category page, and thin near-duplicates are
+// excluded via noPageTags above.
 const isPageTag = (t) =>
-  curatedTagSlugs.has(t.slug) || t.categories.size >= 2;
+  !noPageTags.has(t.slug) && (curatedTagSlugs.has(t.slug) || t.categories.size >= 2);
 
 // Eligible tag pages, biggest first. Used by /t/[tag] and the home tag cloud.
 export const pageTags = tags.filter(isPageTag);
