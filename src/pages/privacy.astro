@@ -1,0 +1,86 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { SITE } from "../consts.js";
+
+const title = "Privacy Policy — Kaomoji";
+const description =
+  "Kaomoji's privacy policy: no accounts, no ads, no tracking cookies. Cookieless aggregate analytics only; your favourites and recents never leave your device.";
+const canonical = new URL("/privacy/", SITE).href;
+
+const jsonld = {
+  "@context": "https://schema.org",
+  "@type": "PrivacyPolicy",
+  name: title,
+  url: canonical,
+  isPartOf: { "@type": "WebSite", name: "Kaomoji", url: SITE },
+};
+---
+
+<Layout title={title} description={description} jsonld={jsonld}>
+  <p class="crumbs"><a href="/">Kaomoji</a> › Privacy</p>
+  <section class="page-head">
+    <h1>Privacy Policy</h1>
+    <p class="lede">
+      Kaomoji is built to be private by default. No accounts, no ads, no tracking cookies —
+      and we never see what you copy.
+    </p>
+  </section>
+
+  <div class="prose">
+    <h2 class="section-title">The short version</h2>
+    <p>
+      kaomoji.fyi (and the installable app) is a static website with no backend, no login and
+      no advertising. We collect no personal information, set no tracking cookies, and never
+      sell or share data — because we don’t have any to sell.
+    </p>
+
+    <h2 class="section-title">What we don’t collect</h2>
+    <p>
+      We have no account system, so we never ask for your name, email or any personal detail.
+      We don’t track the kaomoji you copy or the searches you make on our servers — there are
+      no servers receiving that information.
+    </p>
+
+    <h2 class="section-title">Analytics</h2>
+    <p>
+      To understand roughly how many people visit, we use
+      <a href="https://www.cloudflare.com/web-analytics/" rel="noopener">Cloudflare Web Analytics</a>,
+      which is privacy-first and cookieless. It counts aggregate page views without using
+      cookies, fingerprinting your device, or storing any personal data, and it does not
+      follow you across other sites.
+    </p>
+
+    <h2 class="section-title">Data stored on your device</h2>
+    <p>
+      Your favourites and recents are saved in your browser’s local storage so they’re ready
+      next time. This data stays on your device, is never transmitted to us, and you can clear
+      it any time — by using the “Clear” buttons in the picker, or by clearing your browser’s
+      site data. Uninstalling the app removes it too.
+    </p>
+
+    <h2 class="section-title">Permissions</h2>
+    <p>
+      The app uses your clipboard only when you tap a face to copy it. It does not read your
+      clipboard, access your contacts, camera, microphone or location, and works fully offline
+      after the first visit.
+    </p>
+
+    <h2 class="section-title">Children</h2>
+    <p>
+      Kaomoji is suitable for all ages. Since we collect no personal data from anyone, we
+      collect none from children.
+    </p>
+
+    <h2 class="section-title">Changes &amp; contact</h2>
+    <p>
+      If this policy ever changes, the updated version will be posted here. Kaomoji is free and
+      open source under the
+      <a href="https://github.com/gfrmin/kaomoji/blob/master/LICENSE" rel="noopener">GNU AGPL-3.0</a>;
+      questions can be raised on
+      <a href="https://github.com/gfrmin/kaomoji" rel="noopener">GitHub</a>.
+    </p>
+    <p style="color:var(--ink-dim);font-size:.9em">Last updated: 31 May 2026.</p>
+
+    <p style="margin-top:18px"><a href="/about/">About Kaomoji</a> · <a href="/">← Back to the picker</a></p>
+  </div>
+</Layout>
