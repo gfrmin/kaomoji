@@ -50,19 +50,23 @@ export const { getStaticPaths, GET } = await OGImageRoute({
   getImageOptions: (_path, page: Card) => ({
     title: page.glyph,
     description: `${page.name}  ·  kaomoji.fyi`,
-    bgGradient: [[20, 13, 48], [13, 11, 26]],
-    border: { color: [167, 139, 250], width: 16, side: "inline-start" },
+    // Warm "Paper Sticker Book" palette — matches the live cream site (the
+    // cards were previously dark purple, off-brand). bg = cream paper (#fdf6ea
+    // ish), border = warm accent (#a85d1c), title ink = brown (~10:1 on cream),
+    // description = muted ink (#736655, the AA-tuned dim token).
+    bgGradient: [[255, 248, 236], [249, 238, 221]],
+    border: { color: [168, 93, 28], width: 16, side: "inline-start" },
     padding: 80,
     font: {
       title: {
-        color: [233, 230, 255],
+        color: [74, 64, 54],
         size: 80,
         lineHeight: 1.35,
         weight: "normal",
         families: ["Noto Sans", "Noto Sans JP", "Noto Sans Symbols 2", "Noto Sans Kannada", "Noto Sans Arabic", "Noto Sans Math"],
       },
       description: {
-        color: [196, 181, 253],
+        color: [115, 102, 85],
         size: 38,
         weight: "normal",
         families: ["Noto Sans", "Noto Sans JP", "Noto Sans Symbols 2", "Noto Sans Kannada", "Noto Sans Arabic", "Noto Sans Math"],
