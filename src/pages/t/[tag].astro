@@ -3,6 +3,7 @@ import Layout from "../../layouts/Layout.astro";
 import Picker from "../../components/Picker.jsx";
 import { SITE } from "../../consts.js";
 import { pageTags, relatedTags, getCategory } from "../../data/index.js";
+import { getTagContent } from "../../data/tagContent.js";
 
 export function getStaticPaths() {
   // One page per DISTINCT tag (curated, or cross-category — see data/index.js).
@@ -16,9 +17,20 @@ const related = relatedTags(tag.slug, 16);
 // Which categories these tagged faces live in — the tag→browse cross-link.
 const inCategories = [...tag.categories].map((id) => getCategory(id)).filter(Boolean);
 
+// Hand-authored copy for high-value tags (anti-thin-content); long-tail tags
+// without an entry fall back to the default lede + glyph-listing description.
+const content = getTagContent(tag.slug);
+const body = content?.body ?? [];
+const faqs = content?.faqs ?? [];
+
 const label = tag.tag.charAt(0).toUpperCase() + tag.tag.slice(1);
 const title = `${label} Kaomoji & Emoji ${tagItems[0]?.value ?? ""} — Copy & Paste (${tagItems.length})`;
-const description = `Copy & paste ${tagItems.length} “${tag.tag}” kaomoji, text faces and emoji. One tap to copy. ${tagItems.slice(0, 6).map((i) => i.value).join("  ")}`;
+const lede =
+  content?.lead ??
+  `${tagItems.length} kaomoji, text faces and emoji tagged “${tag.tag}”. Tap to copy, right-click or long-press to ⭐ favourite.`;
+const description =
+  content?.lead ??
+  `Copy & paste ${tagItems.length} “${tag.tag}” kaomoji, text faces and emoji. One tap to copy. ${tagItems.slice(0, 6).map((i) => i.value).join("  ")}`;
 
 const canonical = new URL(`/t/${tag.slug}/`, SITE).href;
 
@@ -47,6 +59,18 @@ const jsonld = {
         { "@type": "ListItem", position: 3, name: tag.tag, item: canonical },
       ],
     },
+    ...(faqs.length > 0
+      ? [
+          {
+            "@type": "FAQPage",
+            mainEntity: faqs.map((f) => ({
+              "@type": "Question",
+              name: f.q,
+              acceptedAnswer: { "@type": "Answer", text: f.a },
+            })),
+          },
+        ]
+      : []),
   ],
 };
 ---
@@ -55,13 +79,29 @@ const jsonld = {
   <p class="crumbs"><a href="/">Kaomoji</a> › <a href="/tags/">tags</a> › {tag.tag}</p>
   <section class="page-head">
     <h1>{label} Kaomoji {tagItems[0]?.value ?? ""}</h1>
-    <p class="lede">
-      {tagItems.length} kaomoji, text faces and emoji tagged “{tag.tag}”. Tap to copy,
-      right-click or long-press to ⭐ favourite.
-    </p>
+    <p class="lede">{lede}</p>
   </section>
 
   <Picker client:load initial={initial} />
+
+  {body.length > 0 && (
+    <section class="prose">
+      <h2 class="section-title">About {label} kaomoji</h2>
+      {body.map((p) => <p>{p}</p>)}
+    </section>
+  )}
+
+  {faqs.length > 0 && (
+    <section class="faq">
+      <h2 class="section-title">Frequently asked</h2>
+      {faqs.map((f) => (
+        <details>
+          <summary>{f.q}</summary>
+          <p>{f.a}</p>
+        </details>
+      ))}
+    </section>
+  )}
 
   {related.length > 0 && (
     <>
