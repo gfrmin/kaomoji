@@ -53,6 +53,17 @@ export const tagContent = {
       { q: "What does ಠ_ಠ mean?", a: "ಠ_ಠ is the “look of disapproval” — a deadpan, unimpressed stare. It signals mild judgement or scepticism without anger: you’ve seen what someone did, and you do not approve." },
     ],
   },
+  stare: {
+    lead: "The best kaomoji stare faces — from the deadpan ಠ_ಠ to wide-eyed (ʘ_ʘ) — copy & paste in one tap.",
+    body: [
+      "A kaomoji stare lands differently from a smile or a frown: no emotion, just eyes. That flat, unblinking look reads as judgement, suspicion, boredom, or plain “I’m watching you” depending on the context — which is exactly why it works so well in text.",
+      "The range here goes from the legendary ಠ_ಠ (Kannada letters as cold, lidded eyes) to the owl-wide (ʘ_ʘ), the Korean 눈_눈, and the dead-eyed (-_-). At the heated end there's (╬ಠ益ಠ) — same staring eyes, maximum rage.",
+    ],
+    faqs: [
+      { q: "What kaomoji means staring?", a: "ಠ_ಠ is the classic stare — flat, unimpressed, unflinching. For a wide-eyed stare try (ʘ_ʘ); for the Korean side-eye version use 눈_눈 or (눈‸눈). All of them copy in one tap." },
+      { q: "What's the difference between ಠ_ಠ and (°_°)?", a: "ಠ_ಠ is a knowing, lidded stare — calm disappointment. (°_°) is the same blank look but with rounder, wider eyes, so it reads more like a startled or confused stare than a judgemental one." },
+    ],
+  },
   dogeza: {
     lead: "_(._.)_ — copy & paste the dogeza, the full kneeling bow of a serious apology.",
     body: [

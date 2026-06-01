@@ -10,6 +10,7 @@ const buildDate = new Date().toISOString();
 export default defineConfig({
   site: SITE,
   output: "static",
+  trailingSlash: "always",
   prefetch: {
     // Prefetch on hover/focus intent rather than eagerly for every in-viewport
     // link (the home page has ~60), so we don't burn bandwidth on slow links.

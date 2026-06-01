@@ -68,7 +68,7 @@ const noPageTags = new Set([
   // single-glyph, single-category thin tags (still searchable, just no page)
   "take-my-love", "sob", "wailing", "side-eye", "suspicious", "dizzy", "stunned",
   "happy-bear", "bears", "parade", "row", "cheer", "hooray",
-  "suggestive", "eyebrows", "wink", "disapproval", "stare", "disappointed",
+  "suggestive", "eyebrows", "wink", "disapproval", "disappointed",
   "peace", "sunglasses",
 ]);
 
