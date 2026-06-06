@@ -123,6 +123,17 @@ a:hover { text-decoration: underline; }
 .chrome-btn:hover { border-color: var(--accent); color: var(--ink); transform: translateY(-2px); }
 .chrome-install { border-color: var(--gold-line); color: var(--gold-ink); background: #fff4d6; }
 
+/* Download/install call-to-action button (reuses the gold "install" palette so
+   it reads as the same affordance as the header Install button). No transform,
+   so it needs no prefers-reduced-motion handling. */
+.dl-button {
+  display: inline-block; padding: 12px 20px; min-height: 44px; box-sizing: border-box;
+  border: 1.5px solid var(--gold-line); border-radius: 12px;
+  background: #fff4d6; color: var(--gold-ink); font-weight: 700; font-size: 1.05em;
+}
+.dl-button:hover { border-color: var(--accent); color: var(--ink); text-decoration: none; }
+.dl-button:focus-visible { outline: 2px solid var(--accent-deep); outline-offset: 2px; }
+
 /* ---- Content pages -------------------------------------------------------- */
 main { padding: 8px 0 36px; }
 .page-head { margin: 14px 0 6px; }

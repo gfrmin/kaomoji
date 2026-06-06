@@ -1,0 +1,78 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { SITE } from "../consts.js";
+
+const title = "Get the Kaomoji App — Install Free, Offline & Private";
+const description =
+  "Install the kaomoji picker as an app: add it to your home screen from any browser, or download the Android APK directly. Free, offline, no tracking. Google Play coming soon.";
+const canonical = new URL("/download/", SITE).href;
+const REPO = "https://github.com/gfrmin/kaomoji";
+
+const jsonld = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: title,
+  url: canonical,
+  isPartOf: { "@type": "WebSite", name: "Kaomoji", url: SITE },
+};
+---
+
+<Layout title={title} description={description} jsonld={jsonld}>
+  <p class="crumbs"><a href="/">Kaomoji</a> › Get the app</p>
+  <section class="page-head">
+    <h1>Get the Kaomoji app</h1>
+    <p class="lede">
+      Kaomoji installs as a real app — it launches full-screen, works fully
+      offline, and keeps no account, ads or tracking cookies. Pick whichever way
+      suits you.
+    </p>
+  </section>
+
+  <div class="prose">
+    <h2 class="section-title">Install from your browser <span style="font-weight:normal">(works on any device)</span></h2>
+    <p>
+      The picker is a Progressive Web App, so any modern browser can install it —
+      no app store needed, and you get updates automatically.
+    </p>
+    <ul>
+      <li>
+        <strong>Android &amp; desktop</strong> (Chrome, Edge, Brave): tap the
+        <strong>Install</strong> button in the header above (or in the address
+        bar), or open your browser menu and choose <em>Install app</em> /
+        <em>Add to Home Screen</em>.
+      </li>
+      <li>
+        <strong>iPhone &amp; iPad</strong> (Safari): tap the <em>Share</em> button,
+        then <em>Add to Home Screen</em>.
+      </li>
+    </ul>
+    <p>Once installed it opens like any other app and runs without a connection.</p>
+
+    <h2 class="section-title">Android — direct download (APK)</h2>
+    <p>
+      Don’t use the Google Play Store? You can install the Android app directly.
+      It’s the same open-source app, packaged as a
+      <a href="https://developer.chrome.com/docs/android/trusted-web-activity/" rel="noopener">Trusted Web Activity</a>,
+      and every release ships with a <strong>SHA-256 checksum</strong> so you can
+      verify what you download.
+    </p>
+    <p>
+      <a class="dl-button" href={`${REPO}/releases/latest`} rel="noopener">⤓ Download the APK from GitHub Releases</a>
+    </p>
+    <p style="font-size:.92em">
+      Requires Android 5.0+ and a Chromium-based browser (Chrome, Brave, …)
+      installed, which the app uses as its engine. <strong>Google Play listing
+      coming soon.</strong>
+    </p>
+
+    <h2 class="section-title">Open source</h2>
+    <p>
+      Kaomoji is free and open source under the
+      <a href={`${REPO}/blob/master/LICENSE`} rel="noopener">GNU AGPL-3.0</a> —
+      browse the code or build it yourself on
+      <a href={REPO} rel="noopener">GitHub</a>.
+    </p>
+
+    <p style="margin-top:18px"><a href="/">← Back to the picker</a></p>
+  </div>
+</Layout>
