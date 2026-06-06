@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "in.gfrm.kaomoji",
+      "sha256_cert_fingerprints": [
+        "B0:67:2B:36:50:9E:F4:5C:58:54:22:31:EA:0A:38:D8:A1:8E:7F:1B:B1:C6:C2:F6:D9:A0:D6:AB:A5:F3:47:F5"
+      ]
+    }
+  }
+]
