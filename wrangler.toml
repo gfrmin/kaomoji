@@ -4,3 +4,11 @@
 name = "kaomoji"
 compatibility_date = "2026-05-29"
 pages_build_output_dir = "dist"
+
+# Aggregate-only usage beacon sink (functions/e.js). Cloudflare Pages reads
+# bindings from THIS file, not the dashboard project settings. Analytics Engine
+# must be enabled on the account first (one-time dashboard step) or the deploy
+# fails. See functions/README.md.
+[[analytics_engine_datasets]]
+binding = "EVENTS"
+dataset = "kaomoji_events"
