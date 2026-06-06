@@ -38,12 +38,11 @@ Assets and a checklist for submitting the PWA to Google Play as a **Trusted Web 
 
 > The long pole is **step 5** (account + verification + closed test = 2–4 weeks). Start it first; everything else is quick once it clears.
 
-## Signing key (already generated — BACK IT UP)
-The upload keystore was generated and lives at **`~/git/kaomoji-twa/android.keystore`** (alias `android`, PKCS12, RSA-2048, 25-yr validity). Passwords are in **gnome-keyring**: `secret-tool lookup service env key KAOMOJI_TWA_KEYSTORE_PASSWORD` (the PKCS12 key password equals the store password — same value under `KAOMOJI_TWA_KEY_PASSWORD`).
+## Signing key
+The upload keystore (alias `android`, PKCS12, RSA-2048, 25-yr validity) is held **privately by the maintainer** and backed up offsite — it is **not** in this repo, and its passwords are **not** in this repo. Never commit a keystore or its passwords to this public repository.
 
-- **Upload-key SHA-256 (FP_UPLOAD):** `B0:67:2B:36:50:9E:F4:5C:58:54:22:31:EA:0A:38:D8:A1:8E:7F:1B:B1:C6:C2:F6:D9:A0:D6:AB:A5:F3:47:F5`
-- ⚠️ **Back the keystore file + both passwords up offsite now.** With Play App Signing a lost upload key can be reset via Play support, but don't rely on that — copy `android.keystore` somewhere safe.
-- This `FP_UPLOAD` is already in `public/.well-known/assetlinks.json` (live). After the first AAB upload, **append Play's app-signing SHA-256 (`FP_PLAY`)** — Play re-signs every distributed build (incl. closed-testing) with its own key, so `FP_PLAY` is what verifies the *installed* app. Ping Claude with `FP_PLAY` and it'll add it.
+- **Upload-key SHA-256 (FP_UPLOAD):** `B0:67:2B:36:50:9E:F4:5C:58:54:22:31:EA:0A:38:D8:A1:8E:7F:1B:B1:C6:C2:F6:D9:A0:D6:AB:A5:F3:47:F5` (public — it's the fingerprint served in `assetlinks.json`).
+- This `FP_UPLOAD` is already in `public/.well-known/assetlinks.json` (live). After the first AAB upload, **append Play's app-signing SHA-256 (`FP_PLAY`)** — Play re-signs every distributed build (incl. closed-testing) with its own key, so `FP_PLAY` is what verifies the *installed* (Play) app.
 
 ## Data safety declaration (fill the Play form to match this)
 The app is a TWA wrapping kaomoji.fyi, which sends a cookieless aggregate beacon (`functions/e.js` → Analytics Engine): the **kaomoji you copy** and the **terms you search**. There is **no IP, cookie, session, account, or device ID** stored, so nothing is linkable to a person.
