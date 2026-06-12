@@ -118,13 +118,23 @@ const splitFace = (inner) => {
   return slots;
 };
 
-// Merge inside-arms peeled from the face with any outer arms, preserving sides.
-const mergeArm = (outer, inside) => (inside || "") && (outer || "") ? inside + outer : (outer || inside || "");
+// Merge an inside-arm (peeled from the face) with an outer arm, in left-to-right
+// reading order: on the left the outer arm precedes the bracket then the inside
+// arm (outer+inside); on the right the inside arm precedes the bracket then the
+// outer arm (inside+outer).
+const joinArm = (outer, inside, side) =>
+  side === "left" ? (outer || "") + (inside || "") : (inside || "") + (outer || "");
+
+// Keep only non-empty slots, in canonical SLOT_ORDER.
+const orderSlots = (slots) => {
+  const ordered = {};
+  for (const k of SLOT_ORDER) if (slots[k]) ordered[k] = slots[k];
+  return ordered;
+};
 
 const parse = (glyph) => {
   if (partsFixups[glyph]) {
-    const slots = Object.fromEntries(Object.entries(partsFixups[glyph]).filter(([, v]) => v !== ""));
-    return { slots, parsed: true };
+    return { slots: orderSlots(partsFixups[glyph]), parsed: true };
   }
   const chars = graphemes(glyph);
   const b = findBrackets(chars);
@@ -136,9 +146,7 @@ const parse = (glyph) => {
     if (!hasMouth) return { slots: {}, parsed: false };
     const face = splitFace(glyph);
     if (!face.mouth || (!face.eyeL && !face.eyeR)) return { slots: {}, parsed: false };
-    const ordered = {};
-    for (const k of SLOT_ORDER) if (face[k]) ordered[k] = face[k];
-    return { slots: ordered, parsed: true };
+    return { slots: orderSlots(face), parsed: true };
   }
 
   const left = chars.slice(0, b.openIdx).join("");
@@ -151,7 +159,7 @@ const parse = (glyph) => {
 
   const slots = {
     decorL: outerL.decor,
-    armL: mergeArm(outerL.arm, face.armL),
+    armL: joinArm(outerL.arm, face.armL, "left"),
     bracketL: chars[b.openIdx],
     cheekL: face.cheekL,
     eyeL: face.eyeL,
@@ -159,13 +167,10 @@ const parse = (glyph) => {
     eyeR: face.eyeR,
     cheekR: face.cheekR,
     bracketR: chars[b.closeIdx],
-    armR: mergeArm(outerR.arm, face.armR),
+    armR: joinArm(outerR.arm, face.armR, "right"),
     decorR: outerR.decor,
   };
-  // Drop empty slots; keep insertion order via SLOT_ORDER.
-  const ordered = {};
-  for (const k of SLOT_ORDER) if (slots[k]) ordered[k] = slots[k];
-  return { slots: ordered, parsed: true };
+  return { slots: orderSlots(slots), parsed: true };
 };
 
 // --- Run over the kaomoji-type categories only. ------------------------------

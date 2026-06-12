@@ -2,11 +2,11 @@
 // Mirrors the role of overrides.js for tags: a deterministic parser does the bulk,
 // and this file seeds its dictionaries + corrects the glyphs it gets wrong.
 //
-// Two exports:
-//   partsDictionary — recognizable glyph classes the parser keys off. Eyes are an
-//     OPEN class (anything flanking the mouth), so there is intentionally no eye set;
-//     the mouth/arm/bracket/cheek/decoration sets are what the parser actually needs.
-//   partsFixups     — exact-glyph slot corrections, keyed by the raw glyph string.
+// Exports:
+//   brackets, mouths, arms, cheeks, decorations — recognizable glyph classes the
+//     parser keys off. Eyes are an OPEN class (anything flanking the mouth), so
+//     there is intentionally no eye set; these other sets are what it needs.
+//   partsFixups — exact-glyph slot corrections, keyed by the raw glyph string.
 
 // --- Bracket pairs (face boundary). Order matters only for display. ----------
 export const brackets = {
@@ -19,9 +19,9 @@ export const brackets = {
 export const mouths = [
   "‿‿", "╭╮", "﹏", "ᴥ", "Д", "益", "ω", "ヮ", "∀", "▽", "▿", "◡", "‿", "ε",
   "³", "人", "ヘ", "дﾞ", "д", "⌒", "‸", "ㅅ", "_", "～", "~", "ｰ", "ー", "◇",
-  "ᵕ", "□", "ロ", "о", "o", "O", "０", "0", "₃", "³", "▾", "▔", "ｪ", "ヮ",
-  "ヮ", "౪", "ω", "ꞈ", "ل", "ʖ", "ᗢ", "ᴗ", "ᵔ", "ᵒ", " Θ", "θ", "ν", "ᗝ",
-  "ﻌ", "⩊", "㉨", "ᆺ", "ᗜ", "⌣", "‸", "ェ", "ᗴ",
+  "ᵕ", "□", "ロ", "о", "o", "O", "０", "0", "₃", "▾", "▔", "ｪ",
+  "౪", "ꞈ", "ل", "ʖ", "ᗢ", "ᴗ", "ᵔ", "ᵒ", "Θ", "θ", "ν", "ᗝ",
+  "ﻌ", "⩊", "㉨", "ᆺ", "ᗜ", "⌣", "ェ", "ᗴ",
 ];
 
 // --- Arms (gestures outside, or just inside, the brackets). -------------------

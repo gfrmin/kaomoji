@@ -96,8 +96,8 @@ export const decomposition = {
   },
   "(づ｡◕‿‿◕｡)づ": {
     "slots": {
-      "bracketL": "(",
       "armL": "づ",
+      "bracketL": "(",
       "cheekL": "｡",
       "eyeL": "◕",
       "mouth": "‿‿",
@@ -273,7 +273,7 @@ export const decomposition = {
   },
   "Σ(ﾉ´∀`)ﾉ": {
     "slots": {
-      "armL": "ﾉΣ",
+      "armL": "Σﾉ",
       "bracketL": "(",
       "eyeL": "´",
       "mouth": "∀",
@@ -656,8 +656,8 @@ export const decomposition = {
   },
   "(ノಠ益ಠ)ノ彡┻━┻": {
     "slots": {
-      "bracketL": "(",
       "armL": "ノ",
+      "bracketL": "(",
       "eyeL": "ಠ",
       "mouth": "益",
       "eyeR": "ಠ",
@@ -2838,7 +2838,7 @@ export const decomposition = {
   "★彡 (ﾉ◕ヮ◕)ﾉ 彡★": {
     "slots": {
       "decorL": "★",
-      "armL": "ﾉ彡",
+      "armL": "彡ﾉ",
       "bracketL": "(",
       "eyeL": "◕",
       "mouth": "ヮ",
@@ -3209,7 +3209,7 @@ export const decomposition = {
   "彡★ (ﾉ>ω<)ﾉ ★彡": {
     "slots": {
       "decorL": "★",
-      "armL": "ﾉ彡",
+      "armL": "彡ﾉ",
       "bracketL": "(",
       "eyeL": ">",
       "mouth": "ω",
@@ -5045,7 +5045,7 @@ export const decomposition = {
   "ε=ε=ε=(ﾉ≧∀≦)ﾉ": {
     "slots": {
       "decorL": "ε=ε=ε",
-      "armL": "ﾉ=",
+      "armL": "=ﾉ",
       "bracketL": "(",
       "eyeL": "≧",
       "mouth": "∀",
@@ -8465,10 +8465,6 @@ export const partsInventory = {
       "count": 4
     },
     {
-      "glyph": "ﾉ彡",
-      "count": 4
-    },
-    {
       "glyph": "⸜",
       "count": 4
     },
@@ -8565,6 +8561,14 @@ export const partsInventory = {
       "count": 2
     },
     {
+      "glyph": "彡ﾉ",
+      "count": 2
+    },
+    {
+      "glyph": "ﾉ彡",
+      "count": 2
+    },
+    {
       "glyph": "࿔",
       "count": 2
     },
@@ -8597,7 +8601,7 @@ export const partsInventory = {
       "count": 2
     },
     {
-      "glyph": "ﾉΣ",
+      "glyph": "Σﾉ",
       "count": 1
     },
     {
@@ -8769,7 +8773,7 @@ export const partsInventory = {
       "count": 1
     },
     {
-      "glyph": "ﾉ=",
+      "glyph": "=ﾉ",
       "count": 1
     }
   ],
@@ -10870,10 +10874,10 @@ export const partsPairs = {
       "identical": false
     },
     {
-      "left": "ﾉ彡",
+      "left": "彡ﾉ",
       "right": "ﾉ彡",
       "count": 2,
-      "identical": true
+      "identical": false
     },
     {
       "left": "٩",
@@ -10912,7 +10916,7 @@ export const partsPairs = {
       "identical": false
     },
     {
-      "left": "ﾉΣ",
+      "left": "Σﾉ",
       "right": "ﾉ",
       "count": 1,
       "identical": false
@@ -11140,7 +11144,7 @@ export const partsPairs = {
       "identical": true
     },
     {
-      "left": "ﾉ=",
+      "left": "=ﾉ",
       "right": "ﾉ",
       "count": 1,
       "identical": false
