@@ -14,6 +14,7 @@
     "preview": "astro preview",
     "astro": "astro",
     "migrate": "node scripts/migrate.mjs",
+    "decompose": "node scripts/decompose.mjs",
     "prepare": "git config core.hooksPath .githooks || true"
   },
   "dependencies": {

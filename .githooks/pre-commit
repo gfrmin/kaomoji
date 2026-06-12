@@ -10,3 +10,11 @@ node scripts/migrate.mjs || {
 # Re-stage the generated data so the commit always matches the source. A no-op
 # when nothing changed; corrects the commit when source/dedup changed it.
 git add src/data/categories.js src/data/raw.js
+
+# Decompose the kaomoji into the slot-based parts taxonomy (src/data/parts.js)
+# from the same source (raw.js) + curated fixups, so the taxonomy can't drift.
+node scripts/decompose.mjs >/dev/null || {
+  echo "pre-commit: scripts/decompose.mjs failed — parts taxonomy not regenerated." >&2
+  exit 1
+}
+git add src/data/parts.js
