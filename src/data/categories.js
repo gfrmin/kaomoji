@@ -123,10 +123,6 @@ export const categories = [
     "keywords": [
       "animal",
       "animals",
-      "cat",
-      "bear",
-      "dog",
-      "bunny",
       "cute"
     ]
   },
