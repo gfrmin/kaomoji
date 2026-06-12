@@ -5,7 +5,7 @@
 // a trailing "More" group by the helper, so the dataset can grow without silently dropping.
 
 export const CATEGORY_GROUPS = [
-  { id: "moods", label: "Moods", ids: ["happy", "sad", "angry", "surprised", "love", "tired", "cool", "scared", "embarrassed", "kawaii"] },
+  { id: "moods", label: "Moods", ids: ["happy", "sad", "angry", "surprised", "love", "tired", "cool", "scared", "embarrassed", "kawaii", "disappointed", "uwu", "coquette"] },
   { id: "things", label: "Things & actions", ids: ["greetings", "thinking", "animals", "actions", "magic", "music", "fighting", "please", "celebrate"] },
   { id: "symbols", label: "Symbols & emoji", ids: ["decorated", "dividers", "emoji", "symbols"] },
 ];

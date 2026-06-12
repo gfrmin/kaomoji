@@ -326,5 +326,52 @@ export const categories = [
       "text symbols",
       "decoration"
     ]
+  },
+  {
+    "id": "disappointed",
+    "name": "Disappointed",
+    "icon": "😞",
+    "type": "kaomoji",
+    "keywords": [
+      "disappointed",
+      "letdown",
+      "let down",
+      "disappointment",
+      "unimpressed",
+      "sigh",
+      "bummed",
+      "deflated"
+    ]
+  },
+  {
+    "id": "uwu",
+    "name": "UwU",
+    "icon": "🥺",
+    "type": "kaomoji",
+    "keywords": [
+      "uwu",
+      "owo",
+      "cute",
+      "soft",
+      "wholesome",
+      "blush",
+      "shy"
+    ]
+  },
+  {
+    "id": "coquette",
+    "name": "Coquette",
+    "icon": "🎀",
+    "type": "kaomoji",
+    "keywords": [
+      "coquette",
+      "bow",
+      "ribbon",
+      "dainty",
+      "soft",
+      "girly",
+      "aesthetic",
+      "cute"
+    ]
   }
 ];
