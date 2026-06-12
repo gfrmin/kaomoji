@@ -994,6 +994,84 @@ export const tagContent = {
     ],
   },
 
+  staring: {
+    lead: "Wide, unblinking staring kaomoji — from the friendly ◉‿◉ to the dead-eyed (≖_≖ ) — copy & paste in one tap.",
+    body: [
+      "A staring kaomoji keeps its eyes locked right on you. Unlike a quick glance, the stare holds — round ◉‿◉ eyes read as innocent curiosity, while the half-lidded (≖_≖ ) or the owlish (⊙＿⊙') tip over into suspicion or quiet judgement.",
+      "Use one to say “I’m watching you”, to react to something baffling, or just to hold an awkward beat in a chat. Tap to copy; long-press to keep your favourites.",
+    ],
+    faqs: [
+      { q: "What's a good staring kaomoji?", a: "◉‿◉ is the classic wide-eyed stare; (≖_≖ ) is the half-lidded, unimpressed version; (՞◔ ㉦ ◔՞) is a more intense, fixed gaze. All copy in one tap." },
+      { q: "What's the difference between staring and a stare kaomoji?", a: "They're the same idea — both show eyes fixed on something. “Staring” faces tend to read as more active and ongoing, like the look is happening right now." },
+    ],
+  },
+  smirk: {
+    lead: "Sly, knowing smirk kaomoji — the half-smile of (¬‿¬) and (˵ ¬ᴗ¬˵) — copy & paste in one tap.",
+    body: [
+      "A smirk kaomoji is all in the slanted eyes and the little curl of the mouth: (¬‿¬) and ( ¬ᴗ¬) carry that “I know something you don’t” energy, while ( ͡º ꒳ ͡º) adds a smug, self-satisfied tilt.",
+      "Drop one when you’re feeling clever, teasing a friend, or landing a quiet flex. It’s the cheekier cousin of the full smug face. Tap to copy; long-press to favourite.",
+    ],
+    faqs: [
+      { q: "What kaomoji is a smirk?", a: "(¬‿¬) is the classic smirk — angled eyes and a sly upward mouth. For a softer one try ( ¬ᴗ¬); for a smugger version use ( ͡º ꒳ ͡º). Tap any to copy." },
+      { q: "What's the difference between a smirk and a smug kaomoji?", a: "They overlap a lot. A smirk is the sly half-smile itself (¬‿¬); “smug” covers the same look plus the wider self-satisfied, gloating expressions." },
+    ],
+  },
+  bunny: {
+    lead: "Hoppy bunny kaomoji with ears up ／(≧ x ≦)＼ and twitchy x noses — copy & paste cute rabbit faces in one tap.",
+    body: [
+      "Bunny kaomoji are easy to spot: the ／ ＼ are long ears framing the face, and the little x or × is a twitchy rabbit nose, as in ／(≧ x ≦)＼ and ／(˃ᆺ˂)＼. The tiny (•ㅅ•) is a rounder, button-nosed bun.",
+      "Use them for anything soft, shy or springtime — Easter, a cute reaction, or just decorating a bio. Tap to copy; long-press to keep your favourites.",
+    ],
+    faqs: [
+      { q: "What's a bunny kaomoji?", a: "A bunny kaomoji is a rabbit face built from text — the ／ ＼ are ears and the x is a twitchy nose, like ／(≧ x ≦)＼. The small (•ㅅ•) works as a rounder bunny too." },
+      { q: "How do I make a rabbit kaomoji?", a: "The simplest way is to copy one above. The pattern is ears ／ ＼ around a face with an x nose — ／(^ x ^)＼ — but tapping to copy is instant and paste-ready anywhere." },
+    ],
+  },
+  dog: {
+    lead: "Floppy-eared dog kaomoji like ∪＾ェ＾∪ and υ´• ﻌ •`υ — copy & paste cute puppy faces in one tap.",
+    body: [
+      "Dog kaomoji use ∪ or U for droopy ears and an ェ or ﻌ for a little snout, as in ∪＾ェ＾∪ and （U・ω・U）. They read as loyal, happy and a bit derpy — exactly like the real thing.",
+      "Reach for one to send puppy love, react to something adorable, or sign off a message with a wag. Tap to copy; long-press to favourite.",
+    ],
+    faqs: [
+      { q: "What's a dog kaomoji?", a: "A dog kaomoji is a puppy face made from text — ∪ or U for floppy ears around a snout like ェ or ﻌ, for example ∪＾ェ＾∪ or υ´• ﻌ •`υ. Tap any to copy." },
+      { q: "Is there a puppy kaomoji?", a: "Yes — the same faces work as puppies. The droopy-eared ∪＾ェ＾∪ and the round ૮ ･ ﻌ･ა read as the cutest, most puppy-ish of the set." },
+    ],
+  },
+  nervous: {
+    lead: "Sweaty, anxious nervous kaomoji — from a worried (´-﹏-`) to a tense (((＞＜))) — copy & paste in one tap.",
+    body: [
+      "Nervous kaomoji capture that jittery, on-edge feeling: a strained (´-﹏-`), a hiding (／。＼), or the bracing (((＞＜))). A trailing ; or sweat-drop turns an ordinary face anxious.",
+      "Use one before something scary, when you’ve made an awkward mistake, or to soften bad news with a wince. Tap to copy; long-press to keep your favourites.",
+    ],
+    faqs: [
+      { q: "What kaomoji shows being nervous?", a: "(´-﹏-`) is a classic worried, nervous face; (((＞＜))) is the tense, bracing kind; a trailing ; or sweat-drop (like (°□°;)) makes almost any face read as nervous." },
+      { q: "What's the difference between nervous and scared kaomoji?", a: "Scared faces show sharper fright or shock; nervous ones are more low-key — anxious, fidgety, bracing for something rather than reacting to it." },
+    ],
+  },
+  proud: {
+    lead: "Chest-puffed, beaming proud kaomoji like (ᴗ͈`ヮ´ᴗ͈) and ( ùᗜú) — copy & paste in one tap.",
+    body: [
+      "Proud kaomoji stand a little taller: a satisfied (ᴗ͈`ヮ´ᴗ͈), a triumphant ٩(^ᗜ^ )و, or the starry ヽ(>∀<☆)ノ. The raised arms and bright eyes say “I did that”.",
+      "Use one to celebrate a win — yours or a friend’s — or to show you’re pleased with how something turned out. Tap to copy; long-press to favourite.",
+    ],
+    faqs: [
+      { q: "What's a proud kaomoji?", a: "A proud kaomoji shows quiet confidence or triumph — a puffed-up (ᴗ͈`ヮ´ᴗ͈) or a victorious ٩(^ᗜ^ )و, often with raised arms. Tap any to copy." },
+      { q: "When do I use a proud kaomoji?", a: "After an achievement, a good result, or to cheer someone on — they read as “well done” and “I’m pleased” without needing words." },
+    ],
+  },
+  wink: {
+    lead: "Cheeky wink kaomoji — one eye closed, like (^_-) and (･ω<)☆ — copy & paste in one tap.",
+    body: [
+      "A wink kaomoji drops one eye while the other stays open: (^ω~), (>ω^) and ( -_・) all do it with a tilde or caret for the closed lid. Add a star (･ω<)☆ for extra sparkle.",
+      "Use one to flirt, to land a joke, or to signal “just kidding” at the end of a message. Tap to copy; long-press to keep your favourites.",
+    ],
+    faqs: [
+      { q: "What kaomoji is a wink?", a: "(^_-) is the classic wink — one ^ eye and one - closed eye. (>ω^) and (･ω<)☆ are cheekier, sparkly versions. Tap any to copy." },
+      { q: "How do I type a winking kaomoji?", a: "Easiest is to copy one above. The trick is mismatched eyes — one open (^ or >) and one closed (~ or -) — like (^ω~), but tapping to copy is instant." },
+    ],
+  },
+
 };
 
 export const getTagContent = (slug) => tagContent[slug] || null;

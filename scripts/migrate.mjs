@@ -23,7 +23,7 @@ const META = {
   "👋 Greetings":   { id: "greetings",   type: "kaomoji", keywords: ["hi", "hello", "hey", "wave", "waving", "bye", "goodbye", "greeting"] },
   "😴 Tired":       { id: "tired",       type: "kaomoji", keywords: ["tired", "sleepy", "sleep", "exhausted", "bored", "zzz"] },
   "🤔 Thinking":    { id: "thinking",    type: "kaomoji", keywords: ["thinking", "think", "hmm", "confused", "question", "wondering"] },
-  "🐱 Animals":     { id: "animals",     type: "kaomoji", keywords: ["animal", "animals", "cat", "bear", "dog", "bunny", "cute"] },
+  "🐱 Animals":     { id: "animals",     type: "kaomoji", keywords: ["animal", "animals", "cute"] },
   "🏃 Actions":     { id: "actions",     type: "kaomoji", keywords: ["action", "run", "running", "dance", "dancing", "flex"] },
   "✨ Magic":       { id: "magic",       type: "kaomoji", keywords: ["magic", "sparkle", "sparkles", "stars", "glitter", "shine"] },
   "💫 Decorated":   { id: "decorated",   type: "kaomoji", keywords: ["decorated", "fancy", "ornate", "sparkly", "aesthetic", "excited", "decoration"] },
