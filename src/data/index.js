@@ -68,8 +68,11 @@ const noPageTags = new Set([
   // single-glyph, single-category thin tags (still searchable, just no page)
   "take-my-love", "sob", "wailing", "side-eye", "suspicious", "dizzy", "stunned",
   "happy-bear", "bears", "parade", "row", "cheer", "hooray",
-  "suggestive", "eyebrows", "wink", "disapproval", "disappointed",
+  "suggestive", "eyebrows", "disapproval",
   "peace", "sunglasses",
+  // new categories whose ids are also curated tag terms (old overrides) — keep the
+  // canonical CATEGORY page only, don't ship a duplicate /t/ clone.
+  "uwu", "disappointed",
 ]);
 
 // A tag earns its own page only when it's DISTINCT from a category page:

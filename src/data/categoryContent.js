@@ -12,6 +12,42 @@
 // description stays ≲160. Not auto-generated — edit freely.
 
 export const categoryContent = {
+  disappointed: {
+    sample: "(´・ω・`)",
+    lead: "Sighing, deflated, let-down faces — copy and paste disappointed kaomoji for every quiet 'oh… okay then' moment.",
+    body: [
+      "Disappointed kaomoji sit between sad and unimpressed: drooped eyes, flat ＿ mouths and the odd weary sigh (￣ヘ￣). They capture being let down without the full waterworks of a crying face.",
+      "Reach for one when plans fall through, a reply stings a little, or something just doesn't live up to the hype. Tap to copy; long-press to keep your favourites.",
+    ],
+    faqs: [
+      { q: "What is a disappointed kaomoji?", a: "A disappointed kaomoji is a Japanese emoticon showing a let-down or deflated mood — like (´・ω・`) or (︶︿︶) — built from down-turned eyes and flat mouths, read upright." },
+      { q: "What's the difference between disappointed and sad kaomoji?", a: "Sad kaomoji show active upset or crying (T_T); disappointed ones are quieter and more deflated — a sigh or an unimpressed flat face rather than tears." },
+    ],
+  },
+  uwu: {
+    sample: "( ˘ω˘ )",
+    lead: "Soft, wholesome uwu and owo faces — copy and paste cute kaomoji for when something is just too precious.",
+    body: [
+      "UwU kaomoji are the squishy, blushy end of the kaomoji world: closed happy eyes (˘ ˘), little ω mouths and the odd paw ฅ, built to look adorable. They're how you say 'this is so cute I can't' in pure text.",
+      "Use them to soften a message, react to something wholesome, or decorate a bio. Right-click or long-press any face to keep it in your favourites.",
+    ],
+    faqs: [
+      { q: "What does uwu mean?", a: "UwU is a text face showing a happy, content expression — the U's are closed eyes and the w is a smiling mouth. It signals warmth, cuteness or affection. OwO is its wide-eyed, surprised cousin." },
+      { q: "How do I type a uwu face?", a: "The easiest way is to copy one — tap any uwu kaomoji above and it's on your clipboard, ready to paste into Discord, texts or a bio. No special keyboard needed." },
+    ],
+  },
+  coquette: {
+    sample: "꒰ᐢ. .ᐢ꒱",
+    lead: "Dainty, bow-soft coquette kaomoji — copy and paste girly faces with ribbons, hearts and a little ꒰♡꒱ for your bio.",
+    body: [
+      "Coquette kaomoji lean into the soft, ribbon-and-lace aesthetic: gentle eyes, blushy cheeks and trailing hearts ♡ or bows ʚ♡ɞ. They pair perfectly with the coquette and 'that girl' looks all over TikTok and Pinterest.",
+      "Drop them in a bio, a caption or a username for an instantly dainty feel. Tap to copy; long-press to save your favourites.",
+    ],
+    faqs: [
+      { q: "What is a coquette kaomoji?", a: "A coquette kaomoji is a soft, feminine text face styled with bows, ribbons and hearts — like ꒰♡ˊᵕˋ♡꒱ — matching the dainty coquette aesthetic popular on TikTok and Pinterest." },
+      { q: "How do I use coquette symbols in my bio?", a: "Just tap any face or symbol above to copy it, then paste it into your Instagram, TikTok or Discord bio. They paste cleanly as text wherever you can type." },
+    ],
+  },
   happy: {
     sample: "(＾▽＾)",
     lead: "Beaming, bouncing, sparkling-with-joy Japanese emoticons for every good mood — copy and paste happy kaomoji in one tap.",

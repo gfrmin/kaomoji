@@ -38,6 +38,9 @@ const META = {
   "🌙 Dividers":    { id: "dividers",    type: "decoration", keywords: ["divider", "dividers", "decoration", "line", "border", "aesthetic", "separator"] },
   "😀 Emoji":       { id: "emoji",       type: "emoji",   keywords: ["emoji", "emojis", "smiley", "face", "faces"] },
   "🔣 Symbols":     { id: "symbols",     type: "symbol",  keywords: ["symbol", "symbols", "special characters", "text symbols", "decoration"] },
+  "😞 Disappointed": { id: "disappointed", type: "kaomoji", keywords: ["disappointed", "letdown", "let down", "disappointment", "unimpressed", "sigh", "bummed", "deflated"] },
+  "🥺 UwU": { id: "uwu", type: "kaomoji", keywords: ["uwu", "owo", "cute", "soft", "wholesome", "blush", "shy"] },
+  "🎀 Coquette": { id: "coquette", type: "kaomoji", keywords: ["coquette", "bow", "ribbon", "dainty", "soft", "girly", "aesthetic", "cute"] },
 };
 
 const categories = [];

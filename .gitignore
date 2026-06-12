@@ -6,6 +6,8 @@ dist/
 .env
 .env.production
 .wrangler/
+# Search Console / analytics exports — keep out of the public repo
+*Performance-on-Search*.zip
 
 # Stray media dropped at repo root — never commit personal images.
 # (Real site assets live in public/, which is not ignored.)
