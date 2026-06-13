@@ -2,10 +2,10 @@ import { createSignal, createMemo, onMount, onCleanup, For, Show } from "solid-j
 import Fuse from "fuse.js";
 import { categories, items, getItemsByCategory, getTag, searchDataset } from "../data/index.js";
 import { trackCopy, trackSearch } from "../lib/analytics.js";
-
-const STORAGE_FAVS = "kaomoji-favourites-v2";
-const STORAGE_RECENT = "kaomoji-recent-v2";
-const RECENT_CAP = 30;
+import {
+  STORAGE_FAVS, STORAGE_RECENT, readLS, writeLS, copyText, prependCapped, toggleInList,
+} from "../lib/store.js";
+import { shareKaomoji } from "../lib/share.js";
 
 // Deterministic per-cell tilt in [-2°, +2°] — makes the grid feel hand-placed.
 const tilt = (i) => ((i * 53) % 5) - 2;
@@ -33,20 +33,6 @@ const getFuse = () => {
     });
   }
   return _fuse;
-};
-
-const readLS = (key) => {
-  try {
-    const v = localStorage.getItem(key);
-    return v ? JSON.parse(v) : [];
-  } catch {
-    return [];
-  }
-};
-const writeLS = (key, val) => {
-  try {
-    localStorage.setItem(key, JSON.stringify(val));
-  } catch {}
 };
 
 /**
@@ -141,41 +127,22 @@ export default function Picker(props) {
   };
 
   const copy = (value) => {
-    const done = () => {
+    copyText(value).then(() => {
       setCopied(value);
       announceCopied();
       trackCopy(value);
       setTimeout(() => setCopied((c) => (c === value ? null : c)), 1200);
       setRecent((r) => {
-        const next = [value, ...r.filter((x) => x !== value)].slice(0, RECENT_CAP);
+        const next = prependCapped(r, value);
         writeLS(STORAGE_RECENT, next);
         return next;
       });
-    };
-    if (navigator.clipboard?.writeText) {
-      navigator.clipboard.writeText(value).then(done).catch(() => fallbackCopy(value, done));
-    } else {
-      fallbackCopy(value, done);
-    }
-  };
-
-  const fallbackCopy = (value, done) => {
-    const el = document.createElement("textarea");
-    el.value = value;
-    el.style.cssText = "position:fixed;opacity:0;top:0;left:0";
-    document.body.appendChild(el);
-    el.focus();
-    el.select();
-    try {
-      document.execCommand("copy");
-    } catch {}
-    document.body.removeChild(el);
-    done();
+    });
   };
 
   const toggleFav = (value) => {
     setFavourites((f) => {
-      const next = f.includes(value) ? f.filter((x) => x !== value) : [value, ...f];
+      const next = toggleInList(f, value);
       writeLS(STORAGE_FAVS, next);
       return next;
     });
@@ -319,6 +286,12 @@ export default function Picker(props) {
                         aria-label={isFav(value) ? "Unpin from favourites" : "Pin to favourites"}
                         onClick={(e) => { e.stopPropagation(); toggleFav(value); }}
                       >{isFav(value) ? "★" : "☆"}</button>
+                      <button
+                        class="a-share"
+                        aria-label={`Share ${value}`}
+                        title="Share"
+                        onClick={(e) => { e.stopPropagation(); shareKaomoji({ text: value }).then((r) => { if (r === "copied") announceCopied(); }); }}
+                      >⤴</button>
                     </div>
                   );
                 }}

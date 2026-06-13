@@ -18,3 +18,11 @@ node scripts/decompose.mjs >/dev/null || {
   exit 1
 }
 git add src/data/parts.js
+
+# Precompute the Kaomoji Maker's part galleries from the taxonomy, so the client
+# ships only the small curated result (not the full raw inventory).
+node scripts/build-galleries.mjs >/dev/null || {
+  echo "pre-commit: scripts/build-galleries.mjs failed — galleries not regenerated." >&2
+  exit 1
+}
+git add src/data/galleries.js

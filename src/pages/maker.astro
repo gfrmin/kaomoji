@@ -1,0 +1,121 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Builder from "../components/Builder.jsx";
+import { SITE } from "../consts.js";
+
+const title = "Kaomoji Maker — Make Your Own Kaomoji (◕‿◕)";
+const description =
+  "Build your own kaomoji free. Pick eyes, mouth, brackets, arms and sparkles — every combination is valid, so it always looks right. Copy, share, done. (｡♥‿♥｡)";
+const canonical = new URL("/maker/", SITE).href;
+
+// Page-specific FAQs (distinct from the home/guide FAQs to avoid duplicate content).
+const faqs = [
+  {
+    q: "How does the kaomoji maker work?",
+    a: "Pick a part for each slot — eyes, mouth, a frame, optional arms, cheeks and sparkles — and the preview updates live. Because every part comes from real kaomoji and the two sides are always matched, whatever you build is a valid, balanced face. Hit Copy and paste it anywhere.",
+  },
+  {
+    q: "Is the kaomoji maker free?",
+    a: "Yes, completely free, with no sign-up. It also works offline once the site is installed, and nothing you build is uploaded — it all happens in your browser.",
+  },
+  {
+    q: "Can I share a kaomoji I made?",
+    a: "Yes. Tap Share to send it via your device's share sheet, or copy the link — the link reopens the maker with your exact creation loaded, so anyone can tweak it into their own.",
+  },
+  {
+    q: "Will my custom kaomoji work everywhere?",
+    a: "Almost everywhere. Kaomoji are plain Unicode text, so they paste into Discord, Instagram, TikTok, texts, docs and usernames. A few rare characters can fall back to a different font on older devices, but the face still reads the same.",
+  },
+  {
+    q: "Why does every combination still look like a proper face?",
+    a: "The maker only offers parts that appear in real kaomoji, and it places the left and right of each pair together — matched eyes, balanced brackets, one mouth. That's why you can't accidentally build a lopsided or broken face.",
+  },
+];
+
+const howTo = {
+  "@type": "HowTo",
+  name: "How to make your own kaomoji",
+  description: "Build a custom Japanese emoticon by choosing each part.",
+  step: [
+    { "@type": "HowToStep", name: "Choose the eyes", text: "The eyes set the mood — pick a pair you like." },
+    { "@type": "HowToStep", name: "Choose a mouth", text: "The mouth sets the intensity, from a soft ‿ to a loud Д." },
+    { "@type": "HowToStep", name: "Pick a frame", text: "Round ( ), bear ʕ ʔ or soft ꒰ ꒱ brackets — or none." },
+    { "@type": "HowToStep", name: "Add arms and sparkles", text: "Optional arms, cheeks and sparkles add motion and flair." },
+    { "@type": "HowToStep", name: "Copy or share", text: "Copy your kaomoji to the clipboard, or share the link." },
+  ],
+};
+
+const jsonld = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      name: "Kaomoji Maker",
+      url: canonical,
+      applicationCategory: "UtilitiesApplication",
+      operatingSystem: "Any",
+      offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+    },
+    howTo,
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Kaomoji", item: new URL("/", SITE).href },
+        { "@type": "ListItem", position: 2, name: "Maker", item: canonical },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    },
+  ],
+};
+---
+
+<Layout title={title} description={description} jsonld={jsonld}>
+  <p class="crumbs"><a href="/">Kaomoji</a> › Maker</p>
+  <section class="page-head">
+    <h1>Kaomoji Maker ＼(◕‿◕)／</h1>
+    <p class="lede">
+      Make your own kaomoji. Pick the eyes, mouth, frame and a few flourishes — the preview
+      updates live, and because every part comes from real faces with matched sides,
+      <strong>whatever you build always looks right</strong>. Tap 🎲 for a surprise, then copy
+      or share your one-of-a-kind face.
+    </p>
+  </section>
+
+  <Builder client:load />
+
+  <div class="prose">
+    <h2 class="section-title">How it works</h2>
+    <p>
+      Most kaomoji share the same anatomy: a <strong>frame</strong> of brackets, a pair of
+      <strong>eyes</strong> that carries the mood, a <strong>mouth</strong> between them that
+      sets the intensity, and optional <strong>arms</strong>, <strong>cheeks</strong> and
+      <strong>sparkles</strong> for motion and flair. The maker lets you swap any one of those
+      and watch the feeling change.
+    </p>
+    <p>
+      The twist that other generators miss: parts come in <em>pairs</em>. Eyes like ´ and `
+      mirror each other; brackets open and close; arms raise on both sides. The maker only
+      offers real, observed pairings and always places both sides together — so you can build
+      thousands of unique faces and never end up with a lopsided or broken one.
+    </p>
+  </div>
+
+  <section class="faq">
+    <h2 class="section-title">Frequently asked</h2>
+    {faqs.map((f) => (
+      <details>
+        <summary>{f.q}</summary>
+        <p>{f.a}</p>
+      </details>
+    ))}
+  </section>
+
+  <p style="margin-top:18px"><a href="/">← Back to the picker</a> · or <a href="/guide/">read the kaomoji guide</a></p>
+</Layout>

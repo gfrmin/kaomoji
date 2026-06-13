@@ -368,13 +368,100 @@ main { padding: 8px 0 36px; }
 /* ---- Reduced motion: kill the animated lifts (keep static tilts/layout) ---- */
 @media (prefers-reduced-motion: reduce) {
   * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
-  .a-cell, .a-tray-chip, .a-chip, .a-tab, .chips a, .chrome-btn { transform: none !important; }
+  .a-cell, .a-tray-chip, .a-chip, .a-tab, .chips a, .chrome-btn,
+  .btn, .builder-chip, .builder-more, .a-share, .share-btn { transform: none !important; }
   .a-hero { transform: none; }
-  .a-cell:hover, .a-tray-chip:hover, .a-chip:hover, .a-tab:hover, .chips a:hover, .chrome-btn:hover { transform: none !important; }
+  .a-cell:hover, .a-tray-chip:hover, .a-chip:hover, .a-tab:hover, .chips a:hover, .chrome-btn:hover,
+  .btn:hover, .builder-chip:hover, .share-btn:hover, .a-tray-chip:hover .a-share { transform: none !important; }
 }
 
 /* ---- Touch devices: guarantee >=44px tap targets (Vercel UI guideline) ------
    Placed last so it overrides the base sizing of every control above. */
 @media (pointer: coarse) {
-  .a-cell, .a-tray-chip, .a-tab, .chips a, .a-chip, .chrome-btn { min-height: 44px; }
+  .a-cell, .a-tray-chip, .a-tab, .chips a, .a-chip, .chrome-btn,
+  .builder-chip, .btn, .builder-more { min-height: 44px; }
+}
+
+/* ---- Share button on saved-face tray chips (mirrors .a-star) --------------- */
+.a-share {
+  position: absolute; top: -9px; left: -9px; width: 23px; height: 23px; border-radius: 50%;
+  border: 1.5px solid var(--line); background: #fff; cursor: pointer; padding: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 12px; line-height: 1; color: #b9a585; box-shadow: 0 2px 5px rgba(120,95,55,0.14);
+  transition: transform .12s ease, color .12s ease, border-color .12s ease, background .12s ease;
+}
+.a-tray-chip:hover .a-share { transform: scale(1.1); }
+.a-share:hover { color: var(--accent); border-color: var(--accent); }
+.a-share:focus-visible, .builder-chip:focus-visible, .btn:focus-visible,
+.builder-more:focus-visible, .share-btn:focus-visible {
+  outline: 2px solid var(--accent-deep); outline-offset: 2px;
+}
+
+/* ---- Kaomoji Maker --------------------------------------------------------- */
+.maker { margin: 10px 0 8px; }
+.builder-stage {
+  display: flex; flex-direction: column; align-items: center; gap: 14px;
+  padding: 22px 16px; margin: 8px 0 18px;
+  background: var(--paper-2); border: 2px dashed var(--dash); border-radius: 18px;
+}
+.builder-preview {
+  font-family: var(--glyph); font-size: clamp(26px, 7vw, 40px); line-height: 1.3; color: var(--ink);
+  min-height: 1.6em; padding: 8px 18px; text-align: center; word-break: break-all;
+  transform: rotate(-1deg);
+}
+.builder-preview.is-copied { color: var(--gold-ink); font-weight: 800; transform: rotate(0deg); }
+.builder-actions { display: flex; flex-wrap: wrap; gap: 9px; justify-content: center; }
+.btn {
+  font-family: var(--display); font-size: 14px; font-weight: 600; color: var(--ink);
+  background: #fff; border: 1.5px solid var(--line); border-radius: 999px;
+  padding: 9px 16px; cursor: pointer; box-shadow: 0 3px 8px var(--sh-08);
+  transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease, background .12s ease;
+}
+.btn:hover { transform: translateY(-2px); box-shadow: 0 7px 16px var(--sh-16); border-color: var(--accent); }
+.btn.is-fav { color: var(--gold-ink); background: #fff7e3; border-color: var(--gold); }
+.btn-primary { background: var(--accent); color: #fff8ec; border-color: var(--accent-deep); }
+.btn-primary:hover { background: var(--accent-deep); }
+
+.builder-row { display: flex; align-items: flex-start; gap: 10px; margin: 0 0 10px; }
+.builder-rowhead {
+  flex: 0 0 64px; font-family: var(--display); font-weight: 600; font-size: 13px;
+  color: var(--accent); padding-top: 9px; text-align: right;
+}
+.builder-chips { display: flex; flex-wrap: wrap; gap: 7px; flex: 1; }
+.builder-chip {
+  font-family: var(--glyph); font-size: 15px; color: var(--ink);
+  background: var(--paper-2); border: 1.5px solid var(--line); border-radius: 10px;
+  padding: 7px 11px; min-width: 40px; cursor: pointer; line-height: 1.2;
+  transition: transform .12s ease, border-color .12s ease, background .12s ease;
+}
+.builder-chip:hover { transform: translateY(-2px); border-color: var(--accent); }
+.builder-chip.is-on { background: var(--gold-bg); border-color: var(--gold-line); color: var(--gold-ink); font-weight: 700; }
+.builder-chip.is-none { font-family: var(--display); color: var(--ink-dim); }
+.builder-more {
+  font-family: var(--display); font-size: 12px; font-weight: 700; color: var(--accent-deep);
+  background: none; border: none; cursor: pointer; padding: 7px 6px;
+}
+
+/* Always in the DOM (empty) for live-region announcements; hidden until shown. */
+.toast {
+  position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%);
+  background: var(--ink); color: var(--paper); font-weight: 700; font-size: 14px;
+  padding: 10px 18px; border-radius: 999px; box-shadow: 0 8px 24px var(--sh-16); z-index: 50;
+  opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .15s ease;
+}
+.toast.is-shown { opacity: 1; visibility: visible; }
+
+/* Maker call-to-action (home hero) + contextual link (category/tag pages) */
+.maker-cta { margin: 4px 0 16px; }
+.maker-link { margin: 14px 0 4px; font-size: 14px; font-weight: 700; color: var(--ink-dim); }
+.share-btn {
+  font-family: var(--display); font-size: 13px; font-weight: 600; color: var(--ink);
+  background: #fff; border: 1.5px solid var(--line); border-radius: 999px;
+  padding: 7px 14px; cursor: pointer; box-shadow: 0 3px 8px var(--sh-08);
+}
+.share-btn:hover { border-color: var(--accent); }
+
+@media (max-width: 560px) {
+  .builder-row { flex-direction: column; gap: 4px; }
+  .builder-rowhead { text-align: left; padding-top: 0; flex-basis: auto; }
 }

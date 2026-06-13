@@ -1,6 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import Picker from "../../components/Picker.jsx";
+import ShareButton from "../../components/ShareButton.jsx";
 import { SITE } from "../../consts.js";
 import { categories, getItemsByCategory, categoryTags } from "../../data/index.js";
 import { otherGroupedCategories, categoryColor } from "../../data/categoryGroups.js";
@@ -94,6 +95,11 @@ const jsonld = {
   </section>
 
   <Picker client:load initial={initial} />
+
+  <p class="maker-link">
+    Want a one-of-a-kind face? <a href="/maker/">Make your own in the Kaomoji Maker →</a>
+    <ShareButton client:visible url={canonical} text={`${headline}`} />
+  </p>
 
   {catTags.length > 0 && (
     <>
