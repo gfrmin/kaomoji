@@ -5,6 +5,7 @@ import { trackCopy, trackSearch } from "../lib/analytics.js";
 import {
   STORAGE_FAVS, STORAGE_RECENT, readLS, writeLS, copyText, prependCapped, toggleInList,
 } from "../lib/store.js";
+import { shareKaomoji } from "../lib/share.js";
 
 // Deterministic per-cell tilt in [-2°, +2°] — makes the grid feel hand-placed.
 const tilt = (i) => ((i * 53) % 5) - 2;
@@ -285,6 +286,12 @@ export default function Picker(props) {
                         aria-label={isFav(value) ? "Unpin from favourites" : "Pin to favourites"}
                         onClick={(e) => { e.stopPropagation(); toggleFav(value); }}
                       >{isFav(value) ? "★" : "☆"}</button>
+                      <button
+                        class="a-share"
+                        aria-label={`Share ${value}`}
+                        title="Share"
+                        onClick={(e) => { e.stopPropagation(); shareKaomoji({ text: value }).then((r) => { if (r === "copied") announceCopied(); }); }}
+                      >⤴</button>
                     </div>
                   );
                 }}
