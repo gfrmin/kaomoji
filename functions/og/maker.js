@@ -14,7 +14,12 @@ import { fontsB64 } from "./_fonts.js";
 // WebAssembly.Module (static import), so initWasm gets a Module, not bytes —
 // avoiding the "Wasm code generation disallowed" trap.
 let wasmReady;
-const ensureWasm = () => (wasmReady ??= initWasm(resvgWasm));
+// Memoise the init promise across concurrent requests, but clear it on rejection
+// so a transient failure doesn't poison the isolate forever.
+const ensureWasm = () => {
+  if (!wasmReady) wasmReady = initWasm(resvgWasm).catch((e) => { wasmReady = null; throw e; });
+  return wasmReady;
+};
 
 // Decode base64 fonts once.
 const fontBuffers = fontsB64.map((b64) => Uint8Array.from(atob(b64), (c) => c.charCodeAt(0)));
@@ -22,9 +27,11 @@ const fontBuffers = fontsB64.map((b64) => Uint8Array.from(atob(b64), (c) => c.ch
 const xmlEscape = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
 const card = (face) => {
-  // Scale the glyph down for longer faces so arms/decor stay on the card.
+  // Scale to fit width: treat every glyph as worst-case full-width (advance ≈ size)
+  // so even an all-CJK face never overflows the 1200px card. Faces are bounded to
+  // real gallery parts (decode validates), so this stays comfortably readable.
   const len = [...face].length;
-  const size = Math.max(40, Math.min(132, Math.floor(1180 / Math.max(len, 5))));
+  const size = Math.max(28, Math.min(120, Math.floor(1080 / Math.max(len, 1))));
   return `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630">
   <rect width="1200" height="630" fill="#fff8ec"/>
   <rect x="0" y="0" width="16" height="630" fill="#a85d1c"/>

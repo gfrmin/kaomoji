@@ -89,22 +89,29 @@ export const encode = (sel) =>
     d: sel.decoration ? [sel.decoration.left, sel.decoration.right] : null,
   }));
 
-const okGlyph = (v) => typeof v === "string" && v.length > 0;
-const okPair = (v) => Array.isArray(v) && okGlyph(v[0]) && okGlyph(v[1]);
+// A decoded slot is only accepted if it's an ACTUAL gallery part — never raw
+// token text. This keeps every legitimate share working (the maker only ever
+// emits gallery parts) while ensuring a crafted ?k= token can't inject arbitrary
+// text into the rendered face / OG meta or blow up the face length: the result is
+// always a real, bounded, valid kaomoji. Unknown required slot → default; unknown
+// optional slot → none.
+const pairIn = (slot, v) =>
+  Array.isArray(v) && galleries[slot].some((e) => e && e.left === v[0] && e.right === v[1])
+    ? { left: v[0], right: v[1] } : undefined;
+const glyphIn = (slot, v) =>
+  galleries[slot].some((e) => e && e.glyph === v) ? { glyph: v } : undefined;
 
-// Lenient + total: reproduces a shared face even for rare parts, but any missing/
-// malformed slot falls back to the default so the result is always a valid face.
 export const decode = (token) => {
   const d = defaultSelection();
   try {
     const o = JSON.parse(unb64u(token));
     return {
-      bracket: okPair(o.b) ? { left: o.b[0], right: o.b[1] } : (o.b === null ? null : d.bracket),
-      eye: okPair(o.e) ? { left: o.e[0], right: o.e[1] } : d.eye,
-      mouth: okGlyph(o.m) ? { glyph: o.m } : d.mouth,
-      arm: okPair(o.a) ? { left: o.a[0], right: o.a[1] } : null,
-      cheek: okGlyph(o.c) ? { glyph: o.c } : null,
-      decoration: okPair(o.d) ? { left: o.d[0], right: o.d[1] } : null,
+      bracket: o.b === null ? null : (pairIn("bracket", o.b) ?? d.bracket),
+      eye: pairIn("eye", o.e) ?? d.eye,
+      mouth: glyphIn("mouth", o.m) ?? d.mouth,
+      arm: pairIn("arm", o.a) ?? null,
+      cheek: glyphIn("cheek", o.c) ?? null,
+      decoration: pairIn("decoration", o.d) ?? null,
     };
   } catch {
     return d;

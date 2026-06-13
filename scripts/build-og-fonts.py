@@ -57,9 +57,14 @@ for pat in ["/usr/share/fonts/noto/*.tt[cf]", "/usr/share/fonts/noto-cjk/*.tt[cf
             except Exception:
                 continue
             faces.append((p, i, cm))
-faces.sort(key=lambda f: weight_rank(f[0]))
+# Deterministic order: rank, then path, then face index — so the chosen set (and
+# the committed _fonts.js) is reproducible across machines regardless of glob order.
+faces.sort(key=lambda f: (weight_rank(f[0]), f[0], f[1]))
+if not faces:
+    sys.exit("ERROR: no Noto fonts found on this system — cannot build the OG font bundle.")
 
-# Greedy set cover: fewest faces, preferring the better-ranked ones on ties.
+# Greedy set cover: fewest faces, preferring the better-ranked ones on ties
+# (faces is pre-sorted, so first-seen at a given coverage is the preferred one).
 need = set(c for c in cps if c > 0x20)
 chosen = []
 while need:
@@ -73,7 +78,9 @@ while need:
     chosen.append(best)
     need -= best[2]
 if need:
-    print("WARNING: uncoverable codepoints:", sorted(hex(c) for c in need), file=sys.stderr)
+    # Refuse to ship a tofu-prone bundle — fail loudly instead of writing it.
+    sys.exit("ERROR: uncoverable codepoints (no installed font has them): "
+             + " ".join(sorted("U+%04X" % c for c in need)))
 
 # Subset each chosen face to the target set and base64-encode.
 buffers, total = [], 0
