@@ -1,5 +1,33 @@
 # Cloudflare Pages Functions
 
+## `og/maker.js` + `maker/_middleware.js` — dynamic Kaomoji Maker OG card
+
+Gives shared maker creations a per-creation social card so the link preview shows
+the actual built kaomoji.
+
+- **`og/maker.js`** (`GET /og/maker?k=<token>`) decodes the selection token (the
+  same `decode`/`assemble` the maker uses), rasterises a 1200×630 PNG with
+  `@resvg/resvg-wasm` (no satori — the card is one centred line) using the subset
+  font bundle `og/_fonts.js`, and caches it immutably (the token is content-
+  addressed). Any failure → 302 to the static `/og/maker.png`, so a link always
+  has an image. The WASM is a **static import** (`import … from '…/index_bg.wasm'`)
+  so it's a `WebAssembly.Module`, avoiding the "Wasm code generation disallowed"
+  error on Pages.
+- **`maker/_middleware.js`** rewrites the static `/maker/` page's OG/Twitter meta
+  to point at `/og/maker?k=…` (and shows the face in the title) **only when** a
+  `?k=` token is present; otherwise the page is served untouched with its build-
+  time `/og/maker.png` card. Humans always get the real, pre-filling maker page.
+
+### Regenerating the font bundle (`og/_fonts.js`)
+`og/_fonts.js` holds base64 subset Noto fonts covering **exactly** the maker's
+glyphs (~54 KB). It is **not** rebuilt in the pre-commit hook (it needs Python +
+fonttools + system Noto fonts). Regenerate and commit it whenever the maker
+galleries change:
+
+```
+npm run og-fonts        # = python3 scripts/build-og-fonts.py
+```
+
 ## `e.js` — aggregate-only usage beacon (`POST /e`)
 
 Receives the tiny `sendBeacon` payloads from `src/lib/analytics.js` (a copy or a
