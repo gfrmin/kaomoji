@@ -24,6 +24,7 @@ const pages: Record<string, Card> = {
   tags: { glyph: "✧･ﾟ #tags ･ﾟ✧", name: "All kaomoji tags" },
   about: { glyph: "¯\\_(ツ)_/¯", name: "About Kaomoji" },
   guide: { glyph: "( ͡° ͜ʖ ͡°)", name: "What is a kaomoji? The complete guide" },
+  maker: { glyph: "＼(◕‿◕)／", name: "Make your own kaomoji" },
   privacy: { glyph: "(¬‿¬)", name: "Privacy Policy" },
   download: { glyph: "(っ＾▽＾)っ", name: "Get the Kaomoji app" },
   "404": { glyph: "(·_·)", name: "Page not found" },
