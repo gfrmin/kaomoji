@@ -32,6 +32,14 @@ assert.doesNotThrow(() => decode("@@not-valid@@"));
 assert.ok(decode("@@not-valid@@").eye, "garbage decodes to a valid default");
 assert.ok(decode("").eye, "empty decodes to a valid default");
 
+// — decode rejects non-gallery parts (no arbitrary-text injection / unbounded faces) —
+const evil = encode({ bracket: null, eye: { left: "X", right: "Y" }, mouth: { glyph: "EVIL phishing https://bad.example" }, arm: null, cheek: null, decoration: null });
+const got = decode(evil);
+assert.notEqual(got.mouth.glyph, "EVIL phishing https://bad.example", "injected mouth text rejected");
+assert.ok(galleries.mouth.some((m) => m.glyph === got.mouth.glyph), "mouth falls back to a real gallery glyph");
+assert.ok(galleries.eye.some((e) => e.left === got.eye.left && e.right === got.eye.right), "bogus eye falls back to a real pair");
+assert.ok([...assemble(got)].length <= 24, "decoded face is bounded to real parts");
+
 // — randomKaomoji: deterministic with a seeded rng, always valid —
 const seeded = (() => { let s = 42; return () => (s = (s * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff; })();
 const r1 = randomKaomoji(seeded);
