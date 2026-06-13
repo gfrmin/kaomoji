@@ -46,8 +46,10 @@ const MOOD = {
 };
 
 // Brackets are a tiny, well-defined set — curated directly so mismatched parser
-// pairs (`(）`, `（)`) can't leak in.
+// pairs (`(）`, `（)`) can't leak in. Each keeps its observed count so 🎲 weights
+// toward the corpus-dominant round `()` instead of treating frames uniformly.
 const BRACKET_PAIRS = [["(", ")"], ["ʕ", "ʔ"], ["（", "）"], ["꒰", "꒱"], ["₍", "₎"]];
+const bracketCount = (l, r) => partsPairs.bracket.find((p) => p.left === l && p.right === r)?.count || 1;
 
 // Decorations: the observed-pair data is too sparse/noisy, so curate a clean set
 // of symmetric flourishes (placed on both sides).
@@ -56,7 +58,7 @@ const DECOR_GLYPHS = ["☆", "★", "✧", "✦", "♡", "♥", "❤", "♪", "�
 export const galleries = {
   eye: curatePairs(partsPairs.eye, { min: 3, cap: 40 }),
   mouth: curateSingles(partsInventory.mouth, { min: 2, cap: 40 }).map((m) => ({ ...m, mood: MOOD[m.glyph] || "other" })),
-  bracket: [...BRACKET_PAIRS.map(([left, right]) => ({ left, right })), null],
+  bracket: [...BRACKET_PAIRS.map(([left, right]) => ({ left, right, count: bracketCount(left, right) })), null],
   arm: [...curatePairs(partsPairs.arm, { min: 3, cap: 24 }), null],
   cheek: [...curateSingles(partsInventory.cheek, { min: 2, cap: 14, block: new Set(["="]) }), null],
   decoration: [...DECOR_GLYPHS.map((g) => ({ left: g, right: g, identical: true })), null],
