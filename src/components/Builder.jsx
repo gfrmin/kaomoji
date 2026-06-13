@@ -36,35 +36,29 @@ const isActive = (sel, slot, e) => {
 
 export default function Builder() {
   const [sel, setSel] = createSignal(defaultSelection());
+  const [favs, setFavs] = createSignal([]);
   const [copied, setCopied] = createSignal(false);
-  const [favourited, setFavourited] = createSignal(false);
   const [toast, setToast] = createSignal("");
   const [expanded, setExpanded] = createSignal({});
 
   const value = createMemo(() => assemble(sel()));
-
-  let favs = [];
-  const refreshFav = () => setFavourited(favs.includes(value()));
+  const favourited = createMemo(() => favs().includes(value()));
 
   onMount(() => {
-    favs = readLS(STORAGE_FAVS);
+    setFavs(readLS(STORAGE_FAVS));
     const k = new URLSearchParams(location.search).get("k");
     if (k) setSel(decode(k));
-    refreshFav();
   });
 
-  // Reflect the current build in the address bar so it's always shareable.
-  const syncUrl = (s) => {
-    try { history.replaceState(null, "", `?k=${encode(s)}`); } catch {}
-  };
-
-  const setSlot = (slotKey, entry) => {
-    const next = { ...sel(), [slotKey]: entry };
+  // Commit a new selection: update state, clear the copied flash, and reflect it
+  // in the address bar so the build is always shareable.
+  const commit = (next) => {
     setSel(next);
     setCopied(false);
-    syncUrl(next);
-    refreshFav();
+    try { history.replaceState(null, "", `?k=${encode(next)}`); } catch {}
   };
+
+  const setSlot = (slotKey, entry) => commit({ ...sel(), [slotKey]: entry });
 
   const flash = (msg) => { setToast(msg); setTimeout(() => setToast(""), 1500); };
 
@@ -79,18 +73,12 @@ export default function Builder() {
   };
 
   const onFav = () => {
-    favs = toggleInList(favs, value());
-    writeLS(STORAGE_FAVS, favs);
-    refreshFav();
+    const next = toggleInList(favs(), value());
+    setFavs(next);
+    writeLS(STORAGE_FAVS, next);
   };
 
-  const onRandom = () => {
-    const r = randomKaomoji();
-    setSel(r.selection);
-    setCopied(false);
-    syncUrl(r.selection);
-    refreshFav();
-  };
+  const onRandom = () => commit(randomKaomoji().selection);
 
   const onShare = () => {
     shareKaomoji({ text: value(), url: location.href, title: "My kaomoji" }).then((res) => {
