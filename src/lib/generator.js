@@ -1,70 +1,22 @@
 // The Kaomoji Maker engine — pure, DOM-free, importable by the Solid island, the
 // (phase-2) OG Pages Function, and the node test alike.
 //
-// It turns the phase-1 parts taxonomy (src/data/parts.js) into clean, user-facing
-// `galleries`, assembles a `selection` into a valid face, draws a random one, and
-// serializes a selection to/from a compact URL token.
+// The per-slot `galleries` are precomputed at build time (scripts/build-galleries.mjs
+// → src/data/galleries.js) so the client ships only the small curated result, not
+// the full raw parts taxonomy. This module just assembles a selection into a face,
+// draws a random one, and serializes a selection to/from a compact URL token.
 //
 // Two shapes, kept distinct on purpose:
 //   • a GALLERY entry carries display metadata — {left,right,identical,count} for
 //     pair slots, {glyph,count,mood} for mouths, {glyph,count} for cheeks.
 //   • a SELECTION entry is the MINIMAL canonical form actually chosen/serialized —
 //     {left,right} | {glyph} | null. assemble/encode/decode/random all speak this.
-import { partsInventory, partsPairs } from "../data/parts.js";
+import { galleries } from "../data/galleries.js";
+
+export { galleries };
 
 // Canonical slot grammar:  decorL armL bracketL cheekL eyeL mouth eyeR cheekR bracketR armR decorR
 export const SLOT_ORDER = ["decorL", "armL", "bracketL", "cheekL", "eyeL", "mouth", "eyeR", "cheekR", "bracketR", "armR", "decorR"];
-
-// ── Curation ────────────────────────────────────────────────────────────────
-// The raw inventory is noisy (composite tokens, combining-mark soup, parser
-// residue). Keep only options that are a single grapheme, or a curated multi.
-const MULTI_ALLOW = new Set(["‿‿", "͡°"]);
-const isClean = (g) => typeof g === "string" && g.length > 0 && ([...g].length === 1 || MULTI_ALLOW.has(g));
-
-const curatePairs = (arr, { min, cap }) =>
-  arr
-    .filter((p) => p.count >= min && isClean(p.left) && isClean(p.right))
-    .slice(0, cap)
-    .map((p) => ({ left: p.left, right: p.right, identical: p.left === p.right, count: p.count }));
-
-const curateSingles = (arr, { min, cap, block = new Set() }) =>
-  arr
-    .filter((x) => x.count >= min && isClean(x.glyph) && !block.has(x.glyph))
-    .slice(0, cap);
-
-// Mouth → mood: the strongest emotion lever. Used to group the mouth gallery and
-// to (optionally) bias 🎲. Approximate by design — mouths absent here read "other".
-const MOOD = {
-  "▽": "happy", "∀": "happy", "◡": "happy", "‿": "happy", "ᴗ": "happy", "ᵕ": "happy", "ヮ": "happy", "ᗜ": "happy", "‿‿": "happy", "◇": "happy",
-  "ω": "cute", "³": "cute", "꒳": "cute",
-  "﹏": "sad", "︶": "sad", "‸": "sad", "⌓": "sad",
-  "益": "angry", "Д": "angry", "д": "angry", "ヘ": "angry",
-  "o": "surprised", "O": "surprised", "0": "surprised", "ロ": "surprised", "□": "surprised",
-  "ε": "love",
-  "ᴥ": "animal", "ﻌ": "animal", "㉨": "animal", "ェ": "animal", "ᆺ": "animal", "⩊": "animal",
-  "_": "neutral", "ー": "neutral", "￣": "neutral", "∇": "neutral",
-};
-
-// Brackets are a tiny, well-defined set — curated directly so mismatched parser
-// pairs (`(）`, `（)`) can't leak in. Each keeps its observed count so 🎲 weights
-// toward the corpus-dominant round `()` instead of treating frames uniformly.
-const BRACKET_PAIRS = [["(", ")"], ["ʕ", "ʔ"], ["（", "）"], ["꒰", "꒱"], ["₍", "₎"]];
-const bracketCount = (l, r) => partsPairs.bracket.find((p) => p.left === l && p.right === r)?.count || 1;
-
-// Decorations: the observed-pair data is too sparse/noisy, so curate a clean set
-// of symmetric flourishes (placed on both sides).
-const DECOR_GLYPHS = ["☆", "★", "✧", "✦", "♡", "♥", "❤", "♪", "♬", "✿", "❀", "°", "｡", "～"];
-
-// Optional slots lead with the `null` "none" entry so it's always visible (never
-// pushed past the gallery's "more" fold) and reads as the natural default.
-export const galleries = {
-  eye: curatePairs(partsPairs.eye, { min: 3, cap: 40 }),
-  mouth: curateSingles(partsInventory.mouth, { min: 2, cap: 40 }).map((m) => ({ ...m, mood: MOOD[m.glyph] || "other" })),
-  bracket: [null, ...BRACKET_PAIRS.map(([left, right]) => ({ left, right, count: bracketCount(left, right) }))],
-  arm: [null, ...curatePairs(partsPairs.arm, { min: 3, cap: 24 })],
-  cheek: [null, ...curateSingles(partsInventory.cheek, { min: 2, cap: 14, block: new Set(["="]) })],
-  decoration: [null, ...DECOR_GLYPHS.map((g) => ({ left: g, right: g, identical: true }))],
-};
 
 // ── assemble ─────────────────────────────────────────────────────────────────
 // selection → the rendered face. Cheeks mirror to both sides; pairs expand L/R.
@@ -88,7 +40,8 @@ export const defaultSelection = () => ({
   arm: null, cheek: null, decoration: null,
 });
 
-const real = (slot) => galleries[slot].filter(Boolean); // drop the null "none"
+// The real (non-"none") options per slot, computed once — not on every 🎲.
+const REAL = Object.fromEntries(Object.entries(galleries).map(([slot, opts]) => [slot, opts.filter(Boolean)]));
 const toPair = (e) => ({ left: e.left, right: e.right });
 
 const weightedPick = (arr, rng) => {
@@ -102,12 +55,12 @@ const weightedPick = (arr, rng) => {
 // with optional arm / cheek / decoration each included probabilistically.
 export const randomKaomoji = (rng = Math.random) => {
   const selection = {
-    bracket: toPair(weightedPick(real("bracket"), rng)),
-    eye: toPair(weightedPick(real("eye"), rng)),
-    mouth: { glyph: weightedPick(real("mouth"), rng).glyph },
-    arm: rng() < 0.5 ? toPair(weightedPick(real("arm"), rng)) : null,
-    cheek: rng() < 0.4 ? { glyph: weightedPick(real("cheek"), rng).glyph } : null,
-    decoration: rng() < 0.25 ? toPair(weightedPick(real("decoration"), rng)) : null,
+    bracket: toPair(weightedPick(REAL.bracket, rng)),
+    eye: toPair(weightedPick(REAL.eye, rng)),
+    mouth: { glyph: weightedPick(REAL.mouth, rng).glyph },
+    arm: rng() < 0.5 ? toPair(weightedPick(REAL.arm, rng)) : null,
+    cheek: rng() < 0.4 ? { glyph: weightedPick(REAL.cheek, rng).glyph } : null,
+    decoration: rng() < 0.25 ? toPair(weightedPick(REAL.decoration, rng)) : null,
   };
   return { selection, value: assemble(selection) };
 };
