@@ -95,6 +95,7 @@ export default function Builder() {
   const onShare = () => {
     shareKaomoji({ text: value(), url: location.href, title: "My kaomoji" }).then((res) => {
       if (res === "copied") flash("Link copied!");
+      else if (res === "failed") flash("Couldn't copy — try again");
     });
   };
 
@@ -105,7 +106,10 @@ export default function Builder() {
       <div class="visually-hidden" role="status" aria-live="polite">{copied() ? "Copied to clipboard" : ""}</div>
 
       <div class="builder-stage">
-        <output class="builder-preview" classList={{ "is-copied": copied() }} aria-label="Your kaomoji">
+        {/* aria-live off: <output> announces politely by default, which would read
+            the whole face as symbol names on every chip tap. The dedicated status
+            region above handles copy feedback instead. */}
+        <output class="builder-preview" classList={{ "is-copied": copied() }} aria-live="off" aria-label={`Your kaomoji: ${value()}`}>
           {copied() ? "copied! ✓" : value()}
         </output>
         <div class="builder-actions">
@@ -133,7 +137,8 @@ export default function Builder() {
                     <button
                       class="builder-chip"
                       classList={{ "is-on": isActive(sel(), slot, e), "is-none": e == null }}
-                      title={e == null ? "None" : undefined}
+                      aria-pressed={isActive(sel(), slot, e)}
+                      aria-label={e == null ? `No ${slot.label.toLowerCase()}` : `${slot.label}: ${labelOf(slot.key, e)}`}
                       onClick={() => setSlot(slot.key, toEntry(slot, e))}
                     >
                       {labelOf(slot.key, e)}
@@ -151,9 +156,8 @@ export default function Builder() {
         }}
       </For>
 
-      <Show when={toast()}>
-        <div class="toast" role="status">{toast()}</div>
-      </Show>
+      {/* Always in the DOM (empty) so the live region announces when text appears. */}
+      <div class="toast" classList={{ "is-shown": !!toast() }} role="status" aria-live="polite">{toast()}</div>
     </section>
   );
 }

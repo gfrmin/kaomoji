@@ -55,13 +55,15 @@ const bracketCount = (l, r) => partsPairs.bracket.find((p) => p.left === l && p.
 // of symmetric flourishes (placed on both sides).
 const DECOR_GLYPHS = ["☆", "★", "✧", "✦", "♡", "♥", "❤", "♪", "♬", "✿", "❀", "°", "｡", "～"];
 
+// Optional slots lead with the `null` "none" entry so it's always visible (never
+// pushed past the gallery's "more" fold) and reads as the natural default.
 export const galleries = {
   eye: curatePairs(partsPairs.eye, { min: 3, cap: 40 }),
   mouth: curateSingles(partsInventory.mouth, { min: 2, cap: 40 }).map((m) => ({ ...m, mood: MOOD[m.glyph] || "other" })),
-  bracket: [...BRACKET_PAIRS.map(([left, right]) => ({ left, right, count: bracketCount(left, right) })), null],
-  arm: [...curatePairs(partsPairs.arm, { min: 3, cap: 24 }), null],
-  cheek: [...curateSingles(partsInventory.cheek, { min: 2, cap: 14, block: new Set(["="]) }), null],
-  decoration: [...DECOR_GLYPHS.map((g) => ({ left: g, right: g, identical: true })), null],
+  bracket: [null, ...BRACKET_PAIRS.map(([left, right]) => ({ left, right, count: bracketCount(left, right) }))],
+  arm: [null, ...curatePairs(partsPairs.arm, { min: 3, cap: 24 })],
+  cheek: [null, ...curateSingles(partsInventory.cheek, { min: 2, cap: 14, block: new Set(["="]) })],
+  decoration: [null, ...DECOR_GLYPHS.map((g) => ({ left: g, right: g, identical: true }))],
 };
 
 // ── assemble ─────────────────────────────────────────────────────────────────
@@ -134,8 +136,8 @@ export const encode = (sel) =>
     d: sel.decoration ? [sel.decoration.left, sel.decoration.right] : null,
   }));
 
-const okPair = (v) => Array.isArray(v) && typeof v[0] === "string" && typeof v[1] === "string";
 const okGlyph = (v) => typeof v === "string" && v.length > 0;
+const okPair = (v) => Array.isArray(v) && okGlyph(v[0]) && okGlyph(v[1]);
 
 // Lenient + total: reproduces a shared face even for rare parts, but any missing/
 // malformed slot falls back to the default so the result is always a valid face.

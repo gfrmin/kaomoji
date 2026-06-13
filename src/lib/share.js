@@ -2,7 +2,8 @@
 // available (the real viral surface on mobile / Discord / IG), and falls back to
 // copying "<text> <url>" to the clipboard. Never throws to the caller.
 //
-// Returns "shared" | "copied" | "dismissed" so the UI can show the right feedback.
+// Returns "shared" | "copied" | "dismissed" | "failed" so the UI can show the
+// right feedback (and never claim success when nothing reached the clipboard).
 import { copyText } from "./store.js";
 import { SITE } from "../consts.js";
 
@@ -16,6 +17,6 @@ export const shareKaomoji = async ({ text, url = SITE, title = "Kaomoji" }) => {
       // any other failure → fall through to the copy fallback
     }
   }
-  await copyText(`${text} ${url}`.trim());
-  return "copied";
+  const ok = await copyText(`${text} ${url}`.trim());
+  return ok ? "copied" : "failed";
 };

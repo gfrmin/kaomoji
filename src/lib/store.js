@@ -27,21 +27,24 @@ const fallbackCopy = (value) => {
   document.body.appendChild(el);
   el.focus();
   el.select();
+  let ok = false;
   try {
-    document.execCommand("copy");
+    ok = document.execCommand("copy");
   } catch {}
   document.body.removeChild(el);
+  return ok;
 };
 
-// Clipboard write with an execCommand fallback. Resolves once copied (or fell back).
+// Clipboard write with an execCommand fallback. Resolves to true if the copy
+// actually succeeded, false if both paths failed (so callers can be honest).
 export const copyText = async (value) => {
   if (navigator.clipboard?.writeText) {
     try {
       await navigator.clipboard.writeText(value);
-      return;
+      return true;
     } catch {}
   }
-  fallbackCopy(value);
+  return fallbackCopy(value);
 };
 
 // Prepend value, dedup, cap — the recents/favourites prepend-dedup pattern (pure).
