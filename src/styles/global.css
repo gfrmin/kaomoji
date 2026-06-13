@@ -436,7 +436,13 @@ main { padding: 8px 0 36px; }
 }
 .builder-chip:hover { transform: translateY(-2px); border-color: var(--accent); }
 .builder-chip.is-on { background: var(--gold-bg); border-color: var(--gold-line); color: var(--gold-ink); font-weight: 700; }
-.builder-chip.is-none { font-family: var(--display); color: var(--ink-dim); }
+/* The "off" chip: a dashed, hollow slot with a faint ⊘ — reads as absence,
+   no language. The glyph is purely visual; the aria-label says "No <slot>". */
+.builder-chip.is-none { font-family: var(--display); border-style: dashed; }
+.builder-chip.is-none:not(.is-on) {
+  background: transparent;
+  color: color-mix(in srgb, var(--ink-dim) 40%, transparent);
+}
 .builder-more {
   font-family: var(--display); font-size: 12px; font-weight: 700; color: var(--accent-deep);
   background: none; border: none; cursor: pointer; padding: 7px 6px;

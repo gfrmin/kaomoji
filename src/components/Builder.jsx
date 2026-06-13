@@ -20,7 +20,7 @@ const toEntry = (slot, e) =>
   e == null ? null : slot.kind === "glyph" ? { glyph: e.glyph } : { left: e.left, right: e.right };
 
 const labelOf = (key, e) => {
-  if (e == null) return "—";
+  if (e == null) return "⊘"; // language-neutral "off"; aria-label carries the meaning
   if (key === "bracket") return `${e.left} ${e.right}`;
   if (key === "decoration") return e.left; // symmetric — show one
   if (e.glyph != null) return e.glyph;
