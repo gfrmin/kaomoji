@@ -1,0 +1,14 @@
+Kaomoji is a fast, installable picker for Japanese emoticons (顔文字) — the text faces like ¯\_(ツ)_/¯, (╯°□°)╯︵ ┻━┻ and ʕ•ᴥ•ʔ that emoji just can't capture.
+
+Search by feeling — "happy", "shrug", "table flip", "bear", "love" — then tap once to copy and paste anywhere: chats, captions, bios, comments, code reviews. Over 1,100 kaomoji across 26 categories, plus emoticons, emoji and symbols.
+
+* Works offline. Install it and the whole picker works with no connection.
+* No account, no ads, no tracking cookies. Your favourites and recents stay on your device.
+* Fast. Built to be near-instant, with none of the clutter of other emoticon sites.
+* Searchable by meaning, not just by glyph — so you find the face you mean.
+* Build your own. The kaomoji Maker assembles a brand-new face from real, recombined parts.
+* Free and open source (AGPL-3.0).
+
+Whether you want a cute kaomoji to soften a message, a flipping table for the group chat, or a classic shrug, Kaomoji puts the right text face one tap away.
+
+This app is a Trusted Web Activity wrapping kaomoji.fyi — the same open-source web app, packaged for your home screen.

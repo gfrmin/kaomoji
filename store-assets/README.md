@@ -19,7 +19,7 @@ Assets and a checklist for submitting the PWA to Google Play as a **Trusted Web 
 | Feature graphic 1024×500 | yes | ✅ this folder |
 | Phone screenshots (2–8) | yes (≥2) | ✅ 3 in `store-assets/screenshots/` (`phone-1-moods`, `phone-2-animals`, `phone-3-famous` — live pages at 390×844 @2x) + the home/book `public/screenshots/mobile.png`. Regenerate: `chromium --headless=new --force-device-scale-factor=2 --window-size=390,844 --virtual-time-budget=5000 --screenshot=out.png https://kaomoji.fyi/kaomoji/happy/` |
 | 7"/10" tablet screenshots | optional (required if the slot rejects phone shots) | ✅ 3 in `store-assets/screenshots/` (`tablet-1-moods`, `tablet-2-animals`, `tablet-3-love` — 1600×2560, 10:16 ratio 1.60 so it passes Play's "longest side ≤ 2× shortest" rule, which the tall 780×1688 phone shots fail). Regenerate: `chromium --headless=new --force-device-scale-factor=2 --window-size=800,1280 --virtual-time-budget=9000 --screenshot=out.png https://kaomoji.fyi/kaomoji/animals/` |
-| Short description (≤80 chars) | yes | draft: *"Fast, offline kaomoji picker. Copy & paste 800+ Japanese emoticons — no tracking."* (78) |
+| Short description (≤80 chars) | yes | draft: *"Fast, offline kaomoji picker. Copy & paste 1,100+ Japanese emoticons."* (69) |
 | Full description (≤4000) | yes | adapt the Product Hunt description from the plan file |
 | Privacy policy URL | yes | ✅ `https://kaomoji.fyi/privacy/` (live) |
 
@@ -55,17 +55,18 @@ The app is a TWA wrapping kaomoji.fyi, which sends a cookieless aggregate beacon
 
 ## Store listing text (ready to paste)
 - **App name:** `Kaomoji — Japanese Emoticons & Text Faces`
-- **Short description (≤80):** `Fast, offline kaomoji picker. Copy & paste 800+ Japanese emoticons — no tracking.` (78)
+- **Short description (≤80):** `Fast, offline kaomoji picker. Copy & paste 1,100+ Japanese emoticons.` (69)
 - **Full description (≤4000):**
 ```
 Kaomoji is a fast, installable picker for Japanese emoticons (顔文字) — the text faces like ¯\_(ツ)_/¯, (╯°□°)╯︵ ┻━┻ and ʕ•ᴥ•ʔ that emoji just can't capture.
 
-Search by feeling — "happy", "shrug", "table flip", "bear", "love" — tap once to copy, then paste anywhere: chats, captions, bios, comments, code reviews. Over 800 kaomoji across 23 categories, plus emoticons, emoji and symbols.
+Search by feeling — "happy", "shrug", "table flip", "bear", "love" — tap once to copy, then paste anywhere: chats, captions, bios, comments, code reviews. Over 1,100 kaomoji across 26 categories, plus emoticons, emoji and symbols.
 
 • Works offline. Install it and the whole picker works with no connection.
 • No account, no ads, no tracking cookies. Your favourites and recents stay on your device.
 • Fast. Built to be near-instant, with none of the clutter of other emoticon sites.
 • Searchable by meaning, not just by glyph — so you find the face you mean.
+• Build your own — the kaomoji Maker assembles a brand-new face from real parts.
 • Open source.
 
 Whether you want a cute kaomoji to soften a message, a flipping-table for the group chat, or a classic shrug, Kaomoji puts the right text face one tap away.

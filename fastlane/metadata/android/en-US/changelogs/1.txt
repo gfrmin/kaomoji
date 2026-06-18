@@ -1,0 +1,3 @@
+First release.
+
+A fast, offline, installable picker for Japanese emoticons (顔文字) — over 1,100 text faces across 26 categories, searchable by feeling. Tap to copy, paste anywhere. No account, no ads, no tracking.
