@@ -3,14 +3,17 @@
   "type": "module",
   "version": "0.1.0",
   "private": true,
-  "description": "A fast, installable PWA kaomoji picker — copy & paste Japanese emoticons, text faces, emoji and symbols.",
+  "description": "A fast, installable PWA kaomoji picker \u2014 copy & paste Japanese emoticons, text faces, emoji and symbols.",
   "homepage": "https://kaomoji.fyi",
-  "repository": { "type": "git", "url": "https://github.com/gfrmin/kaomoji" },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gfrmin/kaomoji"
+  },
   "author": "Guy Freeman (https://gfrm.in)",
   "license": "AGPL-3.0-only",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && wrangler pages functions build --outdir=./.worker-build/",
     "preview": "astro preview",
     "astro": "astro",
     "migrate": "node scripts/migrate.mjs",
@@ -29,6 +32,7 @@
     "solid-js": "^1.9.5"
   },
   "devDependencies": {
-    "@vite-pwa/astro": "^1.0.0"
+    "@vite-pwa/astro": "^1.0.0",
+    "wrangler": "^4.129.0"
   }
 }

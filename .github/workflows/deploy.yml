@@ -1,31 +1,15 @@
-name: Deploy to Cloudflare Pages
+name: deploy
 
 on:
   push:
     branches: [master]
+  pull_request:
   workflow_dispatch:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      deployments: write
-    steps:
-      - uses: actions/checkout@v6
-
-      - uses: actions/setup-node@v6
-        with:
-          node-version: 22
-          cache: npm
-
-      - run: npm ci
-
-      - run: npm run build
-
-      - name: Deploy to Cloudflare Pages
-        uses: cloudflare/wrangler-action@v4
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=kaomoji --branch=master
+    # The recipe lives in site-kit so it is fixed in one place for every site.
+    uses: gfrmin/site-kit/.github/workflows/worker-deploy.yml@master
+    with:
+      build: npm run build
+    secrets: inherit

@@ -1,0 +1,63 @@
+{
+  // Cloudflare Workers config. Deploy by pushing to master —
+  // .github/workflows/deploy.yml calls the shared recipe in gfrmin/site-kit.
+  //
+  // Migrated from Cloudflare Pages 2026-09-05. Pages stays supported and gets
+  // bug fixes, but all new platform investment goes to Workers. The old Pages
+  // project `kaomoji` is left in place as the rollback.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "kaomoji",
+  "compatibility_date": "2026-09-05",
+
+  // The functions/ tree, compiled by `wrangler pages functions build` in the
+  // build script. Workers static assets has no file-based routing and no
+  // middleware chain, so this is not optional: functions/maker/_middleware.js is
+  // built on next(), which has no Workers equivalent at all. The compiler
+  // reproduces Pages' routing AND its middleware chaining, so no route code
+  // changes.
+  //
+  // The output goes to .worker-build/ and NOT inside dist/. Anything under
+  // assets.directory is uploaded and publicly fetchable, so compiling into
+  // dist/worker/ would publish the compiled server bundle at /worker/index.js.
+  "main": "./.worker-build/index.js",
+
+  "assets": {
+    "directory": "./dist",
+
+    // Behaviour-preserving: src/pages/404.astro builds to dist/404.html and the
+    // live site already returns a real 404 for an unmatched path (verified
+    // before the cutover — /nonsense-path returned 404 with the themed page).
+    "not_found_handling": "404-page",
+
+    // REQUIRED, and its absence fails at runtime rather than at deploy time.
+    // The compiled Pages worker reaches static assets through env.ASSETS —
+    // that is what next() is built on — so without this binding every route
+    // that falls through to an asset returns 500. Measured: /maker/,
+    // /maker/?k=... and /og/maker.png all 500'd, while the pure function routes
+    // (/e, /og/maker?k=...) were fine, which makes it look like a middleware
+    // bug rather than a missing binding.
+    "binding": "ASSETS",
+
+    // Only the function routes go through the Worker; every other request is
+    // served straight from the asset handler with no Worker invocation.
+    //
+    // /maker is here because its middleware wraps the STATIC page: it calls
+    // next() to fetch the asset and then rewrites the OG meta. Without the
+    // Worker running first for that path, the asset would be served directly
+    // and the rewrite would never happen — silently, with the page still
+    // looking correct to a human and only the link preview being wrong.
+    "run_worker_first": ["/e", "/og/*", "/maker", "/maker/*"],
+  },
+
+  // Aggregate-only usage beacon sink (functions/e.js). Bindings are read from
+  // THIS file, not from the dashboard project settings — a dashboard-set binding
+  // never reaches a CLI-deployed Worker. Analytics Engine must be enabled on the
+  // account first or the deploy itself fails. See functions/README.md.
+  "analytics_engine_datasets": [
+    { "binding": "EVENTS", "dataset": "kaomoji_events" },
+  ],
+
+  "observability": {
+    "enabled": true,
+  },
+}

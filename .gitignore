@@ -16,3 +16,6 @@ dist/
 /*.png
 /*.webp
 /*.gif
+
+# compiled functions/ bundle (wrangler pages functions build)
+.worker-build/
