@@ -1,0 +1,63 @@
+# Kaomoji
+
+> kaomoji.fyi is a fast, installable kaomoji picker: search Japanese emoticons (text faces such as ¯\_(ツ)_/¯ and ʕ•ᴥ•ʔ), emoticons, emoji and symbols by feeling, then tap to copy and paste anywhere.
+
+Every page is static HTML, and the picker installs as a Progressive Web App that works offline. There are no accounts and no tracking cookies; favourites and recents stay in the visitor's browser. The code is open source under the GNU AGPL-3.0.
+
+## Main pages
+
+- [Kaomoji picker](https://kaomoji.fyi/): the home page, with search and one-tap copy across every category
+- [What is a kaomoji?](https://kaomoji.fyi/guide/): a guide to Japanese text faces, how they differ from emoji and emoticons, how they are built and where they came from
+- [Kaomoji maker](https://kaomoji.fyi/maker/): build a custom kaomoji by choosing each part
+- [All tags](https://kaomoji.fyi/tags/): an index of every tag page
+- [Get the app](https://kaomoji.fyi/download/): how to install the picker on a phone or desktop
+
+## Categories
+
+- [Happy kaomoji](https://kaomoji.fyi/kaomoji/happy/): happy kaomoji to copy and paste
+- [Sad kaomoji](https://kaomoji.fyi/kaomoji/sad/): sad kaomoji to copy and paste
+- [Love kaomoji](https://kaomoji.fyi/kaomoji/love/): love kaomoji to copy and paste
+- [Angry kaomoji](https://kaomoji.fyi/kaomoji/angry/): angry kaomoji to copy and paste
+- [Kawaii kaomoji](https://kaomoji.fyi/kaomoji/kawaii/): kawaii kaomoji to copy and paste
+- [UwU kaomoji](https://kaomoji.fyi/kaomoji/uwu/): uwu and owo faces to copy and paste
+- [Animals kaomoji](https://kaomoji.fyi/kaomoji/animals/): animals kaomoji to copy and paste
+- [Cool kaomoji](https://kaomoji.fyi/kaomoji/cool/): cool kaomoji to copy and paste
+- [Surprised kaomoji](https://kaomoji.fyi/kaomoji/surprised/): surprised kaomoji to copy and paste
+- [Embarrassed kaomoji](https://kaomoji.fyi/kaomoji/embarrassed/): embarrassed kaomoji to copy and paste
+- [Scared kaomoji](https://kaomoji.fyi/kaomoji/scared/): scared kaomoji to copy and paste
+- [Tired kaomoji](https://kaomoji.fyi/kaomoji/tired/): tired kaomoji to copy and paste
+- [Thinking kaomoji](https://kaomoji.fyi/kaomoji/thinking/): thinking kaomoji to copy and paste
+- [Celebrate kaomoji](https://kaomoji.fyi/kaomoji/celebrate/): celebrate kaomoji to copy and paste
+- [Greetings kaomoji](https://kaomoji.fyi/kaomoji/greetings/): greetings kaomoji to copy and paste
+- [Please kaomoji](https://kaomoji.fyi/kaomoji/please/): please kaomoji to copy and paste
+- [Fighting kaomoji](https://kaomoji.fyi/kaomoji/fighting/): fighting kaomoji to copy and paste
+- [Actions kaomoji](https://kaomoji.fyi/kaomoji/actions/): actions kaomoji to copy and paste
+- [Music kaomoji](https://kaomoji.fyi/kaomoji/music/): music kaomoji to copy and paste
+- [Magic kaomoji](https://kaomoji.fyi/kaomoji/magic/): magic kaomoji to copy and paste
+- [Coquette kaomoji](https://kaomoji.fyi/kaomoji/coquette/): coquette kaomoji to copy and paste
+- [Disappointed kaomoji](https://kaomoji.fyi/kaomoji/disappointed/): disappointed kaomoji to copy and paste
+- [Decorated kaomoji](https://kaomoji.fyi/kaomoji/decorated/): kaomoji dressed up with sparkles, stars and flourishes
+- [Text dividers](https://kaomoji.fyi/kaomoji/dividers/): decorative text lines and borders to copy and paste
+- [Emoji](https://kaomoji.fyi/kaomoji/emoji/): emoji to copy and paste
+- [Symbols](https://kaomoji.fyi/kaomoji/symbols/): text symbols to copy and paste
+
+## Popular tags
+
+- [Shrug](https://kaomoji.fyi/t/shrug/): the shrug face and its variants
+- [Lenny face](https://kaomoji.fyi/t/lenny-face/): ( ͡° ͜ʖ ͡°) and its variants
+- [Table flip](https://kaomoji.fyi/t/table-flip/): (╯°□°)╯︵ ┻━┻ and other table flips
+- [Look of disapproval](https://kaomoji.fyi/t/look-of-disapproval/): ಠ_ಠ and other disapproving stares
+- [Bear](https://kaomoji.fyi/t/bear/): bear faces such as ʕ•ᴥ•ʔ
+- [Cat](https://kaomoji.fyi/t/cat/): cat faces
+- [Hug](https://kaomoji.fyi/t/hug/): hugging kaomoji
+- [Heart](https://kaomoji.fyi/t/heart/): kaomoji with hearts
+- [Sparkles](https://kaomoji.fyi/t/sparkles/): sparkly kaomoji
+- [Cry](https://kaomoji.fyi/t/cry/): crying faces
+- [Dogeza](https://kaomoji.fyi/t/dogeza/): the deep bow of apology
+- [Owo](https://kaomoji.fyi/t/owo/): owo faces
+
+## Optional
+
+- [About](https://kaomoji.fyi/about/): what the site is, how it works and its privacy approach
+- [Privacy policy](https://kaomoji.fyi/privacy/): what is and is not collected
+- [Source code](https://github.com/gfrmin/kaomoji): the GitHub repository
