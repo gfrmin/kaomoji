@@ -12,4 +12,5 @@ jobs:
     uses: gfrmin/site-kit/.github/workflows/worker-deploy.yml@master
     with:
       build: npm run build
+      expect: Kaomoji
     secrets: inherit
