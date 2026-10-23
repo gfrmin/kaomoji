@@ -26,13 +26,13 @@
     "@astrojs/sitemap": "^3.3.0",
     "@astrojs/solid-js": "^5.0.0",
     "@resvg/resvg-wasm": "^2.6.2",
-    "astro": "^5.7.0",
-    "astro-og-canvas": "^0.11.1",
+    "astro": "^7.4.2",
+    "astro-og-canvas": "^0.13.2",
     "fuse.js": "^7.1.0",
     "solid-js": "^1.9.5"
   },
   "devDependencies": {
     "@vite-pwa/astro": "^1.0.0",
-    "wrangler": "^4.129.0"
+    "wrangler": "^4.152.0"
   }
 }
