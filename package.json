@@ -26,14 +26,14 @@
     "@astrojs/sitemap": "^3.7.4",
     "@astrojs/solid-js": "^7.1.1",
     "@resvg/resvg-wasm": "^2.6.2",
-    "astro": "^7.4.2",
+    "astro": "^7.4.12",
     "astro-og-canvas": "^0.13.2",
     "fuse.js": "^7.1.0",
     "sharp": "^0.35.5",
     "solid-js": "^1.9.17"
   },
   "devDependencies": {
-    "@vite-pwa/astro": "^1.0.0",
+    "@vite-pwa/astro": "^2.0.2",
     "wrangler": "^4.152.0"
   },
   "overrides": {
